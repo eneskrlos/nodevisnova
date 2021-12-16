@@ -1,0 +1,32 @@
+[
+	{
+		"url": "/role",
+		"method": "get",
+		"path": "role:Role.listAll",
+		"permission": [101,106,107]
+	},
+	{
+		"url": "/role/:id",
+		"method": "get",
+		"path": "role:Role.list",
+		"permission": [101]
+	},
+	{
+		"url": "/role",
+		"method": "post",
+		"path": "role:Role.new",
+		"permission": [102]
+	},
+	{
+		"url": "/role",
+		"method": "put",
+		"path": "role:Role.edit",
+		"permission": [103]
+	},
+	{
+		"url": "/role/:id",
+		"method": "delete",
+		"path": "role:Role.remove",
+		"permission": [104]
+	}
+]

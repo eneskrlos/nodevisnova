@@ -1,0 +1,33 @@
+[
+	{
+		"url": "/GetProductos",
+		"method": "get",
+		"path": "productocontroller:productocontroller.GetProductos",
+		"permission": [101]
+	},
+	{
+		"url": "/obtenerProducto",
+		"method": "post",
+		"path": "productocontroller:productocontroller.obtenerProducto",
+		"permission": [101]
+	},
+	{
+		"url": "/adiconarProducto",
+		"method": "post",
+		"path": "productocontroller:productocontroller.adiconarProducto",
+		"permission": [104]
+	},
+	{
+		"url":"/EditarProducto",
+		"method": "post",
+		"path": "productocontroller:productocontroller.EditarProducto",
+		"permission": [103]
+	},
+	{
+		"url": "/eliminarProducto/:id",
+		"method": "post",
+		"path": "productocontroller:productocontroller.eliminarProducto",
+		"permission": [105]
+	}
+	
+]

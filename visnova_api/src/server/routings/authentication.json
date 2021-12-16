@@ -1,0 +1,74 @@
+[
+	{
+		"url": "/login",
+		"method": "post",
+		"path": "authentication:Authentication.login",
+		"permission": []
+	},
+	{
+		"url": "/loginUser",
+		"method": "post",
+		"path": "authentication:Authentication.loginUser",
+		"permission": []
+	},
+	{
+		"url": "/registrarUser",
+		"method": "post",
+		"path": "authentication:Authentication.registrarUser",
+		"permission": []
+	},
+	{
+		"url": "/cambiarContrasenna",
+		"method": "post",
+		"path": "authentication:Authentication.cambiarContrasenna",
+		"permission": []
+	},
+	{
+		"url": "/recuperarContrasenna",
+		"method": "post",
+		"path": "authentication:Authentication.recuperarContrasenna",
+		"permission": []
+	},
+	{
+		"url": "/activarCuenta/:token",
+		"method": "post",
+		"path": "authentication:Authentication.activarCuenta",
+		"permission": []
+	},
+	{
+		"url":"/validarCodigoPass",
+		"method": "post",
+		"path": "authentication:Authentication.validarCodigoPass",
+		"permission": []
+	},
+	{
+		"url": "/loginGuest",
+		"method": "post",
+		"path": "authentication:Authentication.loginGuest",
+		"permission": []
+	},
+	{
+		"url": "/auth",
+		"method": "post",
+		"path": "authentication:Authentication.authUser",
+		"permission": []
+	},
+	{
+		"url": "/userInfo",
+		"method": "get",
+		"path": "authentication:Authentication.userInfo",
+		"permission": []
+	},
+	{
+		"url": "/",
+		"method": "post",
+		"path": "authentication:Authentication.enableAuthorizationFor",
+		"permission": []
+	},
+	{
+		"url": "/veriftoken",
+		"method": "post",
+		"path": "authentication:Authentication.verifToken",
+		"permission": []
+	}
+]

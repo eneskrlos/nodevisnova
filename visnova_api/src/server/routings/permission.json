@@ -1,0 +1,20 @@
+[
+	{
+		"url": "/permission",
+		"method": "get",
+		"path": "permission:Permission.listAll",
+		"permission": []
+	},
+	{
+		"url": "/loadpermissions",
+		"method": "get",
+		"path": "permission:Permission.listAllactive",
+		"permission": []
+	},
+	{
+		"url": "/permission/:id",
+		"method": "get",
+		"path": "permission:Permission.list",
+		"permission": []
+	}
+]

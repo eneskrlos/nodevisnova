@@ -1,0 +1,44 @@
+[
+	{
+		"url": "/user",
+		"method": "get",
+		"path": "user:User.listAll",
+		"permission": [105]
+	},
+	{
+		"url": "/user/all",
+		"method": "get",
+		"path": "user:User.getByUser",
+		"permission": [179]
+	},
+	{
+		"url": "/user/:id",
+		"method": "get",
+		"path": "user:User.list",
+		"permission": [105]
+	},
+	{
+		"url": "/user",
+		"method": "post",
+		"path": "user:User.new",
+		"permission": [106]
+	},
+	{
+		"url": "/resetPassword",
+		"method": "post",
+		"path": "user:User.resetPassword",
+		"permission": [106,107]
+	},
+	{
+		"url": "/user",
+		"method": "put",
+		"path": "user:User.edit",
+		"permission": [106]
+	},
+	{
+		"url": "/user/:id",
+		"method": "delete",
+		"path": "user:User.remove",
+		"permission": [108]
+	}
+]

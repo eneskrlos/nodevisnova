@@ -1,0 +1,63 @@
+[
+	{
+		"url": "/GetTipProdMaterial",
+		"method": "get",
+		"path": "TipProdMaterialcontroller:TipProdMaterialcontroller.GetTipProdMaterial",
+		"permission": [118]
+	},
+	{
+		"url": "/GetTipProdMaterialById",
+		"method": "post",
+		"path": "TipProdMaterialcontroller:TipProdMaterialcontroller.GetTipProdMaterialById",
+		"permission": [109]
+	},
+	{
+		"url": "/adicionarTipProdMaterial",
+		"method": "post",
+		"path": "TipProdMaterialcontroller:TipProdMaterialcontroller.adicionarTipProdMaterial",
+		"permission": [121]
+	},
+	{
+		"url":"/editaripoProdMater",
+		"method": "post",
+		"path": "TipProdMaterialcontroller:TipProdMaterialcontroller.editaripoProdMater",
+		"permission": [120]
+	},
+	{
+		"url": "/DeleteTipProdMaterial/:id",
+		"method": "post",
+		"path": "TipProdMaterialcontroller:TipProdMaterialcontroller.DeleteTipProdMaterial",
+		"permission": [122]
+	},
+	{
+		"url":"/getTipoProducto",
+		"method": "get",
+		"path": "TipProdMaterialcontroller:TipProdMaterialcontroller.getTipoProducto",
+		"permission": [107]
+	},
+	{
+		"url":"/getMaterialesByIdTipoProducto",
+		"method": "get",
+		"path": "TipProdMaterialcontroller:TipProdMaterialcontroller.getMaterialesByIdTipoProducto",
+		"permission": [108]
+	},
+	{
+		"url":"/getMaterialesByIdMaterial",
+		"method": "get",
+		"path": "TipProdMaterialcontroller:TipProdMaterialcontroller.getMaterialesByIdMaterial",
+		"permission": [109]
+	},
+	{
+		"url":"/getFiltros",
+		"method": "get",
+		"path": "TipProdMaterialcontroller:TipProdMaterialcontroller.getFiltros",
+		"permission": [110]
+	},
+	{
+		"url":"/getFiltrosById",
+		"method": "post",
+		"path": "TipProdMaterialcontroller:TipProdMaterialcontroller.getFiltrosById",
+		"permission": [111]
+	}
+
+]

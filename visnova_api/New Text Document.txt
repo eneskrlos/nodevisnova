@@ -1,0 +1,2 @@
+cp privkey.pem /home/softur/zunpc_api/lib/sslcert/server.key
+cp fullchain.pem /home/softur/zunpc_api/lib/sslcert/server.crt

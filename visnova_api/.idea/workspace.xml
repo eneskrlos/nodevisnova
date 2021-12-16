@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="3bd28145-de10-4465-83b3-99289c9287a4" name="Default Changelist" comment="Terminado metodos para la integración con el pos en la administración">
+      <change beforePath="$PROJECT_DIR$/../zunpc_admin/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../zunpc_admin/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../zunpc_admin/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../zunpc_admin/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../zunpc_admin/src/views/Dashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../zunpc_admin/src/views/Dashboard.vue" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="1UIztRGg5TGobtJ9vXGCkJI4O4N" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../zunpc_admin" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="restartRequiresConfirmation" value="false" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\WORK\ZUNpc2\Project\ZUNpc_v2\zunpc_api\dev\file\media\images" />
+      <recent name="D:\WORK\ZUNpc2\Project\ZUNpc_v2\zunpc_api\src\server\repository" />
+      <recent name="D:\WORK\ZUNpc2\Project\ZUNpc_v2\zunpc_api\src\server\models" />
+      <recent name="D:\WORK\ZUNpc2\Project\ZUNpc_v2\zunpc_api\src\www" />
+      <recent name="D:\WORK\ZUNpc2\Project\ZUNpc_v2\zunpc_api\dev\file\media" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\WORK\ZUNpc2\Project\ZUNpc_v2\zunpc_api\dev\file\media\images" />
+      <recent name="D:\WORK\ZUNpc2\Project\ZUNpc_v2\zunpc_api\src\server\routings" />
+      <recent name="D:\WORK\ZUNpc2\Project\ZUNpc_v2\zunpc_api\src\server\views" />
+      <recent name="D:\WORK\ZUNpc2\Project\ZUNpc_v2\zunpc_api\dev\file\media" />
+      <recent name="D:\WORK\ZUNpc2\Project\ZUNpc_v2\zunpc_api\dev\file" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="ZUNpc" type="js.build_tools.npm">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="start" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="3bd28145-de10-4465-83b3-99289c9287a4" name="Default Changelist" comment="" />
+      <created>1572123077160</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1572123077160</updated>
+      <workItem from="1572123078330" duration="33175000" />
+      <workItem from="1572285496704" duration="904000" />
+      <workItem from="1572325282677" duration="13455000" />
+      <workItem from="1572632611871" duration="775000" />
+      <workItem from="1572703576064" duration="33631000" />
+      <workItem from="1573064651588" duration="2730000" />
+      <workItem from="1573100919631" duration="23588000" />
+      <workItem from="1573224417231" duration="2734000" />
+      <workItem from="1573250989347" duration="45000" />
+      <workItem from="1573251198461" duration="30000" />
+      <workItem from="1573265789668" duration="621000" />
+      <workItem from="1573492738204" duration="73007000" />
+      <workItem from="1574087592417" duration="16259000" />
+      <workItem from="1574428227912" duration="17896000" />
+      <workItem from="1574524606509" duration="26313000" />
+      <workItem from="1575059119925" duration="1046000" />
+      <workItem from="1575310991676" duration="31339000" />
+      <workItem from="1575645675369" duration="1634000" />
+      <workItem from="1575988815640" duration="41332000" />
+      <workItem from="1576246816048" duration="662000" />
+      <workItem from="1576247625763" duration="390000" />
+      <workItem from="1576251128564" duration="2074000" />
+      <workItem from="1576255195149" duration="10937000" />
+      <workItem from="1576458638856" duration="1034000" />
+      <workItem from="1576505740972" duration="1186000" />
+      <workItem from="1576674680676" duration="7386000" />
+      <workItem from="1577109499573" duration="17364000" />
+      <workItem from="1578411004172" duration="15595000" />
+      <workItem from="1578678622323" duration="2228000" />
+      <workItem from="1578932848263" duration="7501000" />
+      <workItem from="1579013361671" duration="5659000" />
+      <workItem from="1579030170814" duration="33193000" />
+      <workItem from="1579271714035" duration="5086000" />
+      <workItem from="1579702879633" duration="18343000" />
+      <workItem from="1579900554400" duration="417000" />
+      <workItem from="1580223605469" duration="40121000" />
+      <workItem from="1580408977873" duration="704000" />
+      <workItem from="1580739235907" duration="7125000" />
+      <workItem from="1580832741926" duration="19139000" />
+      <workItem from="1580910632286" duration="13394000" />
+      <workItem from="1580950333808" duration="6973000" />
+      <workItem from="1581091881524" duration="3336000" />
+      <workItem from="1581204175527" duration="735000" />
+      <workItem from="1582813463027" duration="633000" />
+      <workItem from="1583248874035" duration="4517000" />
+      <workItem from="1583349278704" duration="2456000" />
+      <workItem from="1583353855037" duration="4773000" />
+      <workItem from="1583766218036" duration="2404000" />
+      <workItem from="1584473684167" duration="1511000" />
+      <workItem from="1584750329619" duration="28000" />
+      <workItem from="1585185391766" duration="3938000" />
+      <workItem from="1585189690012" duration="462000" />
+      <workItem from="1585325157585" duration="1685000" />
+      <workItem from="1590527030363" duration="2309000" />
+      <workItem from="1590948574097" duration="16920000" />
+      <workItem from="1591055951208" duration="7225000" />
+      <workItem from="1591147746676" duration="7568000" />
+      <workItem from="1591229075992" duration="3628000" />
+      <workItem from="1591663112526" duration="3186000" />
+      <workItem from="1591828175221" duration="7214000" />
+      <workItem from="1591930530899" duration="1728000" />
+      <workItem from="1592417249912" duration="1806000" />
+    </task>
+    <task id="LOCAL-00001" summary="Termnado Categoria">
+      <created>1573614890078</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1573614890078</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Terminado news">
+      <created>1574430714683</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1574430714683</updated>
+    </task>
+    <task id="LOCAL-00003" summary="rabajando en la autenticacion">
+      <created>1576247713186</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1576247713186</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Arreglo de Usuarios y Roles">
+      <created>1578683257877</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1578683257877</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="2" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Termnado Categoria" />
+    <MESSAGE value="Terminado news" />
+    <MESSAGE value="rabajando en la autenticacion" />
+    <MESSAGE value="Arreglo de Usuarios y Roles" />
+    <MESSAGE value="Terminado metodos para la integración con el pos en la administración" />
+    <option name="LAST_COMMIT_MESSAGE" value="Terminado metodos para la integración con el pos en la administración" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="549" y="172" key="FileChooserDialogImpl" timestamp="1590527035993">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state x="549" y="172" key="FileChooserDialogImpl/0.0.1536.834/1920.0.1920.1050@0.0.1536.834" timestamp="1590527035993" />
+    <state width="1515" height="213" key="GridCell.Tab.0.bottom" timestamp="1592421565079">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state width="1515" height="213" key="GridCell.Tab.0.bottom/0.0.1536.834/1920.0.1920.1050/-1440.0.1440.870@0.0.1536.834" timestamp="1591839055680" />
+    <state width="1899" height="213" key="GridCell.Tab.0.bottom/0.0.1536.834/1920.0.1920.1050/-1440.0.1440.870@1920.0.1920.1050" timestamp="1591152636732" />
+    <state width="1515" height="213" key="GridCell.Tab.0.bottom/0.0.1536.834/1920.0.1920.1050@0.0.1536.834" timestamp="1591934412706" />
+    <state width="1515" height="213" key="GridCell.Tab.0.bottom/0.0.1536.834@0.0.1536.834" timestamp="1592421565079" />
+    <state width="1515" height="213" key="GridCell.Tab.0.center" timestamp="1592421565079">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state width="1515" height="213" key="GridCell.Tab.0.center/0.0.1536.834/1920.0.1920.1050/-1440.0.1440.870@0.0.1536.834" timestamp="1591839055679" />
+    <state width="1899" height="213" key="GridCell.Tab.0.center/0.0.1536.834/1920.0.1920.1050/-1440.0.1440.870@1920.0.1920.1050" timestamp="1591152636732" />
+    <state width="1515" height="213" key="GridCell.Tab.0.center/0.0.1536.834/1920.0.1920.1050@0.0.1536.834" timestamp="1591934412706" />
+    <state width="1515" height="213" key="GridCell.Tab.0.center/0.0.1536.834@0.0.1536.834" timestamp="1592421565079" />
+    <state width="1515" height="213" key="GridCell.Tab.0.left" timestamp="1592421565078">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state width="1515" height="213" key="GridCell.Tab.0.left/0.0.1536.834/1920.0.1920.1050/-1440.0.1440.870@0.0.1536.834" timestamp="1591839055679" />
+    <state width="1899" height="213" key="GridCell.Tab.0.left/0.0.1536.834/1920.0.1920.1050/-1440.0.1440.870@1920.0.1920.1050" timestamp="1591152636732" />
+    <state width="1515" height="213" key="GridCell.Tab.0.left/0.0.1536.834/1920.0.1920.1050@0.0.1536.834" timestamp="1591934412706" />
+    <state width="1515" height="213" key="GridCell.Tab.0.left/0.0.1536.834@0.0.1536.834" timestamp="1592421565078" />
+    <state width="1515" height="213" key="GridCell.Tab.0.right" timestamp="1592421565079">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state width="1515" height="213" key="GridCell.Tab.0.right/0.0.1536.834/1920.0.1920.1050/-1440.0.1440.870@0.0.1536.834" timestamp="1591839055680" />
+    <state width="1899" height="213" key="GridCell.Tab.0.right/0.0.1536.834/1920.0.1920.1050/-1440.0.1440.870@1920.0.1920.1050" timestamp="1591152636732" />
+    <state width="1515" height="213" key="GridCell.Tab.0.right/0.0.1536.834/1920.0.1920.1050@0.0.1536.834" timestamp="1591934412706" />
+    <state width="1515" height="213" key="GridCell.Tab.0.right/0.0.1536.834@0.0.1536.834" timestamp="1592421565079" />
+    <state width="1515" height="265" key="GridCell.Tab.1.bottom" timestamp="1591070878725">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state width="1515" height="265" key="GridCell.Tab.1.bottom/0.0.1536.834/1920.0.1920.1050/-1440.0.1440.870@0.0.1536.834" timestamp="1591070878725" />
+    <state width="1515" height="265" key="GridCell.Tab.1.center" timestamp="1591070878724">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state width="1515" height="265" key="GridCell.Tab.1.center/0.0.1536.834/1920.0.1920.1050/-1440.0.1440.870@0.0.1536.834" timestamp="1591070878724" />
+    <state width="1515" height="265" key="GridCell.Tab.1.left" timestamp="1591070878724">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state width="1515" height="265" key="GridCell.Tab.1.left/0.0.1536.834/1920.0.1920.1050/-1440.0.1440.870@0.0.1536.834" timestamp="1591070878724" />
+    <state width="1515" height="265" key="GridCell.Tab.1.right" timestamp="1591070878725">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state width="1515" height="265" key="GridCell.Tab.1.right/0.0.1536.834/1920.0.1920.1050/-1440.0.1440.870@0.0.1536.834" timestamp="1591070878725" />
+    <state width="1515" height="265" key="GridCell.Tab.2.bottom" timestamp="1591070878725">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state width="1515" height="265" key="GridCell.Tab.2.bottom/0.0.1536.834/1920.0.1920.1050/-1440.0.1440.870@0.0.1536.834" timestamp="1591070878725" />
+    <state width="1515" height="265" key="GridCell.Tab.2.center" timestamp="1591070878725">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state width="1515" height="265" key="GridCell.Tab.2.center/0.0.1536.834/1920.0.1920.1050/-1440.0.1440.870@0.0.1536.834" timestamp="1591070878725" />
+    <state width="1515" height="265" key="GridCell.Tab.2.left" timestamp="1591070878725">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state width="1515" height="265" key="GridCell.Tab.2.left/0.0.1536.834/1920.0.1920.1050/-1440.0.1440.870@0.0.1536.834" timestamp="1591070878725" />
+    <state width="1515" height="265" key="GridCell.Tab.2.right" timestamp="1591070878725">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state width="1515" height="265" key="GridCell.Tab.2.right/0.0.1536.834/1920.0.1920.1050/-1440.0.1440.870@0.0.1536.834" timestamp="1591070878725" />
+    <state width="1515" height="265" key="GridCell.Tab.3.bottom" timestamp="1591070878725">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state width="1515" height="265" key="GridCell.Tab.3.bottom/0.0.1536.834/1920.0.1920.1050/-1440.0.1440.870@0.0.1536.834" timestamp="1591070878725" />
+    <state width="1515" height="265" key="GridCell.Tab.3.center" timestamp="1591070878725">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state width="1515" height="265" key="GridCell.Tab.3.center/0.0.1536.834/1920.0.1920.1050/-1440.0.1440.870@0.0.1536.834" timestamp="1591070878725" />
+    <state width="1515" height="265" key="GridCell.Tab.3.left" timestamp="1591070878725">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state width="1515" height="265" key="GridCell.Tab.3.left/0.0.1536.834/1920.0.1920.1050/-1440.0.1440.870@0.0.1536.834" timestamp="1591070878725" />
+    <state width="1515" height="265" key="GridCell.Tab.3.right" timestamp="1591070878725">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state width="1515" height="265" key="GridCell.Tab.3.right/0.0.1536.834/1920.0.1920.1050/-1440.0.1440.870@0.0.1536.834" timestamp="1591070878725" />
+    <state x="425" y="189" width="672" height="677" key="run.anything.popup" timestamp="1591066465919">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state x="425" y="189" width="672" height="677" key="run.anything.popup/0.0.1536.834/1920.0.1920.1050/-1440.0.1440.870@0.0.1536.834" timestamp="1591066465919" />
+  </component>
+</project>

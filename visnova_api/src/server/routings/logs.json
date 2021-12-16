@@ -1,0 +1,8 @@
+[
+	{
+		"url": "/logs/findbydate",
+		"method": "post",
+		"path": "logs:Logs.getByDate",
+		"permission": [179]
+	}
+]

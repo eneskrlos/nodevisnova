@@ -1,0 +1,33 @@
+[
+	{
+		"url": "/GetCompras",
+		"method": "get",
+		"path": "compracontroller:compracontroller.GetCompras",
+		"permission": [128]
+	},
+	{
+		"url": "/GetComprasporid",
+		"method": "post",
+		"path": "compracontroller:compracontroller.GetComprasporid",
+		"permission": [129]
+	},
+	{
+		"url": "/adiconarCompra",
+		"method": "post",
+		"path": "compracontroller:compracontroller.adiconarCompra",
+		"permission": [130]
+	},
+	{
+		"url":"/EditarCompra",
+		"method": "post",
+		"path": "compracontroller:compracontroller.EditarCompra",
+		"permission": [131]
+	},
+	{
+		"url": "/eliminarCompra/:id",
+		"method": "post",
+		"path": "compracontroller:compracontroller.eliminarCompra",
+		"permission": [132]
+	}
+	
+]

@@ -1,0 +1,68 @@
+{
+	"mode": "dev",
+	"server": {
+		"port": 3020,
+		"key": "lib/sslcert/server.key",
+		"cert": "lib/sslcert/server.crt",
+		"jwt": {
+			"secret": "X49MU6H4D9TUML6TR62N6JZBVGUL7E2EW238CBWTXF1OZ6C958DW0YE6BT7FCYFQ",
+			"expires": 7200
+		},
+		"jwt_user": {
+			"secret": "active_Api_WEB_Visnova*2021",
+			"expires": 7200
+		}
+	},
+	"accessControl": {
+		"url": "http://10.23.101.2/login"
+	},
+	"database": {
+		"zunpc": {
+			"database": "zunpc",
+			"host": "localhost",
+			"port": 3306,
+			"user": "root",
+			"pass": "root"
+		},
+		"zunpms": {
+			"database": "ZunPmsSaratoga",
+			"host": "localhost",
+			"port": 1433,
+			"user": "sa",
+			"pass": "sa"
+		},
+		"zunpos": {
+			"database": "Zunpos",
+			"host": "localhost",
+			"port": 1433,
+			"user": "sa",
+			"pass": "sa"
+		}
+	},
+	"MK": {
+		"url": "http://wrapper.zunmk.tur.cu:8081/mkwrapper/QuerySelect"
+	},
+	"zunNauta": {
+		"url": "https://zunnauta.tur.cu/api/terceros/datosCuenta?email="
+	},
+	"AAAEtecsa": {
+		"url": "https://secure.etecsa.net:8443/LoginServlet"
+	},
+	"log":{
+		"path": "logs/zunpc.log",
+		"daysToKeep": 100,
+		"pattern": "[%d] [%z] [%p] [%c] [%X{user}] - %m %X{metadata}",
+		"level": "all",
+		"verbose": true
+	},
+	"FTPMININT": {
+		"user": "zunpc",
+		"pass": "Portal2021",
+		"url": "ftp.tur.cu"
+	},
+	"vinculos": {
+		"linkconfirmacion": "http://localhost:3001/activeCuenta",
+		"linkrecuperacion": "http://localhost:3001/ValidarCodigoPass"
+	}
+	
+}

@@ -1,0 +1,33 @@
+[
+	{
+		"url": "/optenerServicios",
+		"method": "get",
+		"path": "serviciocontroller:serviciocontroller.optenerServicios",
+		"permission": [112]
+	},
+	{
+		"url": "/optenerServicios",
+		"method": "post",
+		"path": "serviciocontroller:serviciocontroller.optenerServicios",
+		"permission": [113]
+	},
+	{
+		"url": "/adiconarServicio",
+		"method": "post",
+		"path": "serviciocontroller:serviciocontroller.adiconarServicio",
+		"permission": [114]
+	},
+	{
+		"url":"/editarServicio",
+		"method": "post",
+		"path": "serviciocontroller:serviciocontroller.editarServicio",
+		"permission": [115]
+	},
+	{
+		"url": "/eliminarServicio/:id",
+		"method": "post",
+		"path": "serviciocontroller:serviciocontroller.eliminarServicio",
+		"permission": [116]
+	}
+	
+]
