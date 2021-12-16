@@ -220,9 +220,6 @@ exports.TipProdMaterialcontroller = {
 			//asumo q el id que entra por paramtro es de un tipo de material.
 			let tipmat = await  _database.zunpc.repository.TipProdMaterialrepository.obtenerTipProdMaterialByid(id);
 			let result = {};
-			
-			//let objmaterial = {};
-			//let objtipoproducto = {};
 			//obtenego el supuesto tipo de material
 			if (tipmat.idFk != 0) {
 				//obtengo el supuesto material dado el id del tipo material

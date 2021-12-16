@@ -10,7 +10,11 @@
 		},
 		"jwt_user": {
 			"secret": "active_Api_WEB_Visnova*2021",
-			"expires": 7200
+			"expires": 259200
+		},
+		"jwt_refresh":{
+			"secret": "refresh_X49MU6H4D9TUML6TR62N6JZBVGUL7E2EW238CBWTXF1OZ6C958DW0YE6BT7FCYFQ",
+			"expires": 10800 
 		}
 	},
 	"accessControl": {
@@ -61,7 +65,7 @@
 		"url": "ftp.tur.cu"
 	},
 	"vinculos": {
-		"linkconfirmacion": "http://localhost:3001/activeCuenta",
+		"linkconfirmacion": "http://localhost:3001/activarCuenta",
 		"linkrecuperacion": "http://localhost:3001/ValidarCodigoPass"
 	}
 	

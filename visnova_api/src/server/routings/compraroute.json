@@ -1,33 +1,33 @@
 [
 	{
-		"url": "/GetCompras",
-		"method": "get",
+		"url": "/api/GetCompras",
+		"method": "post",
 		"path": "compracontroller:compracontroller.GetCompras",
-		"permission": [128]
+		"permission": [1]
 	},
 	{
-		"url": "/GetComprasporid",
+		"url": "/api/GetComprasporid",
 		"method": "post",
 		"path": "compracontroller:compracontroller.GetComprasporid",
-		"permission": [129]
+		"permission": [1]
 	},
 	{
-		"url": "/adiconarCompra",
+		"url": "/api/adiconarCompra",
 		"method": "post",
 		"path": "compracontroller:compracontroller.adiconarCompra",
-		"permission": [130]
+		"permission": [1]
 	},
 	{
-		"url":"/EditarCompra",
+		"url":"/api/EditarCompra",
 		"method": "post",
 		"path": "compracontroller:compracontroller.EditarCompra",
-		"permission": [131]
+		"permission": [1]
 	},
 	{
-		"url": "/eliminarCompra/:id",
+		"url": "/api/eliminarCompra/:id",
 		"method": "post",
 		"path": "compracontroller:compracontroller.eliminarCompra",
-		"permission": [132]
+		"permission": [1]
 	}
 	
 ]

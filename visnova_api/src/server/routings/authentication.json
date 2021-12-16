@@ -1,72 +1,72 @@
 [
 	{
-		"url": "/login",
+		"url": "/api/login",
 		"method": "post",
 		"path": "authentication:Authentication.login",
 		"permission": []
 	},
 	{
-		"url": "/loginUser",
+		"url": "/api/loginUser",
 		"method": "post",
 		"path": "authentication:Authentication.loginUser",
 		"permission": []
 	},
 	{
-		"url": "/registrarUser",
+		"url": "/api/registrarUser",
 		"method": "post",
 		"path": "authentication:Authentication.registrarUser",
 		"permission": []
 	},
 	{
-		"url": "/cambiarContrasenna",
+		"url": "/api/cambiarContrasenna",
 		"method": "post",
 		"path": "authentication:Authentication.cambiarContrasenna",
 		"permission": []
 	},
 	{
-		"url": "/recuperarContrasenna",
+		"url": "/api/recuperarContrasenna",
 		"method": "post",
 		"path": "authentication:Authentication.recuperarContrasenna",
 		"permission": []
 	},
 	{
-		"url": "/activarCuenta/:token",
-		"method": "post",
+		"url": "/api/activarCuenta/:token",
+		"method": "get",
 		"path": "authentication:Authentication.activarCuenta",
 		"permission": []
 	},
 	{
-		"url":"/validarCodigoPass",
+		"url":"/api/validarCodigoPass",
 		"method": "post",
 		"path": "authentication:Authentication.validarCodigoPass",
 		"permission": []
 	},
 	{
-		"url": "/loginGuest",
+		"url": "/api/loginGuest",
 		"method": "post",
 		"path": "authentication:Authentication.loginGuest",
 		"permission": []
 	},
 	{
-		"url": "/auth",
+		"url": "/api/auth",
 		"method": "post",
 		"path": "authentication:Authentication.authUser",
 		"permission": []
 	},
 	{
-		"url": "/userInfo",
+		"url": "/api/userInfo",
 		"method": "get",
 		"path": "authentication:Authentication.userInfo",
 		"permission": []
 	},
 	{
-		"url": "/",
+		"url": "/api/",
 		"method": "post",
 		"path": "authentication:Authentication.enableAuthorizationFor",
 		"permission": []
 	},
 	{
-		"url": "/veriftoken",
+		"url": "/api/veriftoken",
 		"method": "post",
 		"path": "authentication:Authentication.verifToken",
 		"permission": []

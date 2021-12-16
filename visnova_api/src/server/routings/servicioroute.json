@@ -1,33 +1,33 @@
 [
 	{
-		"url": "/optenerServicios",
-		"method": "get",
-		"path": "serviciocontroller:serviciocontroller.optenerServicios",
-		"permission": [112]
-	},
-	{
-		"url": "/optenerServicios",
+		"url": "/api/optenerServicios",
 		"method": "post",
 		"path": "serviciocontroller:serviciocontroller.optenerServicios",
-		"permission": [113]
+		"permission": [1]
 	},
 	{
-		"url": "/adiconarServicio",
+		"url": "/api/optenerServicios",
+		"method": "post",
+		"path": "serviciocontroller:serviciocontroller.optenerServicios",
+		"permission": [1]
+	},
+	{
+		"url": "/api/adiconarServicio",
 		"method": "post",
 		"path": "serviciocontroller:serviciocontroller.adiconarServicio",
-		"permission": [114]
+		"permission": [1]
 	},
 	{
-		"url":"/editarServicio",
+		"url":"/api/editarServicio",
 		"method": "post",
 		"path": "serviciocontroller:serviciocontroller.editarServicio",
-		"permission": [115]
+		"permission": [1]
 	},
 	{
-		"url": "/eliminarServicio/:id",
+		"url": "/api/eliminarServicio/:id",
 		"method": "post",
 		"path": "serviciocontroller:serviciocontroller.eliminarServicio",
-		"permission": [116]
+		"permission": [1]
 	}
 	
 ]

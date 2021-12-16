@@ -1,44 +1,44 @@
 [
 	{
-		"url": "/user",
-		"method": "get",
+		"url": "/api/listuser",
+		"method": "post",
 		"path": "user:User.listAll",
-		"permission": [105]
+		"permission": [1]
 	},
 	{
-		"url": "/user/all",
+		"url": "/api/user/all",
 		"method": "get",
 		"path": "user:User.getByUser",
-		"permission": [179]
+		"permission": [1]
 	},
 	{
-		"url": "/user/:id",
+		"url": "/api/user/:id",
 		"method": "get",
 		"path": "user:User.list",
-		"permission": [105]
+		"permission": [1]
 	},
 	{
-		"url": "/user",
+		"url": "/api/user",
 		"method": "post",
 		"path": "user:User.new",
-		"permission": [106]
+		"permission": [1]
 	},
 	{
-		"url": "/resetPassword",
+		"url": "/api/resetPassword",
 		"method": "post",
 		"path": "user:User.resetPassword",
-		"permission": [106,107]
+		"permission": [1]
 	},
 	{
-		"url": "/user",
+		"url": "/api/user",
 		"method": "put",
 		"path": "user:User.edit",
-		"permission": [106]
+		"permission": [1]
 	},
 	{
-		"url": "/user/:id",
+		"url": "/api/user/:id",
 		"method": "delete",
 		"path": "user:User.remove",
-		"permission": [108]
+		"permission": [1]
 	}
 ]

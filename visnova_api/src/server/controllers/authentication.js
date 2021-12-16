@@ -402,10 +402,21 @@ function loginUtil (user , pass, res) {
 		user.permission = permission;
 
 		_useful.generateToken({ user }).then(token => {
+			_useful.generateTokenRefresh({user}).then(tokenrefresh => {
+				_useful.log('authentication.js').info('Se genero el token de seguridad y el token refresh',nickname,JSON.stringify(response));
+				return res.send({token, tokenrefresh,user})
+			}).catch(error => {
 
-			_useful.log('authentication.js').info('Se genero un token',nickname,JSON.stringify(response));
-			return res.send({token,user})
-
+				_useful.log('authentication.js').error('Error al generar el token refresh', nickname, error );
+				return res.send( {
+					"code" : 500,
+					"message" : "Error al generar el token",
+					"data" : null,
+					"serverError" : "",
+	
+				}); 
+	
+			});
 		}).catch(error => {
 
 			_useful.log('authentication.js').error('Error al generar el token', nickname, error );
@@ -828,7 +839,8 @@ exports.Authentication = {
 	},
 
 	loginUser(req, res){
-		loginUtil(req.body.user, req.body.pass,res);
+		let {token} = req.params;
+		loginUtil(req.body.user, req.body.password,res);
 	},
 
 	registrarUser(req,res){
@@ -863,7 +875,6 @@ exports.Authentication = {
 	activarCuenta(req,res){
 		//const { token } = req.body;
 		let { token } = req.params;
-		console.log(token);
 		activeCuenta(token,res);
 	},
 

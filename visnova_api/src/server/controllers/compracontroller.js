@@ -55,9 +55,9 @@ exports.compracontroller = {
 		let nick = req.user.user;
 		let { body } = req;
 		let { nombre, descripcion,precio, disponible } = body;
-		
+		let dis = disponible.toString();
 		//verifico q estan todas los  atributos de compra.
-		if ( !nombre || !descripcion || !precio || !disponible  ) return res.json(new httpresponse(500,"Error al adicionar una compra: Compruebe que los campos esten llenos",null,""));
+		if ( !nombre || !descripcion || !precio || !dis  ) return res.json(new httpresponse(500,"Error al adicionar una compra: Compruebe que los campos esten llenos",null,""));
 		try {
 			//adiciono la compra
 			let newcomp = await _database.zunpc.repository.comprarepository.addCompra(body);
@@ -71,7 +71,7 @@ exports.compracontroller = {
 		}
 	},
 
-	EditarCompra(req,res){
+	async EditarCompra(req,res){
 		let nick = req.user.user;
 		let { body } = req;
 		let { idCompra, nombre, descripcion,precio, disponible } = body;
@@ -80,7 +80,7 @@ exports.compracontroller = {
 		try {
 			let compra = _database.zunpc.repository.comprarepository.updateCompra(body);
 			_useful.log('compracontroller.js').info('Se ha editado el servicio',nick,JSON.stringify(compra));
-			var listcompra = _database.zunpc.repository.comprarepository.listCompra("");
+			var listcompra = await _database.zunpc.repository.comprarepository.listCompra("");
 			return res.json(new httpresponse(200,"Se ha editado correctamente",listcompra,""));
 		} catch (error) {
 			_useful.log('compracontroller.js').error('No se ha podido editar la compra',nick,error);
@@ -106,15 +106,4 @@ exports.compracontroller = {
 			return res.json(new httpresponse(500,"Ha ocurrido un error al intentar eliminar la compra.",null,""));
 		}
 	},
-
-	/* buscarServicio(req,res){
-		let { buscar } = body;
-		try {
-			
-		} catch (error) {
-			_useful.log('serviciocontroller.js').error('Ha ocurrido un error al intentar buscar servicio',nick,error);
-			return res.json(new httpresponse(500,"Ha ocurrido un error al intentar buscar servicio.",null,""));
-		}
-	} */
-
 };

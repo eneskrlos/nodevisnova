@@ -1,63 +1,63 @@
 [
 	{
-		"url": "/GetTipProdMaterial",
-		"method": "get",
+		"url": "/api/GetTipProdMaterial",
+		"method": "post",
 		"path": "TipProdMaterialcontroller:TipProdMaterialcontroller.GetTipProdMaterial",
-		"permission": [118]
+		"permission": [1]
 	},
 	{
-		"url": "/GetTipProdMaterialById",
+		"url": "/api/GetTipProdMaterialById",
 		"method": "post",
 		"path": "TipProdMaterialcontroller:TipProdMaterialcontroller.GetTipProdMaterialById",
-		"permission": [109]
+		"permission": [1]
 	},
 	{
-		"url": "/adicionarTipProdMaterial",
+		"url": "/api/adicionarTipProdMaterial",
 		"method": "post",
 		"path": "TipProdMaterialcontroller:TipProdMaterialcontroller.adicionarTipProdMaterial",
-		"permission": [121]
+		"permission": [1]
 	},
 	{
-		"url":"/editaripoProdMater",
+		"url":"/api/editaripoProdMater",
 		"method": "post",
 		"path": "TipProdMaterialcontroller:TipProdMaterialcontroller.editaripoProdMater",
-		"permission": [120]
+		"permission": [1]
 	},
 	{
-		"url": "/DeleteTipProdMaterial/:id",
+		"url": "/api/DeleteTipProdMaterial/:id",
 		"method": "post",
 		"path": "TipProdMaterialcontroller:TipProdMaterialcontroller.DeleteTipProdMaterial",
-		"permission": [122]
+		"permission": [1]
 	},
 	{
-		"url":"/getTipoProducto",
+		"url":"/api/getTipoProducto",
 		"method": "get",
 		"path": "TipProdMaterialcontroller:TipProdMaterialcontroller.getTipoProducto",
-		"permission": [107]
+		"permission": [1]
 	},
 	{
-		"url":"/getMaterialesByIdTipoProducto",
+		"url":"/api/getMaterialesByIdTipoProducto",
 		"method": "get",
 		"path": "TipProdMaterialcontroller:TipProdMaterialcontroller.getMaterialesByIdTipoProducto",
-		"permission": [108]
+		"permission": [1]
 	},
 	{
-		"url":"/getMaterialesByIdMaterial",
+		"url":"/api/getMaterialesByIdMaterial",
 		"method": "get",
 		"path": "TipProdMaterialcontroller:TipProdMaterialcontroller.getMaterialesByIdMaterial",
-		"permission": [109]
+		"permission": [1]
 	},
 	{
-		"url":"/getFiltros",
+		"url":"/api/getFiltros",
 		"method": "get",
 		"path": "TipProdMaterialcontroller:TipProdMaterialcontroller.getFiltros",
-		"permission": [110]
+		"permission": [1]
 	},
 	{
-		"url":"/getFiltrosById",
+		"url":"/api/getFiltrosById",
 		"method": "post",
 		"path": "TipProdMaterialcontroller:TipProdMaterialcontroller.getFiltrosById",
-		"permission": [111]
+		"permission": [1]
 	}
 
 ]

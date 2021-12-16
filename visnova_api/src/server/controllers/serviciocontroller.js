@@ -21,7 +21,6 @@ const { response } = require('express');
 exports.serviciocontroller = {
 
 	optenerServicios(req,res){
-		//var autorizado = verPermiso(req,112,res);
 		const ident = req.user.user;
 		let { body } = req;
 		let { buscar } = body;
@@ -55,8 +54,9 @@ exports.serviciocontroller = {
 		let nick = req.user.user;
 		let { body } = req;
 		let { nombre, descripcion, disponibilidad } = body;
+		let dis = disponibilidad.toString();
 		//verifico q estan todas los  atributos de servicio.
-		if ( !nombre || !descripcion || !disponibilidad  ) return res.json(new httpresponse(500,"Error al adicionar un servicio: Compruebe que los campos esten llenos",null,""));
+		if ( !nombre || !descripcion || !dis  ) return res.json(new httpresponse(500,"Error al adicionar un servicio: Compruebe que los campos esten llenos",null,""));
 		try {
 			//Busco si existe un servicio en base datos 
 			let dbServi = await _database.zunpc.repository.serviciorepository.getByNombreServi(nombre);
@@ -64,7 +64,7 @@ exports.serviciocontroller = {
 
 			let newserv = await _database.zunpc.repository.serviciorepository.addServicio(body);
 			_useful.log('serviciocontroller.js').info('Se ha creado un servicio nuevo.', req.user.nick, JSON.stringify(newserv));
-			var listservi = await _database.zunpc.repository.serviciorepository.listServ();
+			var listservi = await _database.zunpc.repository.serviciorepository.listServ("");
 			return res.json(new httpresponse(200,"ok",listservi,""));
 		}
 		catch (error) {
@@ -73,7 +73,7 @@ exports.serviciocontroller = {
 		}
 	},
 
-	editarServicio(req,res){
+	async editarServicio(req,res){
 		let nick = req.user.user;
 		let { body } = req;
 		let { idServicio, nombre, descripcion, disponibilidad } = body;
@@ -82,7 +82,7 @@ exports.serviciocontroller = {
 		try {
 			let servi = _database.zunpc.repository.serviciorepository.updateServi(body);
 			_useful.log('serviciocontroller.js').info('Se ha editado el servicio',nick,JSON.stringify(servi));
-			var listservi = _database.zunpc.repository.serviciorepository.listServ();
+			var listservi = await _database.zunpc.repository.serviciorepository.listServ("");
 			return res.json(new httpresponse(200,"Se ha editado correctamente",listservi,""));
 		} catch (error) {
 			_useful.log('serviciocontroller.js').error('No se ha podido editar el servicio',nick,error);
@@ -100,7 +100,7 @@ exports.serviciocontroller = {
 			}
 			await _database.zunpc.repository.serviciorepository.deleteServi(servicio);
 			_useful.log('serviciocontroller.js').info('Se ha eliminado el servicio',nick,JSON.stringify(id));
-			var listservi = _database.zunpc.repository.serviciorepository.listServ();
+			var listservi = await _database.zunpc.repository.serviciorepository.listServ("");
 			return res.json(new httpresponse(200,"Se ha eliminado el servicio",listservi,""));
 		}
 		catch (error) {

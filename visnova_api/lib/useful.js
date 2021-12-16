@@ -113,6 +113,15 @@ module.exports = class Useful{
         });
     }
 
+    generateTokenRefresh(data){
+        return new Promise((resolve, reject) => {
+            jwt.sign(data, _config.Server.jwt_refresh.secret, { algorithm: 'HS256', expiresIn: _config.Server.jwt.expires }, (error, token) => {
+                if (error) reject(error);
+                else resolve(token);
+            })
+        });
+    }
+
     response (res, success, code, message, data) {
         return res.status(code).send({
             message,

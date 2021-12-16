@@ -1,51 +1,55 @@
 exports.User = {
 
 	listAll (req, res) {
-		const ident = req.user.ident;
-		if (req.user.nick === 'admin') {
-			_database.zunpc.repository.user.list().then(response => {
-				_useful.log('user.js').info('Listó los usuarios',req.user.nick, JSON.stringify(response));
-				return res.send(response);
+		const ident = req.user.user;
+		let { body } = req;
+		let { buscar } = body;
+		if (req.user.user === 'admin') {
+			_database.zunpc.repository.user.list(buscar).then(response => {
+				_useful.log('user.js').info('Listó los usuarios',req.user.user, JSON.stringify(response));
+				return res.send({
+					code:200,
+					message:'Se ha listado los usuarios',
+					data: response,
+					servererror: '',
+				});
 			}).catch(error => {
-				_useful.log('user.js').error('No se pudo listar los usuarios del sistema','req.user.nick',error);
-				return res.sendStatus(500);
+				_useful.log('user.js').error('No se pudo listar los usuarios','req.user.nick',error);
+				return res.send({
+					code:500,
+					message:'No se pudo lisar los usuarios:.' + error,
+					data: null,
+					servererror: '',
+				});
 			})
-		} else {
-			_database.zunpc.repository.user.list().then(response => {
-				_useful.log('user.js').info('Listó los usuarios del sistema',req.user.nick, JSON.stringify(response));
-				const users = [];
-				for (let i = 0; i < response.length; i++) {
-					for (let k = 0; k < response[i].dataValues.entities.length; k++) {
-						if (response[i].dataValues.entities[k].id === ident) {
-							users.push(response[i]);
-						}
-					}
-				}
-				return res.send(users);
-			}).catch(error => {
-				_useful.log('user.js').error('No se pudo listar los usuarios del sistema','req.user.nick',error);
-				return res.sendStatus(500);
-			})
-		}
+		}else{
+			_useful.log('user.js').error('No se pudo listar los usuarios','req.user.nick','Usted no tiene acceso');
+			return res.send({
+				code:500,
+				message:'No se pudo lisar los usuarios: Usted no tiene acceso.',
+				data: null,
+				servererror: '',
+			});
+		} 
 	},
 
 	list (req, res) {
 		_database.zunpc.repository.user.getById(req.params.id).then(response => {
-			_useful.log('user.js').info('Listó un usuario del sistema',req.user.nick,JSON.stringify(response));
+			_useful.log('user.js').info('Listó un usuario',req.user.user,JSON.stringify(response));
 			return res.send(response);
 		}).catch(error => {
-			_useful.log('user.js').error('No se pudo listar el usuario del sistema',req.user.nick,error);
+			_useful.log('user.js').error('No se pudo listar el usuario',req.user.nick,error);
 			return res.sendStatus(500);
 		});
 	},
 
 	getByUser (req, res) {
 		let { user } = req;
-		_database.zunpc.repository.user.getallbyUser(user.nick).then(response => {
-			_useful.log('user.js').info('Listó un usuario',req.user.nick,JSON.stringify(response));
+		_database.zunpc.repository.user.getallbyUser(user.user).then(response => {
+			_useful.log('user.js').info('Listó un usuario',req.user.user,JSON.stringify(response));
 			return res.send(response.entities);
 		}).catch(error => {
-			_useful.log('user.js').error('No se pudo listar el usuario',req.user.nick,error);
+			_useful.log('user.js').error('No se pudo listar el usuario',req.user.user,error);
 			return res.sendStatus(500);
 		});
 	},

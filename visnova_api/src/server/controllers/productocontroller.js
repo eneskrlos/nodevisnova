@@ -17,6 +17,7 @@ exports.productocontroller = {
     
 	
 	async GetProductos(req,res){
+		
 		const ident = req.user.user;
 		let { body } = req;
 		let { buscar } = body;
@@ -90,7 +91,7 @@ exports.productocontroller = {
 		let { body } = req;
 		let { descripcion, tipoProd, material, tipoMaterial, precio, activo, fotoprod1, fotoprod2, fotoprod3, cantDisponible } = body;
 		//verifico q estan todas los  atributos de producto.
-		if ( !descripcion || !tipoProd || !material || !tipoMaterial || !precio || !activo || !fotoprod1 || !fotoprod2 || !fotoprod3 || !cantDisponible ) return res.json(new httpresponse(500,"Error al adicionar un producto: Compruebe que los campos esten llenos",null,""));
+		//if ( !descripcion || !tipoProd || !material || !tipoMaterial || !precio || !activo || !fotoprod1 || !fotoprod2 || !fotoprod3 || !cantDisponible ) return res.json(new httpresponse(500,"Error al adicionar un producto: Compruebe que los campos esten llenos",null,""));
 		try {
 			//Busco si existe un producto en base datos 
 			let dbproduc = await _database.zunpc.repository.productorepository.getByDescProd(descripcion);
@@ -107,16 +108,16 @@ exports.productocontroller = {
 		}
 	},
 
-	EditarProducto(req,res){
+	async EditarProducto(req,res){
 		let nick = req.user.user;
 		let { body } = req;
 		let { idProd,descripcion, tipoProd, material, tipoMaterial, precio, activo, fotoprod1, fotoprod2, fotoprod3, cantDisponible} = body;
 		let act = activo.toString();
-		if (!idProd || !descripcion || !tipoProd || !material || !tipoMaterial || !precio || !activo || !fotoprod1 || !fotoprod2 || !fotoprod3 || !cantDisponible ) return res.json(new httpresponse(500,"Error al editar un servicio: Compruebe que los campos esten llenos",null,""));
+		//if (!idProd || !descripcion || !tipoProd || !material || !tipoMaterial || !precio || !activo || !fotoprod1 || !fotoprod2 || !fotoprod3 || !cantDisponible ) return res.json(new httpresponse(500,"Error al editar un servicio: Compruebe que los campos esten llenos",null,""));
 		try {
 			let produc = _database.zunpc.repository.productorepository.updateProducto(body);
 			_useful.log('productocontroller.js').info('Se ha editado el producto',nick,JSON.stringify(produc));
-			var listprod = _database.zunpc.repository.productorepository.listProd("");
+			var listprod = await _database.zunpc.repository.productorepository.prodquery("");
 			return res.json(new httpresponse(200,"Se ha editado el producto correctamente",listprod,""));
 		} catch (error) {
 			_useful.log('productocontroller.js').error('No se ha podido editar el producto',nick,error);
@@ -134,7 +135,7 @@ exports.productocontroller = {
 			}
 			await _database.zunpc.repository.productorepository.deleteProducto(prod);
 			_useful.log('productocontroller.js').info('Se ha eliminado el producto',nick,JSON.stringify(id));
-			var listprod = _database.zunpc.repository.productorepository.listProd("");
+			var listprod = _database.zunpc.repository.productorepository.prodquery("");
 			return res.json(new httpresponse(200,"Se ha eliminado el producto",listprod,""));
 		}
 		catch (error) {

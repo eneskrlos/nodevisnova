@@ -22,15 +22,24 @@ module.exports = {
 		}); */
 
 		/**Only for Administrator role*/
-		permission.forEach(item => {
+		/* permission.forEach(item => {
 			relations.push({
 				roleId: 1,
 				permissionId: item.id
 			});
+		}); */
+
+		/**Only for Administrator role*/
+		let adminPermissions = [1];
+		adminPermissions.forEach(gp => {
+			relations.push({
+				roleId: 1,
+				permissionId: gp
+			})
 		});
 
 		/**Only for Guess role*/
-		let guessPermissions = [101,102,106,107,108,109,110,111,112,113,117];
+		let guessPermissions = [2];
 		guessPermissions.forEach(gp => {
 			relations.push({
 				roleId: 2,
@@ -39,7 +48,7 @@ module.exports = {
 		});
 
 		/**Only for Host role*/
-		let huespedPermissions = [101,102,106,107,108,109,110,111,112,113,117];
+		let huespedPermissions = [3];
 		huespedPermissions.forEach(gp => {
 			relations.push({
 				roleId: 3,

@@ -1,31 +1,38 @@
 const Op = require('sequelize').Op;
 module.exports = {
 
-	list () {
+	list (buscar) {
 		return _database.zunpc.model.user.findAll({
-			attributes: ['id', 'name', 'user', 'roleId', 'activate'],
+			attributes: ['id', 'name', 'user', 'correo','roleId', 'activate'],
 			include: [{
 				model: _database.zunpc.model.role
 				},
-				{
-					as: "entities",
-					model: _database.zunpc.model.entity,
-					include: [
-						{
-							as: "users",
-							model: _database.zunpc.model.user
-						}
-					]
-				}
 			],
 			where: {
-				show: true
+				[Op.or]: [
+					{
+						name: {
+							[Op.like]: '%'+buscar+'%'
+						}
+					},
+					{
+						user: {
+							[Op.like]: '%'+buscar+'%'
+						}
+					},
+					{
+						correo: {
+							[Op.like]: '%'+buscar+'%'
+						}
+					}
+				]
 			}
 		});
 	},
 
 	getByUser (user) {
 		return _database.zunpc.model.user.findOne({
+			attributes: ['id', 'name', 'user', 'correo','roleId', 'activate'],
 			where: {
 				user
 			}
@@ -34,10 +41,7 @@ module.exports = {
 
 	getallbyUser (user) {
 		return _database.zunpc.model.user.findOne({
-			include: [{
-				as: "entities",
-				model: _database.zunpc.model.entity
-			}],
+			attributes: ['id', 'name', 'user', 'correo','roleId', 'activate'],
 			where: {
 				user
 			}
