@@ -55,11 +55,18 @@ module.exports = {
 			}
 		});
 	},
-	obtenerTipProd(){
+	obtenerTipProd(buscar){
 		return _database.zunpc.model.tipprodmaterial.findAll({
 			attributes: [['nombre','label'], ['idPk','value']],
 			where: {
-				idFk: 0
+				idFk: 0,
+				[Op.or]: [
+					{
+						nombre: {
+							[Op.like]: '%'+buscar+'%'
+						}
+					}
+				]
 			}
 		});
 	},

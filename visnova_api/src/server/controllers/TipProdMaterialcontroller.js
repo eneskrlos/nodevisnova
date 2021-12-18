@@ -54,6 +54,8 @@ exports.TipProdMaterialcontroller = {
 		let mensaje = ""; 
 		//verifico q estan todas los  atributos de producto.
 		//if ( !nombre || !tipoProducto || !material || !tipoMaterial) return res.json(new httpresponse(500,"Error al adicionar un tipo de producto material: Compruebe que los campos esten llenos",null,""));
+		if ( nombre == undefined || tipoProducto == undefined || material == undefined || tipoMaterial == undefined) return res.json(new httpresponse(500,"Error al adicionar un tipo de producto material: Compruebe que no le falte ningun dato por el enviar",null,""));
+
 		try {
 			
 			//Busco si existe un tipo de producto en base datos 
@@ -88,19 +90,21 @@ exports.TipProdMaterialcontroller = {
 		} 
 	},
 
-	editaripoProdMater(req,res){
+	async editarTipoProdMater(req,res){
 		let nick = req.user.user;
 		let { body } = req;
 		let { idPk,nombre, idFk} = body;
 		if (!idPk || !nombre || !idFk  ) return res.json(new httpresponse(500,"Error al editar un tipo de producto material: Compruebe que los campos esten llenos",null,""));
+		if ( idPk == undefined || nombre == undefined || idFk == undefined ) return res.json(new httpresponse(500,"Error al editar un tipo de producto material: parametro de entrada no definido",null,""));
+
 		try {
-			let existe  = _database.zunpc.repository.TipProdMaterialrepository.obtenerTipProdMaterialByid(idPk);
+			let existe  = await _database.zunpc.repository.TipProdMaterialrepository.obtenerTipProdMaterialByid(idPk);
 			if (!existe) {
 				return res.json(new httpresponse(500,"No se ha podido editar: Elemento no econtrado",null,""));
 			}
-			let TPM = _database.zunpc.repository.TipProdMaterialrepository.updateTPM(body);
+			let TPM = await _database.zunpc.repository.TipProdMaterialrepository.updateTPM(body);
 			_useful.log('TipProdMaterialcontroller.js').info('Se ha editado el producto',nick,JSON.stringify(TPM));
-			var listprod = _database.zunpc.repository.TipProdMaterialrepository.listTipProdMaterial("");
+			var listprod = await _database.zunpc.repository.TipProdMaterialrepository.listTipProdMaterial("");
 			return res.json(new httpresponse(200,"Se ha editado el tipo de producto material correctamente",listprod,""));
 		} catch (error) {
 			_useful.log('TipProdMaterialcontroller.js').error('No se ha podido editar el tipo de producto material',nick,error);
@@ -111,6 +115,8 @@ exports.TipProdMaterialcontroller = {
 	async DeleteTipProdMaterial (req, res) {
 		let nick = req.user.user;
 		let { id } = req.params;
+		if ( id == undefined ) return res.json(new httpresponse(500,"Ha ocurrido un error al intentar eliminar el registro: parametro de entrada no definido",null,""));
+
 		try {
 			//busco el elemento a eliminar segun el id
 			let tpm = await  _database.zunpc.repository.TipProdMaterialrepository.obtenerTipProdMaterialByid(id);
@@ -160,8 +166,10 @@ exports.TipProdMaterialcontroller = {
 
 	async getTipoProducto(req, res){
 		let nick = req.user.user;
+		let { body } = req;
+		let { buscar } = body;
 		try {
-			let listtipoproducto = await  _database.zunpc.repository.TipProdMaterialrepository.obtenerTipProd();
+			let listtipoproducto = await  _database.zunpc.repository.TipProdMaterialrepository.obtenerTipProd(buscar);
 			return res.json(new httpresponse(200,"Se ha listado los tipos de productos correctamente",listtipoproducto,""));
 		} catch (error) {
 			_useful.log('TipProdMaterialcontroller.js').error('Ha ocurrido un error al obtener tipo de producto',nick,error);
@@ -173,6 +181,7 @@ exports.TipProdMaterialcontroller = {
 		let nick = req.user.user;
 		let { body } = req;
 		let { idTipoProducto } = body;
+		if ( idTipoProducto == undefined ) return res.json(new httpresponse(500,"Ha ocurrido un error al obtener los materiales: parametro de entrada no definido",null,""));
 		try {
 			var listmateriales = await  _database.zunpc.repository.TipProdMaterialrepository.obtenerMateriales(idTipoProducto);
 			return res.json(new httpresponse(200,"Se ha listado los materiales correctamente",listmateriales,""));
@@ -186,6 +195,8 @@ exports.TipProdMaterialcontroller = {
 		let nick = req.user.user;
 		let { body } = req;
 		let { idMaterial } = body;
+		if ( idMaterial == undefined ) return res.json(new httpresponse(500,"Ha ocurrido un error al obtener los tipos de materiales: parametro de entrada no definido",null,""));
+		
 		try {
 			var listmateriales = await  _database.zunpc.repository.TipProdMaterialrepository.obtenerTipMateriales(idMaterial);
 			return res.json(new httpresponse(200,"Se ha listado los tipos de  materiales correctamente",listmateriales,""));

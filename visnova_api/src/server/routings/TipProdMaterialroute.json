@@ -20,7 +20,7 @@
 	{
 		"url":"/api/editaripoProdMater",
 		"method": "post",
-		"path": "TipProdMaterialcontroller:TipProdMaterialcontroller.editaripoProdMater",
+		"path": "TipProdMaterialcontroller:TipProdMaterialcontroller.editarTipoProdMater",
 		"permission": [1]
 	},
 	{
@@ -31,19 +31,19 @@
 	},
 	{
 		"url":"/api/getTipoProducto",
-		"method": "get",
+		"method": "post",
 		"path": "TipProdMaterialcontroller:TipProdMaterialcontroller.getTipoProducto",
 		"permission": [1]
 	},
 	{
 		"url":"/api/getMaterialesByIdTipoProducto",
-		"method": "get",
+		"method": "post",
 		"path": "TipProdMaterialcontroller:TipProdMaterialcontroller.getMaterialesByIdTipoProducto",
 		"permission": [1]
 	},
 	{
 		"url":"/api/getMaterialesByIdMaterial",
-		"method": "get",
+		"method": "post",
 		"path": "TipProdMaterialcontroller:TipProdMaterialcontroller.getMaterialesByIdMaterial",
 		"permission": [1]
 	},

@@ -14,7 +14,7 @@ exports.User = {
 					servererror: '',
 				});
 			}).catch(error => {
-				_useful.log('user.js').error('No se pudo listar los usuarios','req.user.nick',error);
+				_useful.log('user.js').error('No se pudo listar los usuarios','req.user.user',error);
 				return res.send({
 					code:500,
 					message:'No se pudo lisar los usuarios:.' + error,
@@ -23,7 +23,7 @@ exports.User = {
 				});
 			})
 		}else{
-			_useful.log('user.js').error('No se pudo listar los usuarios','req.user.nick','Usted no tiene acceso');
+			_useful.log('user.js').error('No se pudo listar los usuarios','req.user.user','Usted no tiene acceso');
 			return res.send({
 				code:500,
 				message:'No se pudo lisar los usuarios: Usted no tiene acceso.',
@@ -34,13 +34,75 @@ exports.User = {
 	},
 
 	list (req, res) {
-		_database.zunpc.repository.user.getById(req.params.id).then(response => {
-			_useful.log('user.js').info('Listó un usuario',req.user.user,JSON.stringify(response));
-			return res.send(response);
-		}).catch(error => {
-			_useful.log('user.js').error('No se pudo listar el usuario',req.user.nick,error);
-			return res.sendStatus(500);
-		});
+		try {
+			_database.zunpc.repository.user.getById(req.params.id).then(response => {
+				_useful.log('user.js').info('Listó un usuario',req.user.user,JSON.stringify(response));
+				return res.send({
+					code:200,
+					message:'Se ha obtenido el usuario correctamente',
+					data: response,
+					servererror: '',
+				});
+			}).catch(error => {
+				_useful.log('user.js').error('No se pudo obtener el usuario',req.user.user,error);
+				return res.send({
+					code:500,
+					message:'No se pudo obtener el usuario',
+					data: null,
+					servererror: '',
+				});
+			});
+		} catch (error) {
+			_useful.log('user.js').error('No se pudo obtener el usuario','req.user.user',error);
+			return res.send({
+				code:500,
+				message:'No se pudo obtener el usuario',
+				data: null,
+				servererror: '',
+			});
+		}
+		
+	},
+
+	async desactivarUsuario(req,res){
+		const ident = req.user.user;
+		let id = req.params.id;
+		if(id == undefined || !id || id.toString() == "")
+			return res.send({
+				code:500,
+				message:'Compruebe que esta enviando los datos correctos.',
+				data: null,
+				servererror: '',
+			});
+		
+		try {
+			let user = await _database.zunpc.repository.user.getById(id);
+			if(!user){
+				return res.send({
+					code:500,
+					message:'Usuario no encontrado',
+					data: null,
+					servererror: '',
+				});
+			}
+			let desactivado = await _database.zunpc.repository.user.desactivarUser(user);
+			_useful.log('user.js').info('Se ha desactivado el usuario: ' + user.name ,req.user.user,JSON.stringify(desactivado));
+			var listuser = await _database.zunpc.repository.user.list("");
+			return res.send({
+				code:200,
+				message:'Se ha desactivado el usuario correctamente',
+				data: listuser,
+				servererror: '',
+			});
+		} catch (error) {
+			_useful.log('user.js').error('Ha ocuirrido un error al desactivar usuario',ident,error);
+			return res.send({
+				code:500,
+				message:'Ha ocuirrido un error al desactivar usuario',
+				data: null,
+				servererror: '',
+			});
+		}
 	},
 
 	getByUser (req, res) {
@@ -52,6 +114,58 @@ exports.User = {
 			_useful.log('user.js').error('No se pudo listar el usuario',req.user.user,error);
 			return res.sendStatus(500);
 		});
+	},
+
+	async saveUsuario(req, res){
+		const ident = req.user.user;
+		let { body } = req;
+		let { id } = body;
+		if (!id || id.toString() == "" || id == undefined) {
+			return res.send({
+				code:500,
+				message:'Compruebe que esta enviando los datos correctos. ',
+				data: null,
+				servererror: '',
+			});
+		}
+		try {
+			let user = await  _database.zunpc.repository.user.getById(id);
+			if(!user){
+				return res.send({
+					code:500,
+					message:'Usuario no encontrado',
+					data: null,
+					servererror: '',
+				});
+			}
+			let userget = {};
+			userget.id = user.id;
+			userget.name = user.name;
+			userget.user = user.user;
+			userget.pass = user.pass;
+			userget.correo = user.correo;
+			userget.pconfirmado = user.pconfirmado;
+			userget.roleId = user.roleId;
+			userget.show = user.show;
+			userget.activate = (user.activate == false)? true: false;
+			let salvado  = await _database.zunpc.repository.user.salvarUsuario(userget);
+			_useful.log('user.js').info('Se ha salvado el usuario: ' + user.name ,req.user.user,JSON.stringify(salvado));
+			var listuser = await _database.zunpc.repository.user.list("");
+			return res.send({
+				code:200,
+				message:'Se ha salvado el usuario correctamente',
+				data: listuser,
+				servererror: '',
+			});
+		} catch (error) {
+			_useful.log('user.js').error('Ha ocuirrido un error al salvar usuario',ident,error);
+			return res.send({
+				code:500,
+				message:'Ha ocuirrido un error al salvar usuario',
+				data: null,
+				servererror: '',
+			});
+		}
 	},
 
 	async new (req, res) {

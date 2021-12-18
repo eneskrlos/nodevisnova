@@ -51,8 +51,7 @@ module.exports = {
 	getById (id) {
 		return _database.zunpc.model.user.findOne({
 			where: {
-				id,
-				show: true
+				id
 			}
 		})
 	},
@@ -116,6 +115,30 @@ module.exports = {
 		return _database.zunpc.model.user.destroy({
 			where: {
 				id
+			}
+		});
+	},
+	desactivarUser(user){
+		return _database.zunpc.model.user.update({
+			name: user.name,
+			user: user.user,
+			roleId: user.roleId,
+			activate: false
+		},{
+			where: {
+				id: user.id
+			}
+		});
+	},
+	salvarUsuario(user){
+		return _database.zunpc.model.user.update({
+			name: user.name,
+			user: user.user,
+			roleId: user.roleId,
+			activate: user.activate
+		},{
+			where: {
+				id: user.id
 			}
 		});
 	}

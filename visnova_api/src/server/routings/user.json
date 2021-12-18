@@ -1,20 +1,32 @@
 [
 	{
-		"url": "/api/listuser",
+		"url": "/api/optenerUsuarios",
 		"method": "post",
 		"path": "user:User.listAll",
 		"permission": [1]
 	},
 	{
-		"url": "/api/user/all",
-		"method": "get",
-		"path": "user:User.getByUser",
+		"url": "/api/desactivarUsuario/:id",
+		"method": "post",
+		"path": "user:User.desactivarUsuario",
+		"permission": [1]
+	},
+	{
+		"url": "/api/saveUsuario",
+		"method": "post",
+		"path": "user:User.saveUsuario",
 		"permission": [1]
 	},
 	{
 		"url": "/api/user/:id",
 		"method": "get",
 		"path": "user:User.list",
+		"permission": [1]
+	},
+	{
+		"url": "/api/user/all",
+		"method": "get",
+		"path": "user:User.getByUser",
 		"permission": [1]
 	},
 	{

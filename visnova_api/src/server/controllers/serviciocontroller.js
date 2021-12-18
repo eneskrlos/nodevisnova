@@ -80,7 +80,7 @@ exports.serviciocontroller = {
 		let disp = disponibilidad.toString();
 		if ( !idServicio,!nombre || !descripcion || !disp  ) return res.json(new httpresponse(500,"Error al editar un servicio: Compruebe que los campos esten llenos",null,""));
 		try {
-			let servi = _database.zunpc.repository.serviciorepository.updateServi(body);
+			let servi = await _database.zunpc.repository.serviciorepository.updateServi(body);
 			_useful.log('serviciocontroller.js').info('Se ha editado el servicio',nick,JSON.stringify(servi));
 			var listservi = await _database.zunpc.repository.serviciorepository.listServ("");
 			return res.json(new httpresponse(200,"Se ha editado correctamente",listservi,""));
