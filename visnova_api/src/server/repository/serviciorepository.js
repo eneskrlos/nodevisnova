@@ -39,7 +39,7 @@ module.exports = {
 	},
 	updateServi(servicio){
 		return _database.zunpc.model.servicio.update({
-			name: servicio.name,
+			nombre: servicio.nombre,
 			descripcion: servicio.descripcion,
 			disponibilidad: servicio.disponibilidad
 		},{

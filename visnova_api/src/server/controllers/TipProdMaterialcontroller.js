@@ -213,7 +213,7 @@ exports.TipProdMaterialcontroller = {
 			let arrobj = [];
 			for (let i = 0; i < list.length; i++) {
 				let referencia = (list[i].idFk == 0)? "": await  _database.zunpc.repository.TipProdMaterialrepository.getReferencia(list[i].idFk);
-				auxobj = {id:list[i].idPk, nombre:list[i].nombre,referencia : referencia };
+				auxobj = {id:list[i].idPk, nombre:list[i].nombre,referencia : referencia.nombre };
 				arrobj.push(auxobj);
 				
 			}

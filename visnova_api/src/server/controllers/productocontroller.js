@@ -115,7 +115,7 @@ exports.productocontroller = {
 		let act = activo.toString();
 		//if (!idProd || !descripcion || !tipoProd || !material || !tipoMaterial || !precio || !activo || !fotoprod1 || !fotoprod2 || !fotoprod3 || !cantDisponible ) return res.json(new httpresponse(500,"Error al editar un servicio: Compruebe que los campos esten llenos",null,""));
 		try {
-			let produc = _database.zunpc.repository.productorepository.updateProducto(body);
+			let produc = await _database.zunpc.repository.productorepository.updateProducto(body);
 			_useful.log('productocontroller.js').info('Se ha editado el producto',nick,JSON.stringify(produc));
 			var listprod = await _database.zunpc.repository.productorepository.prodquery("");
 			return res.json(new httpresponse(200,"Se ha editado el producto correctamente",listprod,""));
