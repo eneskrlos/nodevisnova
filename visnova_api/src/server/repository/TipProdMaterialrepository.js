@@ -1,4 +1,6 @@
+const sequelize = require("../../../node_modules/sequelize/lib/sequelize");
 const { Op } = require("sequelize");
+const {QueryTypes} = require("sequelize");
 module.exports = {
 
 	listTipProdMaterial (buscar) {
@@ -78,6 +80,29 @@ module.exports = {
 				idFk
 			}
 		});
+	},
+	getAllMateriales(buscar){
+		const sz = new sequelize({
+            host: _config.Database.zunpc.host,
+            port: _config.Database.zunpc.port,
+            database: _config.Database.zunpc.database,
+            username: _config.Database.zunpc.user,
+            password: _config.Database.zunpc.pass,
+            dialect: 'mysql',
+            logging: (_config.Mode === 'dev') ? console.log : false,
+            define: {
+                timestamps: false
+            }
+        });
+		let sql = `
+		select  m.idPk as value,m.nombre as label from tipprodmaterial tp 
+		inner join tipprodmaterial m on tp.idPk = m.idFk
+		where tp.idFk = 0 and m.nombre LIKE '%${buscar}%'
+		`;
+		let options = {
+			type: QueryTypes.SELECT 
+		};
+		return sz.query(sql,options);
 	},
 	obtenerTipMateriales(idFk){
 		return _database.zunpc.model.tipprodmaterial.findAll({

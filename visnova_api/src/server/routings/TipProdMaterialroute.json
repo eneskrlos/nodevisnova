@@ -64,6 +64,12 @@
 		"method": "post",
 		"path": "TipProdMaterialcontroller:TipProdMaterialcontroller.getFiltrosReferencias",
 		"permission": [1]
+	},
+	{
+		"url":"/api/getMateriales",
+		"method": "post",
+		"path": "TipProdMaterialcontroller:TipProdMaterialcontroller.getMateriales",
+		"permission": [1]
 	}
 
 ]

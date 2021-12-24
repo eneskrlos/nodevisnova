@@ -255,6 +255,18 @@ exports.TipProdMaterialcontroller = {
 		}
 	},
 
+	async getMateriales(req,res){
+		let nick = req.user.user;
+			let { body } = req;
+			let { buscar } = body;
+		try {
+			let listaMateriales = await  _database.zunpc.repository.TipProdMaterialrepository.getAllMateriales(buscar);
+			return res.json(new httpresponse(200,"Se ha listado todos los materiales",listaMateriales,""));
+		} catch (error) {
+			_useful.log('TipProdMaterialcontroller.js').error('Ha ocurrido un error al obtener todos los materiales',nick,error);
+			return res.json(new httpresponse(500,"Ha ocurrido un error al obtener los filtros.",null,""));
+		}
+	},
 
 	async getFiltrosReferencias(req,res){
 		let nick = req.user.user;
