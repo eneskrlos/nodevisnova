@@ -46,7 +46,7 @@ exports.TipProdMaterialcontroller = {
 			return res.json(new httpresponse(500,"No se ha podido obtener el tipo de producto material",null,""));
 		});
 	},
-	async adicionarTipProdMaterial(req,res){
+	/* async adicionarTipProdMaterial(req,res){
 		let nick = req.user.user;
 		let { body } = req;
 		let {  nombre, tipoProducto, material, tipoMaterial } = body;
@@ -88,22 +88,71 @@ exports.TipProdMaterialcontroller = {
 			_useful.log('TipProdMaterialcontroller.js').error('No se ha podido crear el tipo de producto material',nick,error);
 			return res.json(new httpresponse(500,"No se ha podido crear el tipo de producto material",null,""));
 		} 
+	}, */
+
+	async adicionarTipProdMaterial(req,res){
+		let nick = req.user.user;
+		let { body } = req;
+		let {  nombre, tipoProducto, material, tipoMaterial } = body;
+		let tpm = {};
+		let mensaje = ""; 
+		//verifico q estan todas los  atributos de producto.
+		//if ( !nombre || !tipoProducto || !material || !tipoMaterial) return res.json(new httpresponse(500,"Error al adicionar un tipo de producto material: Compruebe que los campos esten llenos",null,""));
+		if ( nombre == undefined  || nombre == "") return res.json(new httpresponse(500,"Error al adicionar un tipo de producto material: Compruebe que no le falte ningun dato por el enviar",null,""));
+
+		try {
+			
+			//Busco si existe un tipo de producto en base datos 
+			let dbTPM = await _database.zunpc.repository.TipProdMaterialrepository.getByNameTPM(nombre);
+			if ( dbTPM && dbTPM.nombre === nombre ) return res.json(new httpresponse(500,"Error al adicionar el tipo de producto material: Este registro ya existe.",null,""));
+			if (tipoMaterial != undefined) {
+				tpm.nombre = nombre;
+				tpm.idFk = parseInt(material.value);
+				mensaje = "Se ha insertado el tipo de material ";
+			} else if(material != undefined) {
+				tpm.nombre = nombre;
+				tpm.idFk = parseInt(material.value);
+				mensaje = "Se ha insertado el tipo de material ";
+			}else if(tipoProducto != undefined){
+				tpm.nombre = nombre;
+                tpm.idFk = parseInt(tipoProducto.value);
+                mensaje = "Se ha insertado el tipo de material ";
+			}else{
+				tpm.nombre = nombre;
+                tpm.idFk = parseInt(0);
+                mensaje = "Se ha insertado el tipo producto ";
+			}
+			let newTPM = await _database.zunpc.repository.TipProdMaterialrepository.addTPM(tpm);
+			_useful.log('TipProdMaterialcontroller.js').info(mensaje, req.user.nick, JSON.stringify(newTPM)); 
+			var listTPM = await _database.zunpc.repository.TipProdMaterialrepository.listTipProdMaterial("");
+			return res.json(new httpresponse(200,"ok",listTPM,""));
+		}
+		catch (error) {
+			_useful.log('TipProdMaterialcontroller.js').error('No se ha podido crear el tipo de producto material',nick,error);
+			return res.json(new httpresponse(500,"No se ha podido crear el tipo de producto material",null,""));
+		} 
 	},
 
 	async editarTipoProdMater(req,res){
 		let nick = req.user.user;
 		let { body } = req;
-		let { idPk,nombre, idFk} = body;
-		if (!idPk || !nombre || !idFk  ) return res.json(new httpresponse(500,"Error al editar un tipo de producto material: Compruebe que los campos esten llenos",null,""));
-		if ( idPk == undefined || nombre == undefined || idFk == undefined ) return res.json(new httpresponse(500,"Error al editar un tipo de producto material: parametro de entrada no definido",null,""));
+		let { idPk,nombre, value} = body;
+		if (!idPk || !nombre || !value  ) return res.json(new httpresponse(500,"Error al editar un tipo de producto material: Compruebe que los campos esten llenos",null,""));
+		if ( idPk == undefined || nombre == undefined || value == undefined ) return res.json(new httpresponse(500,"Error al editar un tipo de producto material: parametro de entrada no definido",null,""));
 
 		try {
 			let existe  = await _database.zunpc.repository.TipProdMaterialrepository.obtenerTipProdMaterialByid(idPk);
 			if (!existe) {
 				return res.json(new httpresponse(500,"No se ha podido editar: Elemento no econtrado",null,""));
 			}
-			let TPM = await _database.zunpc.repository.TipProdMaterialrepository.updateTPM(body);
-			_useful.log('TipProdMaterialcontroller.js').info('Se ha editado el producto',nick,JSON.stringify(TPM));
+			let element = {
+				idPk : idPk,
+				nombre : nombre,
+				idFk : value
+			};
+			
+			let TPM = await _database.zunpc.repository.TipProdMaterialrepository.updateTPM(element);
+			_useful.log('TipProdMaterialcontroller.js').info('Se ha editado correctamente',nick,JSON.stringify(TPM));
 			var listprod = await _database.zunpc.repository.TipProdMaterialrepository.listTipProdMaterial("");
 			return res.json(new httpresponse(200,"Se ha editado el tipo de producto material correctamente",listprod,""));
 		} catch (error) {
@@ -205,7 +254,52 @@ exports.TipProdMaterialcontroller = {
 			return res.json(new httpresponse(500,"Ha ocurrido un error al obtener los tipos de materiales.",null,""));
 		}
 	},
-	 async getFiltros(req,res){
+
+
+	async getFiltrosReferencias(req,res){
+		let nick = req.user.user;
+		let { body } = req;
+		let { id } = body;
+		try {
+			let arrobj = [];
+			let elemnt = await  _database.zunpc.repository.TipProdMaterialrepository.obtenerTipProdMaterialByid(id);
+			if(!elemnt) return res.json(new httpresponse(500,"Ha ocurrido un error al obtener el elemento: elemento no encontrado",null,""));
+			let referencias ;
+			//obtengo la referencia de este elemento
+			if(elemnt.idFk == 0 ){
+				//busco todos las referencias q son tipos de cobros( idfk = 0)
+				
+				return res.json(new httpresponse(200,"Se ha listado el filtro",referencias,""));
+			}else{
+				//supongo q sea un material
+				let elemntrefe = await  _database.zunpc.repository.TipProdMaterialrepository.obtenerTipProdMaterialByid(elemnt.idFk);
+				if(elemntrefe.idFk == 0){
+					//envio todos los tipos de productos
+					referencias = await  _database.zunpc.repository.TipProdMaterialrepository.obtenerTipProd("");
+					return res.json(new httpresponse(200,"Se ha listado el filtro",referencias,""));
+				}else{
+					//busco los materiales
+					let tp = await  _database.zunpc.repository.TipProdMaterialrepository.obtenerTipProd("");
+					for (let i = 0; i < tp.length; i++) {
+						let idpk = tp[i].dataValues.value;
+						let obtengoMaterial = await  _database.zunpc.repository.TipProdMaterialrepository.obtenerTipMateriales(idpk);
+						if(obtengoMaterial.length != 0){
+							for (let j = 0; j < obtengoMaterial.length; j++) {
+								arrobj.push(obtengoMaterial[j].dataValues);
+							}
+						}
+					}
+					referencias = arrobj;
+					return res.json(new httpresponse(200,"Se ha listado el filtro",referencias,""));
+				}	
+			}	
+		} catch (error) {
+			_useful.log('TipProdMaterialcontroller.js').error('Ha ocurrido un error al obtener los filtros',nick,error);
+			return res.json(new httpresponse(500,"Ha ocurrido un error al obtener los filtros.",null,""));
+		}
+	},
+	 
+	async getFiltros(req,res){
 		let nick = req.user.user;
 		try {
 			let list = await  _database.zunpc.repository.TipProdMaterialrepository.obtenerFiltro();

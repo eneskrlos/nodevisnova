@@ -18,7 +18,7 @@
 		"permission": [1]
 	},
 	{
-		"url":"/api/editaripoProdMater",
+		"url":"/api/editarTipoProdMater",
 		"method": "post",
 		"path": "TipProdMaterialcontroller:TipProdMaterialcontroller.editarTipoProdMater",
 		"permission": [1]
@@ -57,6 +57,12 @@
 		"url":"/api/getFiltrosById",
 		"method": "post",
 		"path": "TipProdMaterialcontroller:TipProdMaterialcontroller.getFiltrosById",
+		"permission": [1]
+	},
+	{
+		"url":"/api/getRefrencias",
+		"method": "post",
+		"path": "TipProdMaterialcontroller:TipProdMaterialcontroller.getFiltrosReferencias",
 		"permission": [1]
 	}
 

@@ -39,46 +39,7 @@ exports.productocontroller = {
 		let tm = "";
 		_database.zunpc.repository.productorepository.GetProductoporid(id).then(response => {
 			let producto = response;
-			/* _database.zunpc.repository.productorepository.obtenerTPM(producto.tipoProd).then(resptp => {
-				if (!resptp) {
-					tp = "";
-				}else{
-					tp = resptp.nombre;
-				}
-				_database.zunpc.repository.productorepository.obtenerTPM(producto.material).then(respM => {
-					if (!respM) {
-						m = "";
-					}else{
-						m = respM.nombre;
-					}
-					_database.zunpc.repository.productorepository.obtenerTPM(producto.tipoMaterial).then(resptm => {
-						if (!resptm) {
-							tm = "";
-						}else{
-							tm = resptm.nombre;
-						}
-
-						paux = {
-							idProd : producto.idProd,
-							descripcion : producto.descripcion,
-							tipoprod : tp,
-							material : m,
-							tipomaterial : tm,
-							precio : producto.precio,
-							activo : producto.activo,
-							fotoprod1 : producto.fotoprod1,
-							fotoprod2 : producto.fotoprod2,
-							fotoprod3 : producto.fotoprod3,
-							cantDisponible : producto.cantDisponible
-						};
-
-						_useful.log('productocontroller.js').info('Se obtubo el producto',req.user.user, JSON.stringify(paux));
-						return res.json(new httpresponse(200,"ok",paux,""));
-
-					}) ;
-				});
-			}) ; */ 
-
+			
 			_useful.log('productocontroller.js').info('Se obtubo el producto',req.user.user, JSON.stringify(paux));
 			return res.json(new httpresponse(200,"ok",producto,""));
 		}).catch(error => {
@@ -112,8 +73,12 @@ exports.productocontroller = {
 		let nick = req.user.user;
 		let { body } = req;
 		let { idProd,descripcion, tipoProd, material, tipoMaterial, precio, activo, fotoprod1, fotoprod2, fotoprod3, cantDisponible} = body;
-		let act = activo.toString();
-		//if (!idProd || !descripcion || !tipoProd || !material || !tipoMaterial || !precio || !activo || !fotoprod1 || !fotoprod2 || !fotoprod3 || !cantDisponible ) return res.json(new httpresponse(500,"Error al editar un servicio: Compruebe que los campos esten llenos",null,""));
+		//let act = activo.toString();
+		if (idProd == undefined || descripcion == undefined || tipoProd == undefined || material == undefined || tipoMaterial == undefined 
+			|| precio == undefined  || activo == undefined || fotoprod1 == undefined || fotoprod2 == undefined || fotoprod3 == undefined 
+			|| cantDisponible == undefined ) return res.json(new httpresponse(500,"Error al editar un servicio: Compruebe que los campos esten llenos",null,""));
+
+			if(descripcion == "" || tipoProd == "" || precio == "") return res.json(new httpresponse(500,"Error al editar un servicio: Verifique q los campos obligatorios esten llenos",null,""));
 		try {
 			let produc = await _database.zunpc.repository.productorepository.updateProducto(body);
 			_useful.log('productocontroller.js').info('Se ha editado el producto',nick,JSON.stringify(produc));

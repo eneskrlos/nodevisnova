@@ -3,6 +3,7 @@ module.exports = {
 
 	listTipProdMaterial (buscar) {
 		return _database.zunpc.model.tipprodmaterial.findAll({
+			attributes: [['nombre','label'], ['idPk','value']],
 			where: {
 				[Op.or]: [
 					{
@@ -96,6 +97,14 @@ module.exports = {
 			attributes: ['nombre'],
 			where: {
 				idPk: id
+			}
+		});
+	},
+	getElementoReferencia(id){
+		return _database.zunpc.model.tipprodmaterial.findOne({
+			attributes: [['nombre','label'], ['idPk','value']],
+			where: {
+				idFk: id
 			}
 		});
 	},

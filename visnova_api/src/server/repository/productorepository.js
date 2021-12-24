@@ -73,11 +73,6 @@ module.exports = {
 			type: QueryTypes.SELECT 
 		};
 		return sz.query(sql,options);
-		// return _database.zunpc.model.producto.findOne({
-		// 	where: {
-		// 		idProd
-		// 	}
-		// });
 	},
 	addProducto(newproducto){
 		return _database.zunpc.model.producto.create(newproducto);
