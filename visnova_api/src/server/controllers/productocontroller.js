@@ -50,17 +50,30 @@ exports.productocontroller = {
 	async adiconarProducto(req,res){
 		let nick = req.user.user;
 		let { body } = req;
-		let { descripcion, tipoProd, material, tipoMaterial, precio, activo, fotoprod1, fotoprod2, fotoprod3, cantDisponible } = body;
+		let { descripcion, tipoProducto, material, tipoMaterial, precio, activo, fotoprod1, fotoprod2, fotoprod3, cantDisponible } = body;
 		//verifico q estan todas los  atributos de producto.
-		//if ( !descripcion || !tipoProd || !material || !tipoMaterial || !precio || !activo || !fotoprod1 || !fotoprod2 || !fotoprod3 || !cantDisponible ) return res.json(new httpresponse(500,"Error al adicionar un producto: Compruebe que los campos esten llenos",null,""));
+		if ( tipoProducto == "" || tipoProducto == undefined || material == undefined
+		|| material == ""  || tipoMaterial == undefined || tipoMaterial == ""  ) 
+		return res.json(new httpresponse(500,"Error al adicionar un producto: Compruebe que los campos de tipo de producto, material y tipo de material esten llenos",null,""));
 		try {
 			//Busco si existe un producto en base datos 
 			let dbproduc = await _database.zunpc.repository.productorepository.getByDescProd(descripcion);
 			if ( dbproduc && dbproduc.descripcion === descripcion ) return res.json(new httpresponse(500,"Error al adicionar el producto: El producto ya existe.",null,""));
-
-			let newprod = await _database.zunpc.repository.productorepository.addProducto(body);
+			let insertarporducto = {
+				descripcion: descripcion,
+				tipoProd: tipoProducto.value,
+				material: material.value,
+				tipoMaterial: tipoMaterial.value,
+				precio:precio,
+				activo: activo,
+				fotoprod1:fotoprod1,
+				fotoprod2: fotoprod2,
+				fotoprod3: fotoprod3,
+				cantDisponible: cantDisponible
+			};
+			let newprod = await _database.zunpc.repository.productorepository.addProducto(insertarporducto);
 			_useful.log('productocontroller.js').info('Se ha creado un producto nuevo.', req.user.nick, JSON.stringify(newprod));
-			var listproduct = await _database.zunpc.repository.productorepository.listProd("");
+			var listproduct = await _database.zunpc.repository.productorepository.prodquery("");
 			return res.json(new httpresponse(200,"ok",listproduct,""));
 		}
 		catch (error) {

@@ -35,7 +35,7 @@ module.exports = {
             }
         });
 		let sql = `
-		SELECT prod.idProd, prod.descripcion, tp.nombre as tipoProd, m.nombre as material, tm.nombre as tipprodmaterial,
+		SELECT prod.idProd, prod.descripcion, tp.nombre as tipoProd, m.nombre as material, tm.nombre as tipoMaterial,
 		prod.precio, prod.activo, prod.fotoprod1, prod.fotoprod2, prod.fotoprod3, prod.cantDisponible
 		FROM producto prod LEFT JOIN tipprodmaterial tp on prod.tipoProd = tp.idPk 
 		LEFT JOIN tipprodmaterial m on prod.material = m.idPk 
@@ -62,7 +62,7 @@ module.exports = {
             }
         });
 		let sql = `
-		SELECT prod.idProd, prod.descripcion, tp.nombre as tipoProd, m.nombre as material, tm.nombre as tipprodmaterial,
+		SELECT prod.idProd, prod.descripcion, tp.nombre as tipoProd, m.nombre as material, tm.nombre as tipoMaterial,
 		prod.precio, prod.activo, prod.fotoprod1, prod.fotoprod2, prod.fotoprod3, prod.cantDisponible
 		FROM producto prod LEFT JOIN tipprodmaterial tp on prod.tipoProd = tp.idPk 
 		LEFT JOIN tipprodmaterial m on prod.material = m.idPk 

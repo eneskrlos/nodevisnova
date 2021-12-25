@@ -89,8 +89,8 @@ exports.TipProdMaterialcontroller = {
 			return res.json(new httpresponse(500,"No se ha podido crear el tipo de producto material",null,""));
 		} 
 	}, */
-
-	async adicionarTipProdMaterial(req,res){
+	// cambiar este motodo
+	/* async adicionarTipProdMaterial(req,res){
 		let nick = req.user.user;
 		let { body } = req;
 		let {  nombre, tipoProducto, material, tipoMaterial } = body;
@@ -131,13 +131,44 @@ exports.TipProdMaterialcontroller = {
 			_useful.log('TipProdMaterialcontroller.js').error('No se ha podido crear el tipo de producto material',nick,error);
 			return res.json(new httpresponse(500,"No se ha podido crear el tipo de producto material",null,""));
 		} 
+	}, */
+
+
+	async adicionarTipProdMaterial(req,res){
+		let nick = req.user.user;
+		let { body } = req;
+		let {  nombre, value } = body;
+		let tpm = {};
+		let mensaje = ""; 
+		//verifico q estan todas los  atributos de producto.
+		//if ( !nombre || !tipoProducto || !material || !tipoMaterial) return res.json(new httpresponse(500,"Error al adicionar un tipo de producto material: Compruebe que los campos esten llenos",null,""));
+		if ( nombre == undefined  || nombre == "") return res.json(new httpresponse(500,"Error al adicionar un tipo de producto material: Compruebe que no le falte ningun dato por el enviar",null,""));
+
+		try {
+			
+			//Busco si existe un tipo de producto en base datos 
+			let dbTPM = await _database.zunpc.repository.TipProdMaterialrepository.getByNameTPM(nombre);
+			if ( dbTPM && dbTPM.nombre === nombre ) return res.json(new httpresponse(500,"Error al adicionar el tipo de producto material: Este registro ya existe.",null,""));
+			let nuevoTPM = {
+				nombre: nombre,
+				idFk: value
+			};
+			let newTPM = await _database.zunpc.repository.TipProdMaterialrepository.addTPM(nuevoTPM);
+			_useful.log('TipProdMaterialcontroller.js').info(mensaje, req.user.nick, JSON.stringify(newTPM)); 
+			var listTPM = await _database.zunpc.repository.TipProdMaterialrepository.listTipProdMaterial("");
+			return res.json(new httpresponse(200,"ok",listTPM,""));
+		}
+		catch (error) {
+			_useful.log('TipProdMaterialcontroller.js').error('No se ha podido crear el tipo de producto material',nick,error);
+			return res.json(new httpresponse(500,"No se ha podido crear el tipo de producto material",null,""));
+		} 
 	},
 
 	async editarTipoProdMater(req,res){
 		let nick = req.user.user;
 		let { body } = req;
 		let { idPk,nombre, value} = body;
-		if (!idPk || !nombre || !value  ) return res.json(new httpresponse(500,"Error al editar un tipo de producto material: Compruebe que los campos esten llenos",null,""));
+		if (nombre == "" ) return res.json(new httpresponse(500,"Error al editar un tipo de producto material: El campo nombre no debe estar vacio.",null,""));
 		if ( idPk == undefined || nombre == undefined || value == undefined ) return res.json(new httpresponse(500,"Error al editar un tipo de producto material: parametro de entrada no definido",null,""));
 
 		try {
