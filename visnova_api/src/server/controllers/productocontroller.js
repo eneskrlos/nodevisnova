@@ -50,9 +50,9 @@ exports.productocontroller = {
 	async adiconarProducto(req,res){
 		let nick = req.user.user;
 		let { body } = req;
-		let { descripcion, tipoProducto, material, tipoMaterial, precio, activo, fotoprod1, fotoprod2, fotoprod3, cantDisponible } = body;
+		let { descripcion, tipoProd, material, tipoMaterial, precio, activo, fotoprod1, fotoprod2, fotoprod3, cantDisponible } = body;
 		//verifico q estan todas los  atributos de producto.
-		if ( tipoProducto == "" || tipoProducto == undefined || material == undefined
+		if ( tipoProd == "" || tipoProd == undefined || material == undefined
 		|| material == ""  || tipoMaterial == undefined || tipoMaterial == ""  ) 
 		return res.json(new httpresponse(500,"Error al adicionar un producto: Compruebe que los campos de tipo de producto, material y tipo de material esten llenos",null,""));
 		try {
@@ -61,7 +61,7 @@ exports.productocontroller = {
 			if ( dbproduc && dbproduc.descripcion === descripcion ) return res.json(new httpresponse(500,"Error al adicionar el producto: El producto ya existe.",null,""));
 			let insertarporducto = {
 				descripcion: descripcion,
-				tipoProd: tipoProducto.value,
+				tipoProd: tipoProd.value,
 				material: material.value,
 				tipoMaterial: tipoMaterial.value,
 				precio:precio,
@@ -88,12 +88,27 @@ exports.productocontroller = {
 		let { idProd,descripcion, tipoProd, material, tipoMaterial, precio, activo, fotoprod1, fotoprod2, fotoprod3, cantDisponible} = body;
 		//let act = activo.toString();
 		if (idProd == undefined || descripcion == undefined || tipoProd == undefined || material == undefined || tipoMaterial == undefined 
-			|| precio == undefined  || activo == undefined || fotoprod1 == undefined || fotoprod2 == undefined || fotoprod3 == undefined 
-			|| cantDisponible == undefined ) return res.json(new httpresponse(500,"Error al editar un servicio: Compruebe que los campos esten llenos",null,""));
+			|| precio == undefined  || activo == undefined 	|| cantDisponible == undefined ) 
+			return res.json(new httpresponse(500,"Error al editar un servicio: Elementos no definido",null,""));
 
-			if(descripcion == "" || tipoProd == "" || precio == "") return res.json(new httpresponse(500,"Error al editar un servicio: Verifique q los campos obligatorios esten llenos",null,""));
+		if ( tipoProd == "" || tipoProd == undefined || material == undefined
+			|| material == ""  || tipoMaterial == undefined || tipoMaterial == ""  ) 
+		return res.json(new httpresponse(500,"Error al editar un producto: Compruebe que los campos de tipo de producto, material y tipo de material esten llenos",null,""));
 		try {
-			let produc = await _database.zunpc.repository.productorepository.updateProducto(body);
+			let ubdateporducto = {
+				idProd: idProd,
+				descripcion: descripcion,
+				tipoProd: tipoProd.value,
+				material: material.value,
+				tipoMaterial: tipoMaterial.value,
+				precio:precio,
+				activo: activo,
+				fotoprod1:fotoprod1,
+				fotoprod2: fotoprod2,
+				fotoprod3: fotoprod3,
+				cantDisponible: cantDisponible
+			};
+			let produc = await _database.zunpc.repository.productorepository.updateProducto(ubdateporducto);
 			_useful.log('productocontroller.js').info('Se ha editado el producto',nick,JSON.stringify(produc));
 			var listprod = await _database.zunpc.repository.productorepository.prodquery("");
 			return res.json(new httpresponse(200,"Se ha editado el producto correctamente",listprod,""));
