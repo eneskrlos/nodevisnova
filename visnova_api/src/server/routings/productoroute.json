@@ -28,6 +28,12 @@
 		"method": "post",
 		"path": "productocontroller:productocontroller.eliminarProducto",
 		"permission": [1]
+	},
+	{
+		"url": "/api/llenarSelectoresProductos",
+		"method": "post",
+		"path": "productocontroller:productocontroller.getDatosTipoProductoMaterialbyId",
+		"permission": [1]
 	}
 	
 ]

@@ -74,6 +74,83 @@ module.exports = {
 		};
 		return sz.query(sql,options);
 	},
+	GetDatosProductoporid(idProd){
+		const sz = new sequelize({
+            host: _config.Database.zunpc.host,
+            port: _config.Database.zunpc.port,
+            database: _config.Database.zunpc.database,
+            username: _config.Database.zunpc.user,
+            password: _config.Database.zunpc.pass,
+            dialect: 'mysql',
+            logging: (_config.Mode === 'dev') ? console.log : false,
+            define: {
+                timestamps: false
+            }
+        });
+		let sql = `
+		SELECT prod.idProd,tp.nombre as nombreTP, tp.idPk as valueTP, 
+		m.nombre as nombreM, m.idPk as valueM, 
+		tm.nombre as nombreTM, tm.idPk as valueTM
+		FROM producto prod LEFT JOIN tipprodmaterial tp on prod.tipoProd = tp.idPk 
+		LEFT JOIN tipprodmaterial m on prod.material = m.idPk 
+		LEFT JOIN tipprodmaterial tm on prod.tipoMaterial = tm.idPk 
+		where prod.idProd  = ${idProd}
+		`;
+		let options = {
+			type: QueryTypes.SELECT 
+		};
+		return sz.query(sql,options);
+	},
+	GetDatosMaterialporid(idProd){
+		const sz = new sequelize({
+            host: _config.Database.zunpc.host,
+            port: _config.Database.zunpc.port,
+            database: _config.Database.zunpc.database,
+            username: _config.Database.zunpc.user,
+            password: _config.Database.zunpc.pass,
+            dialect: 'mysql',
+            logging: (_config.Mode === 'dev') ? console.log : false,
+            define: {
+                timestamps: false
+            }
+        });
+		let sql = `
+		SELECT prod.idProd,
+		m.nombre as nombreM, m.idPk as valueM
+		FROM producto prod 
+		LEFT JOIN tipprodmaterial m on prod.material = m.idPk 
+		where prod.idProd = ${idProd}
+		`;
+		let options = {
+			type: QueryTypes.SELECT 
+		};
+		return sz.query(sql,options);
+	},
+	GetDatosTipoMaterialporid(idProd){
+		const sz = new sequelize({
+            host: _config.Database.zunpc.host,
+            port: _config.Database.zunpc.port,
+            database: _config.Database.zunpc.database,
+            username: _config.Database.zunpc.user,
+            password: _config.Database.zunpc.pass,
+            dialect: 'mysql',
+            logging: (_config.Mode === 'dev') ? console.log : false,
+            define: {
+                timestamps: false
+            }
+        });
+		let sql = `
+		SELECT prod.idProd,
+		tm.nombre as nombreTM, tm.idPk as valueTM
+		FROM producto prod  
+		LEFT JOIN tipprodmaterial tm on prod.tipoMaterial = tm.idPk 
+		where prod.idProd = ${idProd}
+		`;
+		let options = {
+			type: QueryTypes.SELECT 
+		};
+		return sz.query(sql,options);
+	},
 	addProducto(newproducto){
 		return _database.zunpc.model.producto.create(newproducto);
 	},

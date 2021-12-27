@@ -137,5 +137,27 @@ exports.productocontroller = {
 		}
 	},
 
+
+	async getDatosTipoProductoMaterialbyId(req, res){
+		let nick = req.user.user;
+		let { body } = req;
+		let { idProd } = body;
+		try {
+			var tp = await _database.zunpc.repository.productorepository.GetDatosProductoporid(idProd);
+			if(!tp ){
+				return res.json(new httpresponse(500,"Ha ocurrido un error al obtener los datos:Producto no encontrado.",null,""));
+			}
+			let result = {
+				selector1:{label:tp[0].nombreTP,value:tp[0].valueTP},
+				selector2:{label:tp[0].nombreM,value:tp[0].valueM},
+				selector3:{label:tp[0].nombreTM,value:tp[0].valueTM}
+			};
+			return res.json(new httpresponse(200,"ok",result,""));
+		} catch (error) {
+			_useful.log('productocontroller.js').error('Ha ocurrido un error al obtener los datos',nick,error);
+			return res.json(new httpresponse(500,"Ha ocurrido un error al obtener los datos.",null,""));
+		}
+	}
+
 	
 };
