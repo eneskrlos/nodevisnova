@@ -86,6 +86,7 @@ exports.productocontroller = {
 		let nick = req.user.user;
 		let { body } = req;
 		let { idProd,descripcion, tipoProd, material, tipoMaterial, precio, activo, fotoprod1, fotoprod2, fotoprod3, cantDisponible} = body;
+		
 		//let act = activo.toString();
 		if (idProd == undefined || descripcion == undefined || tipoProd == undefined || material == undefined || tipoMaterial == undefined 
 			|| precio == undefined  || activo == undefined 	|| cantDisponible == undefined ) 
@@ -95,7 +96,8 @@ exports.productocontroller = {
 			|| material == ""  || tipoMaterial == undefined || tipoMaterial == ""  ) 
 		return res.json(new httpresponse(500,"Error al editar un producto: Compruebe que los campos de tipo de producto, material y tipo de material esten llenos",null,""));
 		try {
-			let ubdateporducto = {
+			
+			let updateporducto = {
 				idProd: idProd,
 				descripcion: descripcion,
 				tipoProd: tipoProd.value,
@@ -108,7 +110,7 @@ exports.productocontroller = {
 				fotoprod3: fotoprod3,
 				cantDisponible: cantDisponible
 			};
-			let produc = await _database.zunpc.repository.productorepository.updateProducto(ubdateporducto);
+			let produc = await _database.zunpc.repository.productorepository.updateProducto(updateporducto);
 			_useful.log('productocontroller.js').info('Se ha editado el producto',nick,JSON.stringify(produc));
 			var listprod = await _database.zunpc.repository.productorepository.prodquery("");
 			return res.json(new httpresponse(200,"Se ha editado el producto correctamente",listprod,""));

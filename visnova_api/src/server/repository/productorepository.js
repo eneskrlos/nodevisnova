@@ -172,6 +172,7 @@ module.exports = {
 			fotoprod1: producto.fotoprod1,
 			fotoprod2: producto.fotoprod2,
 			fotoprod3: producto.fotoprod3,
+			cantDisponible: producto.cantDisponible
 		},{
 			where: {
 				idProd: producto.idProd
