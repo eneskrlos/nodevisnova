@@ -65,7 +65,7 @@ exports.productocontroller = {
 				material: material.value,
 				tipoMaterial: tipoMaterial.value,
 				precio:precio,
-				activo: activo,
+				activo: (activo == undefined)?false:activo,
 				fotoprod1:fotoprod1,
 				fotoprod2: fotoprod2,
 				fotoprod3: fotoprod3,
@@ -89,7 +89,7 @@ exports.productocontroller = {
 		
 		//let act = activo.toString();
 		if (idProd == undefined || descripcion == undefined || tipoProd == undefined || material == undefined || tipoMaterial == undefined 
-			|| precio == undefined  || activo == undefined 	|| cantDisponible == undefined ) 
+			|| precio == undefined  || cantDisponible == undefined ) 
 			return res.json(new httpresponse(500,"Error al editar un servicio: Elementos no definido",null,""));
 
 		if ( tipoProd == "" || tipoProd == undefined || material == undefined
@@ -104,7 +104,7 @@ exports.productocontroller = {
 				material: material.value,
 				tipoMaterial: tipoMaterial.value,
 				precio:precio,
-				activo: activo,
+				activo: (activo == undefined)? 0:activo,
 				fotoprod1:fotoprod1,
 				fotoprod2: fotoprod2,
 				fotoprod3: fotoprod3,

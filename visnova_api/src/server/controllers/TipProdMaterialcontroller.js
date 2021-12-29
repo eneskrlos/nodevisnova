@@ -138,7 +138,6 @@ exports.TipProdMaterialcontroller = {
 		let nick = req.user.user;
 		let { body } = req;
 		let {  nombre, value } = body;
-		let tpm = {};
 		let mensaje = ""; 
 		//verifico q estan todas los  atributos de producto.
 		//if ( !nombre || !tipoProducto || !material || !tipoMaterial) return res.json(new httpresponse(500,"Error al adicionar un tipo de producto material: Compruebe que los campos esten llenos",null,""));
