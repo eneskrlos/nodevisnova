@@ -1,10 +1,4 @@
-[
-	{
-		"url": "/api/login",
-		"method": "post",
-		"path": "authentication:Authentication.login",
-		"permission": []
-	},
+[	
 	{
 		"url": "/api/loginUser",
 		"method": "post",
@@ -42,27 +36,9 @@
 		"permission": []
 	},
 	{
-		"url": "/api/loginGuest",
-		"method": "post",
-		"path": "authentication:Authentication.loginGuest",
-		"permission": []
-	},
-	{
-		"url": "/api/auth",
-		"method": "post",
-		"path": "authentication:Authentication.authUser",
-		"permission": []
-	},
-	{
 		"url": "/api/userInfo",
 		"method": "get",
 		"path": "authentication:Authentication.userInfo",
-		"permission": []
-	},
-	{
-		"url": "/api/",
-		"method": "post",
-		"path": "authentication:Authentication.enableAuthorizationFor",
 		"permission": []
 	},
 	{
@@ -70,5 +46,11 @@
 		"method": "post",
 		"path": "authentication:Authentication.verifToken",
 		"permission": []
+	},
+	{
+		"url":"/api/enviarCorreoContactenos",
+		"method":"post",
+		"path":"authentication:Authentication.enviarCorreoContactenos",
+		"permission":[]
 	}
 ]

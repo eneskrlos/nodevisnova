@@ -22,35 +22,19 @@
 	},
 	"database": {
 		"zunpc": {
-			"database": "zunpc",
+			"database": "visnovadb",
 			"host": "localhost",
 			"port": 3306,
 			"user": "root",
 			"pass": "root"
-		},
-		"zunpms": {
-			"database": "ZunPmsSaratoga",
-			"host": "localhost",
-			"port": 1433,
-			"user": "sa",
-			"pass": "sa"
-		},
-		"zunpos": {
-			"database": "Zunpos",
-			"host": "localhost",
-			"port": 1433,
-			"user": "sa",
-			"pass": "sa"
 		}
 	},
-	"MK": {
-		"url": "http://wrapper.zunmk.tur.cu:8081/mkwrapper/QuerySelect"
-	},
-	"zunNauta": {
-		"url": "https://zunnauta.tur.cu/api/terceros/datosCuenta?email="
-	},
-	"AAAEtecsa": {
-		"url": "https://secure.etecsa.net:8443/LoginServlet"
+	
+	"mailerconfig": {
+		"correovisnova": "erneskrlos@gmail.com",
+		"pass":"pqztlvvcktwngzel",
+		"host":"smtp.gmail.com",
+		"port":465
 	},
 	"log":{
 		"path": "logs/zunpc.log",
@@ -58,11 +42,6 @@
 		"pattern": "[%d] [%z] [%p] [%c] [%X{user}] - %m %X{metadata}",
 		"level": "all",
 		"verbose": true
-	},
-	"FTPMININT": {
-		"user": "zunpc",
-		"pass": "Portal2021",
-		"url": "ftp.tur.cu"
 	},
 	"vinculos": {
 		"linkconfirmacion": "http://localhost:3001/activarCuenta",

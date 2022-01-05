@@ -114,6 +114,7 @@ function registerUser(user,res) {
 					_userinsert.user = response2.user;
 					_userinsert.correo = response2.correo;
 					_userinsert.pconfirmado = response2.pconfirmado;
+					_userinsert.telefono = response2.telefono;
 					_userinsert.activate = response2.activate;
 					//genero token de activacion para ese nuevo usuario
 					_useful.generateTokenToUser(_userinsert).then(tokenactivacion => {
@@ -136,7 +137,6 @@ function registerUser(user,res) {
 						data.link = link;
 						let e = new email(data.correo,data.link);
 						e.enviarEmail();
-						  
 						return res.json(new httpresponse(200,"Se ha creado la cuenta correctamente", objecresult,""));
 					}).catch(error => {
 						
@@ -180,6 +180,7 @@ function changePassword(idUser,passold,passnew,confirpass,res) {
 					user.pass = _passnew.toString();
 					user.correo = response.correo;
 					user.pconfirmado = response.pconfirmado;
+					user.telefono = response.telefono;
 					user.activate = response.activate;
 
 					_database.zunpc.repository.authentication.updateUser(user).then(response1 => {
@@ -218,6 +219,7 @@ async function recoverPassword(correo,res) {
 			user.pass = response.pass;
 			user.correo = response.correo;
 			user.pconfirmado = response.pconfirmado;
+			user.telefono = response.telefono;
 			user.roleId = response.roleId;
 			user.activate = response.activate;
 			var hrepcodigo = generarCodigo(user,res);
@@ -282,6 +284,7 @@ function activeCuenta(token,res) {
 			user.correo = response.data.correo;
 			user.pconfirmado = response.data.pconfirmado;
 			user.roleId = response.data.roleId;
+			user.telefono = response.data.telefono;
 			user.activate = response.data.activate; 
 			
 			_database.zunpc.repository.authentication.existeToken(token).then(response => {
@@ -398,6 +401,7 @@ function loginUtil (user , pass, res) {
 		user.pass = password;
 		user.correo = response.correo;
 		user.pconfirmado = response.pconfirmado;
+		user.telefono = response.telefono;
 		user.activate = response.activate;
 		user.permission = permission;
 
@@ -445,6 +449,7 @@ function loginUtil (user , pass, res) {
 }
 
 ///norbee-----------------------------------------------------------------------------------
+/*
 function lokingforEntity (ssid, ip, user, pass,idface, res, chtoken, checking) {
 	if (ssid) {
 		// _database.zunpc.repository.entity.list().then(response => {
@@ -812,10 +817,10 @@ function GetNautaInfo(user, pass, ssid, res) {
 		return res.sendStatus(500);
 	});
 }
-
+*/
 
 exports.Authentication = {
-
+/*
 	login (req, res) {
 
 		if (req.body.entId !== undefined){
@@ -837,7 +842,7 @@ exports.Authentication = {
 			loginUtility(req.body.user, req.body.pass, idface, req.body.ent, res, chattoken, checking);
 		}
 	},
-
+	*/
 	loginUser(req, res){
 		let {token} = req.params;
 		loginUtil(req.body.user, req.body.password,res);
@@ -855,6 +860,7 @@ exports.Authentication = {
 			user.correo = req.body.correo;
 			user.pconfirmado = req.body.pconfirmado;
 			user.roleId = 2;
+			user.telefono = req.body.telefono;
 			user.active = false;
 			registerUser(user,res);
 			//return res.send(hrep1);
@@ -898,6 +904,7 @@ exports.Authentication = {
 						user.pass = response1.pass;
 						user.correo = response1.correo;
 						user.pconfirmado = response1.pconfirmado;
+						user.telefono = response1.telefono;
 						user.activate = response1.activate; 
 
 						if(password == passconfirm){
@@ -919,7 +926,7 @@ exports.Authentication = {
 		});
 	},
 
-
+/*
 	async loginGuest (req, res) {
 		const { room , entId} = req.body;
 		let entity = "";
@@ -1143,11 +1150,12 @@ exports.Authentication = {
 			}
 		});
 	},
-
-	userInfo (req, res) {
+*/
+	async userInfo (req, res) {
 		if (req.user) {
-			_useful.log('authentication.js').info('Se accedio a la informacion del usuario',req.user.nick,req.user);
-			return res.send(user)
+			let user = await _database.zunpc.repository.authentication.infoUser(req.user);
+			_useful.log('authentication.js').info('Se accedio a la informacion del usuario',req.user.user,req.user);
+			return res.send(user);
 		}
 		else {
 			_useful.log('authentication.js').info('No fue posible aceder a la informacion de usuario');
@@ -1155,7 +1163,42 @@ exports.Authentication = {
 		}
 	},
 
+	async enviarCorreoContactenos(req,res){
+		let { body } = req;
+		let { nombre, correo, texto } = body;
+		if(nombre == undefined || nombre.toString() == "" || correo == undefined || correo.toString() == "" || texto == undefined || texto.toString() == ""  ){
+			return res.send({
+				code:500,
+				message:'Error al enviar correo de contactenos: Existen elementos vacios.',
+				data: null,
+				servererror: '',
+			});
+		}
+		try {
+			let data = {};
+			data.nombre = nombre;
+			data.correo = correo;
+			data.texto = texto;
+			let e = new email("","");
+			e.enviarCorreoContactenos(data.nombre, data.correo,data.texto);
+			return res.send({
+				code:200,
+				message:'Se ha enviado el correo, Gracias.',
+				data: null,
+				servererror: '',
+			});
+		} catch (error) {
+			_useful.log('authentication.js').error('Error al enviar correo de contactenos',nombre,error);
+			return res.send({
+				code:500,
+				message:'Error al enviar correo de contactenos',
+				data: null,
+				servererror: '',
+			});
+		}
+	},
 
+/*
 	async enableAuthorizationFor (req, res) {
 
 		_useful.log('authentication.js').info('Llego al  metodo de autorizacion ', 'system');
@@ -1230,6 +1273,7 @@ exports.Authentication = {
 			}
 		}
 	},
+	*/
 
 	verifToken (req, res){
 		const { token } = req.body;

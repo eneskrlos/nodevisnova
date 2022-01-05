@@ -21,6 +21,10 @@ module.exports = {
 			_database.zunpc.model.role.hasMany(_database.zunpc.model.user);
 			_database.zunpc.model.user.belongsTo(_database.zunpc.model.role);
 
+			// /**Relation between libretadireccion and user*/
+			_database.zunpc.model.user.hasMany(_database.zunpc.model.libretadireccion);
+			_database.zunpc.model.libretadireccion.belongsTo(_database.zunpc.model.user);
+
 			
 		}
 		catch (error) {
@@ -33,6 +37,8 @@ module.exports = {
 		let permission = require('../../../dev/permission');
 		let role = require('../../../dev/role');
 		let user = require('../../../dev/user');
+		let libretadireccion = require('../../../dev/libretadireccion');
+		let estado = require('../../../dev/estado');
 		/* let file = require('../../../dev/file');
 		let category = require('../../../dev/category');
 		let event = require('../../../dev/event');
@@ -59,12 +65,16 @@ module.exports = {
 		await role.create();
 		await role.assignPermissions(permission.data);
 
+		
 		/**Users*/
 		await user.create();
 		///await user.assignEntity(entity.data);
 
-		/**Files*/
-		// await file.create();
+		/**libreatdireccion*/
+		await libretadireccion.create();
+
+		/**Estado*/
+		await estado.create();
 
 		// /**Categories*/
 		// await category.create();

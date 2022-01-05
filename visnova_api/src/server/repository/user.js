@@ -1,9 +1,11 @@
-const Op = require('sequelize').Op;
+const sequelize = require("../../../node_modules/sequelize/lib/sequelize");
+const { Op } = require("sequelize");
+const {QueryTypes} = require("sequelize");
 module.exports = {
 
 	list (buscar) {
 		return _database.zunpc.model.user.findAll({
-			attributes: ['id', 'name', 'user', 'correo','roleId', 'activate'],
+			attributes: ['id', 'name', 'user', 'correo','roleId','telefono', 'activate'],
 			include: [{
 				model: _database.zunpc.model.role
 				},
@@ -24,6 +26,11 @@ module.exports = {
 						correo: {
 							[Op.like]: '%'+buscar+'%'
 						}
+					},
+					{
+						telefono: {
+							[Op.like]: '%'+buscar+'%'
+						}
 					}
 				]
 			}
@@ -32,7 +39,7 @@ module.exports = {
 
 	getByUser (user) {
 		return _database.zunpc.model.user.findOne({
-			attributes: ['id', 'name', 'user', 'correo','roleId', 'activate'],
+			attributes: ['id', 'name', 'user', 'correo','roleId','telefono', 'activate'],
 			where: {
 				user
 			}
@@ -41,7 +48,7 @@ module.exports = {
 
 	getallbyUser (user) {
 		return _database.zunpc.model.user.findOne({
-			attributes: ['id', 'name', 'user', 'correo','roleId', 'activate'],
+			attributes: ['id', 'name', 'user', 'correo','roleId','telefono', 'activate'],
 			where: {
 				user
 			}
@@ -141,5 +148,90 @@ module.exports = {
 				id: user.id
 			}
 		});
+	},
+	obtenerDireccionByIdLD(idLD){
+		return _database.zunpc.model.libretadireccion.findOne({
+			where: {
+				idLD
+			}
+		});
+	},
+	listdirecciones(id){
+		return _database.zunpc.model.libretadireccion.findAll({
+			where: {
+				userId:id
+			}
+		});
+	},
+	addDireccionofUser(dir){
+		return _database.zunpc.model.libretadireccion.create(dir);
+	},
+	editDireccionofUser(dir){
+		return _database.zunpc.model.libretadireccion.update({
+			numero: dir.numero,
+			direccion: dir.direccion,
+			municipio: dir.municipio,
+			provincia: dir.provincia
+		},{
+			where: {
+				userId: dir.userId,
+				idLD : dir.idLD
+			}
+		});
+	},
+	removeDireccionofUser(idLD){
+		return _database.zunpc.model.libretadireccion.destroy({
+			where: {
+				idLD
+			}
+		});
+	},
+	obtenerTresUltimosProd(id){
+		const sz = new sequelize({
+            host: _config.Database.zunpc.host,
+            port: _config.Database.zunpc.port,
+            database: _config.Database.zunpc.database,
+            username: _config.Database.zunpc.user,
+            password: _config.Database.zunpc.pass,
+            dialect: 'mysql',
+            logging: (_config.Mode === 'dev') ? console.log : false,
+            define: {
+                timestamps: false
+            }
+        });
+		let sql = `
+		select  u.name, u.user, v.idProd, p.descripcion, p.tipoProd  
+		from user u 
+		INNER JOIN venta v on u.id = v.iduser 
+		INNER JOIN producto p on p.idProd = v.idProd
+		where u.id = ${id}
+		ORDER BY v.fecha DESC  
+		LIMIT 3 
+		`;
+		let options = {
+			type: QueryTypes.SELECT 
+		};
+		return sz.query(sql,options);
+	},
+	obtenerProductos(){
+		return _database.zunpc.model.producto.findAll();
+	},
+	obtenerProductosSimilares(Prod1,Prod2,Prod3){
+		return _database.zunpc.model.producto.findAll({
+			where: {
+				[Op.or]: [
+					{
+						tipoProd: Prod1
+					},
+					{
+						tipoProd: Prod2
+					},
+					{
+						tipoProd: Prod3
+					}
+				]
+			}
+		});
 	}
+
 };

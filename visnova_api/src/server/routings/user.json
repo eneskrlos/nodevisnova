@@ -52,5 +52,35 @@
 		"method": "delete",
 		"path": "user:User.remove",
 		"permission": [1]
+	},
+	{
+		"url": "/api/listaddressbyidUser",
+		"method": "post",
+		"path": "user:User.listaddressbyidUser",
+		"permission": [1,2]
+	},
+	{
+		"url": "/api/adicionarDireccion",
+		"method": "post",
+		"path": "user:User.addDireccion",
+		"permission": [1,2]
+	},
+	{
+		"url": "/api/editarDireccion",
+		"method": "post",
+		"path": "user:User.editDireccion",
+		"permission": [1,2]
+	},
+	{
+		"url": "/api/deleteDireccion/:idLD",
+		"method": "delete",
+		"path": "user:User.deleteDireccion",
+		"permission": [1,2]
+	},
+	{
+		"url": "/api/getSimilares",
+		"method": "post",
+		"path": "user:User.getSimilares",
+		"permission": [1,2]
 	}
 ]

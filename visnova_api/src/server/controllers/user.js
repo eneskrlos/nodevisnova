@@ -1,3 +1,5 @@
+const { editDireccionofUser } = require("../repository/user");
+
 exports.User = {
 
 	listAll (req, res) {
@@ -145,6 +147,7 @@ exports.User = {
 			userget.pass = user.pass;
 			userget.correo = user.correo;
 			userget.pconfirmado = user.pconfirmado;
+			userget.telefono = user.telefono;
 			userget.roleId = user.roleId;
 			userget.show = user.show;
 			userget.activate = (user.activate == false)? true: false;
@@ -262,6 +265,207 @@ exports.User = {
 			_useful.log('user.js').error('No se pudo eliminar el usuario',req.user.nick,error);
 			return res.sendStatus(500);
 		}
+	},
+
+	async listaddressbyidUser(req, res){
+		let user = req.user;
+		let { body } = req;
+		let { id } = body;
+		try {
+			let listdirecciones = await _database.zunpc.repository.user.listdirecciones(id);
+			if(!listdirecciones || listdirecciones.length <= 0){
+				_useful.log('user.js').error('Error al listar las direcciones',user.user,error);
+				return res.send({
+					code:200,
+					message:'No existe dirección.',
+					data: null,
+					servererror: '',
+				});
+			}
+			return res.send({
+				code:200,
+				message:'Se ha listado las direcciones',
+				data: listdirecciones,
+				servererror: '',
+			});
+		} catch (error) {
+			_useful.log('user.js').error('Error al listar las direcciones',user.user,error);
+			return res.send({
+				code:500,
+				message:'Error al listar las direcciones',
+				data: null,
+				servererror: '',
+			});
+		}
+	},
+
+	async addDireccion(req, res){
+		let user = req.user;
+		let { body } = req;
+		let { numero, direccion, municipio, provincia, userId } = body;
+		try {
+			if(numero == undefined || direccion == undefined || municipio == undefined || provincia == undefined || userId == undefined){
+				_useful.log('user.js').error('Error al adicionar direccion del usuario: Existen valores indefinidos.',user.user,'Verifique que los datos que esta enviando no esten undefined.');
+				return res.send({
+					code:500,
+					message:'Error al adicionar direccion del usuario: Existen valores indefinidos.',
+					data: null,
+					servererror: '',
+				});
+			}
+
+			let adddir = await _database.zunpc.repository.user.addDireccionofUser(body);
+			if(!adddir){
+				_useful.log('user.js').error('Error al adicionar direccion del usuario.',user.user,);
+				return res.send({
+					code:500,
+					message:'Error al adicionar direccion del usuario..',
+					data: null,
+					servererror: '',
+				});
+			}
+			_useful.log('user.js').info('Se ha adicionado correctamente la dirección.', req.user.nick, JSON.stringify(adddir));
+			let listdirecciones = await _database.zunpc.repository.user.listdirecciones(adddir.dataValues.userId);
+			return res.send({
+				code:200,
+				message:'Se ha adicionado correctamente la dirección.',
+				data: listdirecciones,
+				servererror: '',
+			});
+		} catch (error) {
+			_useful.log('user.js').error('Error al adicionar la dirección',user.user,error);
+			return res.send({
+				code:500,
+				message:'Error al adicionar la dirección',
+				data: null,
+				servererror: '',
+			});
+		}
+	},
+	async editDireccion(req, res){
+		let user = req.user;
+		let { body } = req;
+		let {idLD, numero, direccion, municipio, provincia, userId } = body;
+		try {
+			if(idLD == undefined || numero == undefined || direccion == undefined || municipio == undefined || provincia == undefined || userId == undefined){
+				_useful.log('user.js').error('Error al editar direccion del usuario: Existen valores indefinidos.',user.user,'Verifique que los datos que esta enviando no esten undefined.');
+				return res.send({
+					code:500,
+					message:'Error al editar direccion del usuario: Existen valores indefinidos.',
+					data: null,
+					servererror: '',
+				});
+			}
+			let editdir = await _database.zunpc.repository.user.editDireccionofUser(body);
+			if(!editdir){
+				_useful.log('user.js').error('Error al editar dirección del usuario.',user.user,);
+				return res.send({
+					code:500,
+					message:'Error al editar dirección del usuario..',
+					data: null,
+					servererror: '',
+				});
+			}
+			_useful.log('user.js').info('Se ha editado correctamente la dirección.', user.user, JSON.stringify(editdir));
+			let listdirecciones = await _database.zunpc.repository.user.listdirecciones(userId);
+			return res.send({
+				code:200,
+				message:'Se ha editado correctamente la dirección.',
+				data: listdirecciones,
+				servererror: '',
+			});
+
+		} catch (error) {
+			_useful.log('user.js').error('Error al editar las dirección',user,error);
+			return res.send({
+				code:500,
+				message:'Error al editar las dirección',
+				data: null,
+				servererror: '',
+			});
+		}
+	},
+	async deleteDireccion(req, res){
+		let user = req.user;
+		let { idLD } = req.params;
+		try {
+			if( idLD == undefined ){
+				_useful.log('user.js').error('Error al eliminar la direccion del usuario: Existen valores indefinidos.',user.user,'Verifique que los datos que esta enviando no esten undefined.');
+				return res.send({
+					code:500,
+					message:'Error al eliminar la direccion del usuario: Existen valores indefinidos.',
+					data: null,
+					servererror: '',
+				});
+			}
+			let dir = await _database.zunpc.repository.user.obtenerDireccionByIdLD(idLD);
+			if(!dir){
+				return res.send({
+					code:500,
+					message:'Error al eliminar la direccion del usuario: Direccion no encontrada.',
+					data: null,
+					servererror: '',
+				});
+			}
+			let deletedir = await _database.zunpc.repository.user.removeDireccionofUser(idLD);
+			if(!deletedir){
+				_useful.log('user.js').error('Error al eliminar la dirección del usuario.',user.user,);
+				return res.send({
+					code:500,
+					message:'Error al eliminar la dirección del usuario.',
+					data: null,
+					servererror: '',
+				});
+			}
+			_useful.log('user.js').info('Se ha eliminado correctamente la dirección.', user.user, JSON.stringify(deletedir));
+			let listdirecciones = await _database.zunpc.repository.user.listdirecciones(dir.userId);
+			return res.send({
+				code:200,
+				message:'Se ha eliminado correctamente la dirección.',
+				data: listdirecciones,
+				servererror: '',
+			});
+		} catch (error) {
+			_useful.log('user.js').error('Error al eliminar la dirección',user.user,error);
+			return res.send({
+				code:500,
+				message:'Error al eliminar la dirección',
+				data: null,
+				servererror: '',
+			});
+		}
+	},
+	async getSimilares(req, res){
+		let user = req.user;
+		let { body } = req;
+		let { id } = body;
+		try {
+			let tresultimos = await _database.zunpc.repository.user.obtenerTresUltimosProd(id);
+			let listasimilares = [];
+			if(!tresultimos || tresultimos.length <= 0){
+				listasimilares = await _database.zunpc.repository.user.obtenerProductos();
+			}else{
+				let tp1 = tresultimos[0].tipoProd;
+				let tp2 = tresultimos[1].tipoProd;
+				let tp3 = tresultimos[2].tipoProd;
+				listasimilares = await _database.zunpc.repository.user.obtenerProductosSimilares(tp1,tp2,tp3);
+			}
+			return res.send({
+				code:200,
+				message:'ok.',
+				data: listasimilares,
+				servererror: '',
+			});
+		} catch (error) {
+			_useful.log('user.js').error('Error al obtener los productos',user.user,error);
+			return res.send({
+				code:500,
+				message:'Error al obtener los productos',
+				data: null,
+				servererror: '',
+			});
+		}
 	}
+
 
 };

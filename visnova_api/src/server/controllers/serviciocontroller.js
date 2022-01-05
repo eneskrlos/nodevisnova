@@ -53,10 +53,11 @@ exports.serviciocontroller = {
 	async adiconarServicio(req,res){
 		let nick = req.user.user;
 		let { body } = req;
-		let { nombre, descripcion, disponibilidad } = body;
+		let { nombre, descripcion, disponibilidad, en_promosion } = body;
 		let dis = disponibilidad.toString();
+		let promo = en_promosion.toString();
 		//verifico q estan todas los  atributos de servicio.
-		if ( !nombre || !descripcion || !dis  ) return res.json(new httpresponse(500,"Error al adicionar un servicio: Compruebe que los campos esten llenos",null,""));
+		if ( !nombre || !descripcion || !dis || !promo ) return res.json(new httpresponse(500,"Error al adicionar un servicio: Compruebe que los campos esten llenos",null,""));
 		try {
 			//Busco si existe un servicio en base datos 
 			let dbServi = await _database.zunpc.repository.serviciorepository.getByNombreServi(nombre);
@@ -76,9 +77,10 @@ exports.serviciocontroller = {
 	async editarServicio(req,res){
 		let nick = req.user.user;
 		let { body } = req;
-		let { idServicio, nombre, descripcion, disponibilidad } = body;
+		let { idServicio, nombre, descripcion, disponibilidad, en_promosion } = body;
 		let disp = disponibilidad.toString();
-		if ( !idServicio,!nombre || !descripcion || !disp  ) return res.json(new httpresponse(500,"Error al editar un servicio: Compruebe que los campos esten llenos",null,""));
+		let promo = en_promosion.toString();
+		if ( !idServicio,!nombre || !descripcion || !disp || !promo  ) return res.json(new httpresponse(500,"Error al editar un servicio: Compruebe que los campos esten llenos",null,""));
 		try {
 			let servi = await _database.zunpc.repository.serviciorepository.updateServi(body);
 			_useful.log('serviciocontroller.js').info('Se ha editado el servicio',nick,JSON.stringify(servi));

@@ -10,8 +10,8 @@ module.exports = class DataBase{
 
         let dbs = {
             zunpc: this.initConfigmysql(config.zunpc),
-            zunpms: this.initConfig(config.zunpms),
-            zunpos: this.initConfig(config.zunpos),
+            // zunpms: this.initConfig(config.zunpms),
+            // zunpos: this.initConfig(config.zunpos),
         };
 
         this.loadModels(rootpath,dbs);

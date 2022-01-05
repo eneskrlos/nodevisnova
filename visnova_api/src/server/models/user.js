@@ -30,6 +30,10 @@ module.exports = (sequelize, DataTypes) => {
 			type: DataTypes.INTEGER,
 			allowNull: true,
 		},
+		telefono:{
+			type: DataTypes.STRING(255),
+			allowNull: true,
+		},
 		show: {
 			type: DataTypes.BOOLEAN,
 			allowNull: false,

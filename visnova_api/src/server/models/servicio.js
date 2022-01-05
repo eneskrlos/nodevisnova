@@ -18,6 +18,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.BOOLEAN,
 			allowNull: false
         },
+		en_promosion:{
+            type: DataTypes.BOOLEAN,
+		 	allowNull: false
+        },
     }, {
         tableName: 'servicio'
     });

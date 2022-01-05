@@ -3,7 +3,7 @@ module.exports = {
 
 	listServ (buscar) {
 		return _database.zunpc.model.servicio.findAll({
-			attributes: ['idServicio', 'nombre', 'descripcion', 'disponibilidad'],
+			attributes: ['idServicio', 'nombre', 'descripcion', 'disponibilidad', 'en_promosion'],
 			where: {
 				[Op.or]: [
 					{
@@ -41,7 +41,8 @@ module.exports = {
 		return _database.zunpc.model.servicio.update({
 			nombre: servicio.nombre,
 			descripcion: servicio.descripcion,
-			disponibilidad: servicio.disponibilidad
+			disponibilidad: servicio.disponibilidad,
+			en_promosion: servicio.en_promosion
 		},{
 			where: {
 				idServicio: servicio.idServicio

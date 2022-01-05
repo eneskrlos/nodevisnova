@@ -50,7 +50,7 @@ exports.productocontroller = {
 	async adiconarProducto(req,res){
 		let nick = req.user.user;
 		let { body } = req;
-		let { descripcion, tipoProd, material, tipoMaterial, precio, activo, fotoprod1, fotoprod2, fotoprod3, cantDisponible } = body;
+		let { descripcion, tipoProd, material, tipoMaterial, precio, activo, fotoprod1, fotoprod2, fotoprod3, cantDisponible, en_promosion, tiempoelavoracion, en_oferta } = body;
 		//verifico q estan todas los  atributos de producto.
 		if ( tipoProd == "" || tipoProd == undefined || material == undefined
 		|| material == ""  || tipoMaterial == undefined || tipoMaterial == ""  ) 
@@ -69,7 +69,10 @@ exports.productocontroller = {
 				fotoprod1:fotoprod1,
 				fotoprod2: fotoprod2,
 				fotoprod3: fotoprod3,
-				cantDisponible: cantDisponible
+				cantDisponible: cantDisponible,
+				en_promosion: (en_promosion == undefined)?false:en_promosion, 
+				tiempoelavoracion: tiempoelavoracion, 
+				en_oferta: (en_oferta == undefined)?false:en_oferta
 			};
 			let newprod = await _database.zunpc.repository.productorepository.addProducto(insertarporducto);
 			_useful.log('productocontroller.js').info('Se ha creado un producto nuevo.', req.user.nick, JSON.stringify(newprod));
@@ -85,7 +88,7 @@ exports.productocontroller = {
 	async EditarProducto(req,res){
 		let nick = req.user.user;
 		let { body } = req;
-		let { idProd,descripcion, tipoProd, material, tipoMaterial, precio, activo, fotoprod1, fotoprod2, fotoprod3, cantDisponible} = body;
+		let { idProd,descripcion, tipoProd, material, tipoMaterial, precio, activo, fotoprod1, fotoprod2, fotoprod3, cantDisponible, en_promosion, tiempoelavoracion, en_oferta} = body;
 		
 		//let act = activo.toString();
 		if (idProd == undefined || descripcion == undefined || tipoProd == undefined || material == undefined || tipoMaterial == undefined 
@@ -108,7 +111,10 @@ exports.productocontroller = {
 				fotoprod1:fotoprod1,
 				fotoprod2: fotoprod2,
 				fotoprod3: fotoprod3,
-				cantDisponible: cantDisponible
+				cantDisponible: cantDisponible,
+				en_promosion: (en_promosion == undefined)?false:en_promosion, 
+				tiempoelavoracion: tiempoelavoracion, 
+				en_oferta: (en_oferta == undefined)?false:en_oferta
 			};
 			let produc = await _database.zunpc.repository.productorepository.updateProducto(updateporducto);
 			_useful.log('productocontroller.js').info('Se ha editado el producto',nick,JSON.stringify(produc));

@@ -3,7 +3,7 @@ module.exports = {
 
 	listCompra (buscar) {
 		return _database.zunpc.model.compra.findAll({
-			attributes: ['idCompra', 'nombre', 'descripcion', 'precio','disponible'],
+			attributes: ['idCompra', 'nombre', 'descripcion', 'precio','disponible', 'en_promosion'],
 			where: {
 				[Op.or]: [
 					{
@@ -42,7 +42,8 @@ module.exports = {
 			nombre: compra.nombre,
 			descripcion: compra.descripcion,
 			precio: compra.precio,
-			disponible: compra.disponible
+			disponible: compra.disponible,
+			en_promosion: compra.en_promosion
 		},{
 			where: {
 				idCompra: compra.idCompra

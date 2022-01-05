@@ -4,11 +4,11 @@ module.exports = {
 		//PASS: GetAdmin*ZUNPC
 		//{ id: 1, name: "GET (Grupo de la Electrónica para el Turismo)", user: "get", pass: 'a61d9bacfae0a434307a466ac06c012a3965b99c284e9ae8ac5bf427e2cf80cb', correo: 'get@dominio.cu', pconfirmado: true, roleId: 1, show: false, activate: true },
 		//PASS 12345
-		{ id: 1, name: "Administrador", user: "admin", pass: "e59e20e83d9fc5ae04458b622179e25b71d7986d8d92d6d2a298a6e91ac5e4ee", correo: 'admin@visnova.si', pconfirmado: true, roleId: 1, show: true, activate: true },
+		{ id: 1, name: "Administrador", user: "admin", pass: "e59e20e83d9fc5ae04458b622179e25b71d7986d8d92d6d2a298a6e91ac5e4ee", correo: 'admin@visnova.si', pconfirmado: true, roleId: 1, telefono:'77555132', show: true, activate: true },
 		//PASS 12345
-		{ id: 2, name: "Usuario1", user: "user1", pass: "e59e20e83d9fc5ae04458b622179e25b71d7986d8d92d6d2a298a6e91ac5e4ee", correo: 'usuario1@visnova.si', pconfirmado: true, roleId: 2,show: true, activate: true },
+		{ id: 2, name: "Usuario1", user: "user1", pass: "e59e20e83d9fc5ae04458b622179e25b71d7986d8d92d6d2a298a6e91ac5e4ee", correo: 'usuario1@visnova.si', pconfirmado: true, roleId: 2, telefono:'77555132', show: true, activate: true },
 		//PASS 12345
-		{ id: 3, name: "Invitado", user: "invitado", pass: "e59e20e83d9fc5ae04458b622179e25b71d7986d8d92d6d2a298a6e91ac5e4ee", correo: 'invitado@visnova.si', pconfirmado: true, roleId: 3, show: false, activate: true }
+		{ id: 3, name: "Invitado", user: "invitado", pass: "e59e20e83d9fc5ae04458b622179e25b71d7986d8d92d6d2a298a6e91ac5e4ee", correo: 'invitado@visnova.si', pconfirmado: true, roleId: 3, telefono:'77555132', show: false, activate: true }
 	],
 
 	async create () {

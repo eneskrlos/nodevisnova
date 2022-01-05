@@ -36,7 +36,8 @@ module.exports = {
         });
 		let sql = `
 		SELECT prod.idProd, prod.descripcion, tp.nombre as tipoProd, m.nombre as material, tm.nombre as tipoMaterial,
-		prod.precio, prod.activo, prod.fotoprod1, prod.fotoprod2, prod.fotoprod3, prod.cantDisponible
+		prod.precio, prod.activo, prod.fotoprod1, prod.fotoprod2, prod.fotoprod3, prod.cantDisponible, prod.en_promosion,
+		prod.tiempoelavoracion, prod.en_oferta
 		FROM producto prod LEFT JOIN tipprodmaterial tp on prod.tipoProd = tp.idPk 
 		LEFT JOIN tipprodmaterial m on prod.material = m.idPk 
 		LEFT JOIN tipprodmaterial tm on prod.tipoMaterial = tm.idPk 
@@ -63,7 +64,8 @@ module.exports = {
         });
 		let sql = `
 		SELECT prod.idProd, prod.descripcion, tp.nombre as tipoProd, m.nombre as material, tm.nombre as tipoMaterial,
-		prod.precio, prod.activo, prod.fotoprod1, prod.fotoprod2, prod.fotoprod3, prod.cantDisponible
+		prod.precio, prod.activo, prod.fotoprod1, prod.fotoprod2, prod.fotoprod3, prod.cantDisponible, prod.en_promosion,
+		prod.tiempoelavoracion, prod.en_oferta
 		FROM producto prod LEFT JOIN tipprodmaterial tp on prod.tipoProd = tp.idPk 
 		LEFT JOIN tipprodmaterial m on prod.material = m.idPk 
 		LEFT JOIN tipprodmaterial tm on prod.tipoMaterial = tm.idPk 
@@ -172,7 +174,10 @@ module.exports = {
 			fotoprod1: producto.fotoprod1,
 			fotoprod2: producto.fotoprod2,
 			fotoprod3: producto.fotoprod3,
-			cantDisponible: producto.cantDisponible
+			cantDisponible: producto.cantDisponible,
+			en_promosion: producto.en_promosion,
+			tiempoelavoracion: producto.tiempoelavoracion,
+			en_oferta: producto.en_oferta
 		},{
 			where: {
 				idProd: producto.idProd

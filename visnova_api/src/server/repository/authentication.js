@@ -118,5 +118,17 @@ module.exports = {
 				id_codigo: id_codigo
 			}
 		});
+	},
+	infoUser(user){
+		return _database.zunpc.model.user.findOne({
+			include: [
+				{
+					model: _database.zunpc.model.libretadireccion,
+				}
+			],
+			where: {
+				id:user.id
+			}
+		});
 	}
 };

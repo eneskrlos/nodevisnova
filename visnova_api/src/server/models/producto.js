@@ -46,6 +46,18 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
 			allowNull: false
         },
+        en_promosion:{
+            type: DataTypes.BOOLEAN,
+		 	allowNull: false
+        },
+        tiempoelavoracion:{
+            type: DataTypes.INTEGER,
+		 	allowNull: true
+        },
+        en_oferta:{
+            type: DataTypes.BOOLEAN,
+		 	allowNull: false
+        },
     }, {
         tableName: 'producto'
     });

@@ -37,8 +37,8 @@ module.exports = class Config{
         return this.config.zunNauta;
     }
 
-    get AAAEtecsa(){
-        return this.config.AAAEtecsa;
+    get mailerconfig(){
+        return this.config.mailerconfig;
     }
 
     get Log(){

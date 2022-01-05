@@ -12,12 +12,12 @@ class email {
 
 
     this.transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      port: 465,
+      host: _config.mailerconfig.host, //"smtp.gmail.com",
+      port: _config.mailerconfig.port , //465,
       secure: true, // true for 465, false for other ports
       auth: {
-        user: "erneskrlos@gmail.com", // generated ethereal user
-        pass: "pqztlvvcktwngzel ", // generated ethereal password
+        user:  _config.mailerconfig.correovisnova,//"erneskrlos@gmail.com", // generated ethereal user
+        pass:  _config.mailerconfig.pass,//"pqztlvvcktwngzel ", // generated ethereal password
       },
     });
 
@@ -27,7 +27,7 @@ class email {
 
   async enviarEmail (){
     await this.transporter.sendMail({
-      from: '"Active su cuenta 👻" <erneskrlos@gmail.com>', // sender address
+      from: '"Active su cuenta 👻" '+"<"+ _config.mailerconfig.correovisnova+">", // sender address
       to: this.correo.toString(), // list of receivers
       subject: "Active su cuenta ✔", // Subject line
       text: "Bienvenido", // plain text body
@@ -40,17 +40,31 @@ class email {
 
 
  async enviarEmailCodigo (codigo){
-  await this.transporter.sendMail({
-    from: '"Solicitud de cambio de contraseña 👻" <erneskrlos@gmail.com>', // sender address
-    to: this.correo.toString(), // list of receivers
-    subject: "Solicitud de cambio de contraseña ✔", // Subject line
-    text: "Bienvenido", // plain text body
-    html: `
-    <b>Se ha enviado el codigo de la cuenta : ${codigo} , clickee el siguiente <a href="${this.link}">link</a> para validar su cuenta. </b>
+    await this.transporter.sendMail({
+      from: '"Solicitud de cambio de contraseña 👻" '+"<"+ _config.mailerconfig.correovisnova+">", // sender address
+      to: this.correo.toString(), // list of receivers
+      subject: "Solicitud de cambio de contraseña ✔", // Subject line
+      text: "Bienvenido", // plain text body
+      html: `
+      <b>Se ha enviado el codigo de la cuenta : ${codigo} , clickee el siguiente <a href="${this.link}">link</a> para validar su cuenta. </b>
 
-    `, // html body
-  }); 
-}
+      `, // html body
+    }); 
+
+  }
+
+  async enviarCorreoContactenos(nombre,correo,texto){
+    await this.transporter.sendMail({
+      from: nombre.toString() + "<" +correo.toString()+ ">", // sender address
+      to: _config.mailerconfig.correovisnova.toString(), // list of receivers
+      subject: "Correo de Contactenos de visnova ✔", // Subject line
+      text: "Hola", // plain text body
+      html: `
+      <p>${texto}</p>
+      
+      `, // html body
+    });
+  }
 
 }
 
