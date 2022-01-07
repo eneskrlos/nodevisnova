@@ -141,4 +141,52 @@ module.exports = {
 			}
 		});
 	},
+	obtenerMaterialesbyNombre(nombre){
+		const sz = new sequelize({
+            host: _config.Database.zunpc.host,
+            port: _config.Database.zunpc.port,
+            database: _config.Database.zunpc.database,
+            username: _config.Database.zunpc.user,
+            password: _config.Database.zunpc.pass,
+            dialect: 'mysql',
+            logging: (_config.Mode === 'dev') ? console.log : false,
+            define: {
+                timestamps: false
+            }
+        });
+		let sql = `
+		SELECT mat.idPk as value, mat.nombre as label 
+		FROM tipprodmaterial tp INNER JOIN tipprodmaterial mat on tp.idPk = mat.idFk 
+		where tp.idFk = 0 and tp.nombre = '${nombre}'
+		`;
+		let options = {
+			type: QueryTypes.SELECT 
+		};
+		return sz.query(sql,options);
+	},
+	obtenerTipMaterialesbyNombre(nombre){
+		const sz = new sequelize({
+            host: _config.Database.zunpc.host,
+            port: _config.Database.zunpc.port,
+            database: _config.Database.zunpc.database,
+            username: _config.Database.zunpc.user,
+            password: _config.Database.zunpc.pass,
+            dialect: 'mysql',
+            logging: (_config.Mode === 'dev') ? console.log : false,
+            define: {
+                timestamps: false
+            }
+        });
+		let sql = `
+		SELECT tm.idPk as value, tm.nombre as label 
+		FROM tipprodmaterial tp 
+		INNER JOIN tipprodmaterial mat on tp.idPk = mat.idFk 
+		INNER JOIN tipprodmaterial tm on mat.idPk = tm.idFk
+		where mat.nombre = '${nombre}'
+		`;
+		let options = {
+			type: QueryTypes.SELECT 
+		};
+		return sz.query(sql,options);
+	}
 };

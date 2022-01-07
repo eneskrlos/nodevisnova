@@ -70,6 +70,18 @@
 		"method": "post",
 		"path": "TipProdMaterialcontroller:TipProdMaterialcontroller.getMateriales",
 		"permission": [1]
+	},
+	{
+		"url":"/api/getMaterialesByNombreTipoProducto",
+		"method": "post",
+		"path": "TipProdMaterialcontroller:TipProdMaterialcontroller.getMaterialesByNombreTipoProducto",
+		"permission": [1]
+	},
+	{
+		"url":"/api/getMaterialesByNombreMaterial",
+		"method": "post",
+		"path": "TipProdMaterialcontroller:TipProdMaterialcontroller.getMaterialesByNombreMaterial",
+		"permission": [1]
 	}
 
 ]

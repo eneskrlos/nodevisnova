@@ -55,7 +55,7 @@
 	},
 	{
 		"url": "/api/listaddressbyidUser",
-		"method": "post",
+		"method": "get",
 		"path": "user:User.listaddressbyidUser",
 		"permission": [1,2]
 	},

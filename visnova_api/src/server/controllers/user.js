@@ -272,7 +272,7 @@ exports.User = {
 		let { body } = req;
 		let { id } = body;
 		try {
-			let listdirecciones = await _database.zunpc.repository.user.listdirecciones(id);
+			let listdirecciones = await _database.zunpc.repository.user.listdirecciones(user.id);
 			if(!listdirecciones || listdirecciones.length <= 0){
 				_useful.log('user.js').error('Error al listar las direcciones',user.user,error);
 				return res.send({
@@ -302,9 +302,9 @@ exports.User = {
 	async addDireccion(req, res){
 		let user = req.user;
 		let { body } = req;
-		let { numero, direccion, municipio, provincia, userId } = body;
+		let { numero, direccion, municipio, provincia } = body;
 		try {
-			if(numero == undefined || direccion == undefined || municipio == undefined || provincia == undefined || userId == undefined){
+			if(numero == undefined || direccion == undefined || municipio == undefined || provincia == undefined ){
 				_useful.log('user.js').error('Error al adicionar direccion del usuario: Existen valores indefinidos.',user.user,'Verifique que los datos que esta enviando no esten undefined.');
 				return res.send({
 					code:500,
@@ -313,8 +313,14 @@ exports.User = {
 					servererror: '',
 				});
 			}
+			let datos = {};
+			datos.numero = numero;
+			datos.direccion = direccion;
+			datos.municipio = municipio;
+			datos.provincia = provincia;
+			datos.userId = user.id;
 
-			let adddir = await _database.zunpc.repository.user.addDireccionofUser(body);
+			let adddir = await _database.zunpc.repository.user.addDireccionofUser(datos);
 			if(!adddir){
 				_useful.log('user.js').error('Error al adicionar direccion del usuario.',user.user,);
 				return res.send({
@@ -345,9 +351,9 @@ exports.User = {
 	async editDireccion(req, res){
 		let user = req.user;
 		let { body } = req;
-		let {idLD, numero, direccion, municipio, provincia, userId } = body;
+		let {idLD, numero, direccion, municipio, provincia } = body;
 		try {
-			if(idLD == undefined || numero == undefined || direccion == undefined || municipio == undefined || provincia == undefined || userId == undefined){
+			if(idLD == undefined || numero == undefined || direccion == undefined || municipio == undefined || provincia == undefined ){
 				_useful.log('user.js').error('Error al editar direccion del usuario: Existen valores indefinidos.',user.user,'Verifique que los datos que esta enviando no esten undefined.');
 				return res.send({
 					code:500,
@@ -356,7 +362,14 @@ exports.User = {
 					servererror: '',
 				});
 			}
-			let editdir = await _database.zunpc.repository.user.editDireccionofUser(body);
+			let datos = {};
+			datos.idLD = idLD;
+			datos.numero = numero;
+			datos.direccion = direccion;
+			datos.municipio = municipio;
+			datos.provincia = provincia;
+			datos.userId = user.id;
+			let editdir = await _database.zunpc.repository.user.editDireccionofUser(datos);
 			if(!editdir){
 				_useful.log('user.js').error('Error al editar dirección del usuario.',user.user,);
 				return res.send({
@@ -367,7 +380,7 @@ exports.User = {
 				});
 			}
 			_useful.log('user.js').info('Se ha editado correctamente la dirección.', user.user, JSON.stringify(editdir));
-			let listdirecciones = await _database.zunpc.repository.user.listdirecciones(userId);
+			let listdirecciones = await _database.zunpc.repository.user.listdirecciones(user.id);
 			return res.send({
 				code:200,
 				message:'Se ha editado correctamente la dirección.',

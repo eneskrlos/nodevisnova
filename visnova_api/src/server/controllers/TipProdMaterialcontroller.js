@@ -414,7 +414,35 @@ exports.TipProdMaterialcontroller = {
 		} 
 		respuesta = tpname.nombre;
 		return new httpresponse(200,"ok",respuesta,"");
-	 }
+	 },
+
+	 async getMaterialesByNombreTipoProducto(req,res){
+		let nick = req.user.user;
+		let { body } = req;
+		let { nombre } = body;
+		if ( nombre == undefined ) return res.json(new httpresponse(500,"Ha ocurrido un error al obtener los materiales: parametro de entrada no definido",null,""));
+		try {
+			var listmateriales = await  _database.zunpc.repository.TipProdMaterialrepository.obtenerMaterialesbyNombre(nombre);
+			return res.json(new httpresponse(200,"Se ha listado los materiales correctamente",listmateriales,""));
+		} catch (error) {
+			_useful.log('TipProdMaterialcontroller.js').error('Ha ocurrido un error al obtener los materiales',nick,error);
+			return res.json(new httpresponse(500,"Ha ocurrido un error al obtener los materiales.",null,""));
+		}
+	},
+	async getMaterialesByNombreMaterial(req,res){
+		let nick = req.user.user;
+		let { body } = req;
+		let { nombre } = body;
+		if ( nombre == undefined ) return res.json(new httpresponse(500,"Ha ocurrido un error al obtener los tipos de materiales: parametro de entrada no definido",null,""));
+		
+		try {
+			var listmateriales = await  _database.zunpc.repository.TipProdMaterialrepository.obtenerTipMaterialesbyNombre(nombre);
+			return res.json(new httpresponse(200,"Se ha listado los tipos de  materiales correctamente",listmateriales,""));
+		} catch (error) {
+			_useful.log('TipProdMaterialcontroller.js').error('Ha ocurrido un error al obtener los tipos de materiales',nick,error);
+			return res.json(new httpresponse(500,"Ha ocurrido un error al obtener los tipos de materiales.",null,""));
+		}
+	},
 
 	
 };

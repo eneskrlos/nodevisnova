@@ -54,16 +54,19 @@ exports.serviciocontroller = {
 		let nick = req.user.user;
 		let { body } = req;
 		let { nombre, descripcion, disponibilidad, en_promosion } = body;
-		let dis = disponibilidad.toString();
-		let promo = en_promosion.toString();
+		
 		//verifico q estan todas los  atributos de servicio.
-		if ( !nombre || !descripcion || !dis || !promo ) return res.json(new httpresponse(500,"Error al adicionar un servicio: Compruebe que los campos esten llenos",null,""));
+		if ( !nombre || nombre == undefined || !descripcion || descripcion == undefined  ) return res.json(new httpresponse(500,"Error al adicionar un servicio: Compruebe que los campos esten llenos",null,""));
 		try {
 			//Busco si existe un servicio en base datos 
 			let dbServi = await _database.zunpc.repository.serviciorepository.getByNombreServi(nombre);
 			if ( dbServi && dbServi.nombre === nombre ) return res.json(new httpresponse(500,"Error al adicionar un servicio: El servicio ya existe.",null,""));
-
-			let newserv = await _database.zunpc.repository.serviciorepository.addServicio(body);
+			let serv = {};
+			serv.nombre = nombre;
+			serv.descripcion = descripcion;
+			serv.disponibilidad = (disponibilidad == undefined)? false : disponibilidad;
+			serv.en_promosion = (en_promosion == undefined)? false : en_promosion;
+			let newserv = await _database.zunpc.repository.serviciorepository.addServicio(serv);
 			_useful.log('serviciocontroller.js').info('Se ha creado un servicio nuevo.', req.user.nick, JSON.stringify(newserv));
 			var listservi = await _database.zunpc.repository.serviciorepository.listServ("");
 			return res.json(new httpresponse(200,"ok",listservi,""));
@@ -78,11 +81,16 @@ exports.serviciocontroller = {
 		let nick = req.user.user;
 		let { body } = req;
 		let { idServicio, nombre, descripcion, disponibilidad, en_promosion } = body;
-		let disp = disponibilidad.toString();
-		let promo = en_promosion.toString();
-		if ( !idServicio,!nombre || !descripcion || !disp || !promo  ) return res.json(new httpresponse(500,"Error al editar un servicio: Compruebe que los campos esten llenos",null,""));
+		
+		if ( !idServicio || idServicio == undefined || !nombre || nombre == undefined || !descripcion || descripcion == undefined   ) return res.json(new httpresponse(500,"Error al editar un servicio: Compruebe que los campos esten llenos",null,""));
 		try {
-			let servi = await _database.zunpc.repository.serviciorepository.updateServi(body);
+			let serv = {};
+			serv.idServicio = idServicio;
+			serv.nombre = nombre;
+			serv.descripcion = descripcion;
+			serv.disponibilidad = (disponibilidad == undefined)? false : disponibilidad;
+			serv.en_promosion = (en_promosion == undefined)? false : en_promosion;
+			let servi = await _database.zunpc.repository.serviciorepository.updateServi(serv);
 			_useful.log('serviciocontroller.js').info('Se ha editado el servicio',nick,JSON.stringify(servi));
 			var listservi = await _database.zunpc.repository.serviciorepository.listServ("");
 			return res.json(new httpresponse(200,"Se ha editado correctamente",listservi,""));
