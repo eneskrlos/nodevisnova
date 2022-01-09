@@ -200,5 +200,62 @@ module.exports = {
 				idPk
 			}
 		});
-	}
+	},
+	obtenerProductobyNombreTipMaterial(nombre){
+		const sz = new sequelize({
+            host: _config.Database.zunpc.host,
+            port: _config.Database.zunpc.port,
+            database: _config.Database.zunpc.database,
+            username: _config.Database.zunpc.user,
+            password: _config.Database.zunpc.pass,
+            dialect: 'mysql',
+            logging: (_config.Mode === 'dev') ? console.log : false,
+            define: {
+                timestamps: false
+            }
+        });
+		let sql = `
+		SELECT prod.idProd, prod.descripcion, tp.nombre as tipoProd, m.nombre as material, tm.nombre as tipoMaterial,
+		prod.precio, prod.activo, prod.fotoprod1, prod.fotoprod2, prod.fotoprod3, prod.cantDisponible, prod.en_promosion,
+		prod.tiempoelavoracion, prod.en_oferta
+		FROM producto prod LEFT JOIN tipprodmaterial tp on prod.tipoProd = tp.idPk 
+		LEFT JOIN tipprodmaterial m on prod.material = m.idPk 
+		LEFT JOIN tipprodmaterial tm on prod.tipoMaterial = tm.idPk 
+		where tm.nombre = '${nombre}'
+		`;
+		let options = {
+			type: QueryTypes.SELECT 
+		};
+		return sz.query(sql,options);
+	},
+	productosMasVendidios(nombre){
+		const sz = new sequelize({
+            host: _config.Database.zunpc.host,
+            port: _config.Database.zunpc.port,
+            database: _config.Database.zunpc.database,
+            username: _config.Database.zunpc.user,
+            password: _config.Database.zunpc.pass,
+            dialect: 'mysql',
+            logging: (_config.Mode === 'dev') ? console.log : false,
+            define: {
+                timestamps: false
+            }
+        });
+		let sql = `
+		select  p.idProd, p.descripcion,tp.nombre as tipoProd, m.nombre as material, tm.nombre as tipoMaterial, 
+		p.precio , COUNT(v.idProd) as cantidad
+		from venta v INNER JOIN producto p on v.idProd = p.idProd
+		LEFT JOIN tipprodmaterial tp on p.tipoProd = tp.idPk 
+		LEFT JOIN tipprodmaterial m on p.material = m.idPk 
+		LEFT JOIN tipprodmaterial tm on p.tipoMaterial = tm.idPk
+		where tp.nombre like '%${nombre}%' or m.nombre like '%${nombre}%' or tm.nombre like '%${nombre}%'
+		GROUP BY v.idProd 
+		ORDER BY cantidad DESC
+		`;
+		let options = {
+			type: QueryTypes.SELECT 
+		};
+		return sz.query(sql,options);
+	},
+	
 };

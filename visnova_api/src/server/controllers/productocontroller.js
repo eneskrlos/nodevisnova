@@ -165,7 +165,24 @@ exports.productocontroller = {
 			_useful.log('productocontroller.js').error('Ha ocurrido un error al obtener los datos',nick,error);
 			return res.json(new httpresponse(500,"Ha ocurrido un error al obtener los datos.",null,""));
 		}
-	}
+	},
+
+	async GetProductoByNombreTpMaterial(req,res){
+		let nick = req.user.user;
+		let { body } = req;
+		let { nombre } = body;
+		if ( nombre == undefined ) return res.json(new httpresponse(500,"Ha ocurrido un error al obtener los productos: parametro de entrada no definido",null,""));
+		
+		try {
+			var listproducto = await  _database.zunpc.repository.productorepository.productosMasVendidios(nombre);
+			return res.json(new httpresponse(200,"Se ha listado los productos correctamente",listproducto,""));
+		} catch (error) {
+			_useful.log('productocontroller.js').error('Ha ocurrido un error al obtener los productos',nick,error);
+			return res.json(new httpresponse(500,"Ha ocurrido un error al obtener los productos.",null,""));
+		}
+	},
+	
+
 
 	
 };

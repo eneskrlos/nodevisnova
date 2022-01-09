@@ -81,8 +81,6 @@ exports.compracontroller = {
 		let nick = req.user.user;
 		let { body } = req;
 		let { idCompra, nombre, descripcion,precio, disponible, en_promosion } = body;
-		let disp = disponible.toString();
-		let promo = en_promosion.toString();
 		if ( !idCompra || idCompra == undefined || !nombre || nombre == undefined || !descripcion || descripcion == undefined || !precio || precio == undefined   ) return res.json(new httpresponse(500,"Error al editar la compra: Compruebe que los campos esten llenos",null,""));
 		try {
 			let ecompra = {};
@@ -93,7 +91,7 @@ exports.compracontroller = {
 			ecompra.disponible = (disponible == undefined)? false: disponible;
 			ecompra.en_promosion = (en_promosion == undefined)? false: en_promosion;
 			let compra = await _database.zunpc.repository.comprarepository.updateCompra(ecompra);
-			_useful.log('compracontroller.js').info('Se ha editado el servicio',nick,JSON.stringify(compra));
+			_useful.log('compracontroller.js').info('Se ha editado la compra',nick,JSON.stringify(compra));
 			var listcompra = await _database.zunpc.repository.comprarepository.listCompra("");
 			return res.json(new httpresponse(200,"Se ha editado correctamente",listcompra,""));
 		} catch (error) {

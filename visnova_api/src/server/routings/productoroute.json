@@ -34,6 +34,12 @@
 		"method": "post",
 		"path": "productocontroller:productocontroller.getDatosTipoProductoMaterialbyId",
 		"permission": [1]
+	},
+	{
+		"url": "/api/GetProductoByTpmaterial",
+		"method": "post",
+		"path": "productocontroller:productocontroller.GetProductoByNombreTpMaterial",
+		"permission": [1,2]
 	}
 	
 ]

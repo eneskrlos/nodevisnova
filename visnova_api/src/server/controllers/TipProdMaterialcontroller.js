@@ -443,6 +443,5 @@ exports.TipProdMaterialcontroller = {
 			return res.json(new httpresponse(500,"Ha ocurrido un error al obtener los tipos de materiales.",null,""));
 		}
 	},
-
 	
 };
