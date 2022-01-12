@@ -270,11 +270,10 @@ exports.User = {
 	async listaddressbyidUser(req, res){
 		let user = req.user;
 		let { body } = req;
-		let { id } = body;
 		try {
 			let listdirecciones = await _database.zunpc.repository.user.listdirecciones(user.id);
 			if(!listdirecciones || listdirecciones.length <= 0){
-				_useful.log('user.js').error('Error al listar las direcciones',user.user,error);
+				_useful.log('user.js').error('Error al listar las direcciones',user.user,'No existe dirección');
 				return res.send({
 					code:200,
 					message:'No existe dirección.',
