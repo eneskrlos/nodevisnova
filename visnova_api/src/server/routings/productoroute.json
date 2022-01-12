@@ -36,7 +36,7 @@
 		"permission": [1]
 	},
 	{
-		"url": "/api/GetProductoByTpmaterial",
+		"url": "/api/getProductMasVendidosByName",
 		"method": "post",
 		"path": "productocontroller:productocontroller.GetProductoByNombreTpMaterial",
 		"permission": [1,2]
