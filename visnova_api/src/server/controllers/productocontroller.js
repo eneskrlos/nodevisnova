@@ -175,6 +175,9 @@ exports.productocontroller = {
 		
 		try {
 			var listproducto = await  _database.zunpc.repository.productorepository.productosMasVendidios(nombre);
+			if(listproducto.length == 0){
+				listproducto = await  _database.zunpc.repository.productorepository.todosProductos();
+			}
 			return res.json(new httpresponse(200,"Se ha listado los productos correctamente",listproducto,""));
 		} catch (error) {
 			_useful.log('productocontroller.js').error('Ha ocurrido un error al obtener los productos',nick,error);

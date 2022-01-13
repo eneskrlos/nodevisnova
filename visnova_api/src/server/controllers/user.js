@@ -301,9 +301,9 @@ exports.User = {
 	async addDireccion(req, res){
 		let user = req.user;
 		let { body } = req;
-		let { numero, direccion, municipio, provincia } = body;
+		let { direccion, municipio, provincia } = body;
 		try {
-			if(numero == undefined || direccion == undefined || municipio == undefined || provincia == undefined ){
+			if( direccion == undefined || municipio == undefined || provincia == undefined ){
 				_useful.log('user.js').error('Error al adicionar direccion del usuario: Existen valores indefinidos.',user.user,'Verifique que los datos que esta enviando no esten undefined.');
 				return res.send({
 					code:500,
@@ -313,7 +313,6 @@ exports.User = {
 				});
 			}
 			let datos = {};
-			datos.numero = numero;
 			datos.direccion = direccion;
 			datos.municipio = municipio;
 			datos.provincia = provincia;
@@ -350,9 +349,9 @@ exports.User = {
 	async editDireccion(req, res){
 		let user = req.user;
 		let { body } = req;
-		let {idLD, numero, direccion, municipio, provincia } = body;
+		let {idLD, direccion, municipio, provincia } = body;
 		try {
-			if(idLD == undefined || numero == undefined || direccion == undefined || municipio == undefined || provincia == undefined ){
+			if(idLD == undefined || direccion == undefined || municipio == undefined || provincia == undefined ){
 				_useful.log('user.js').error('Error al editar direccion del usuario: Existen valores indefinidos.',user.user,'Verifique que los datos que esta enviando no esten undefined.');
 				return res.send({
 					code:500,
@@ -363,7 +362,6 @@ exports.User = {
 			}
 			let datos = {};
 			datos.idLD = idLD;
-			datos.numero = numero;
 			datos.direccion = direccion;
 			datos.municipio = municipio;
 			datos.provincia = provincia;

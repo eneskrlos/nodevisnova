@@ -243,7 +243,7 @@ module.exports = {
         });
 		let sql = `
 		select  p.idProd, p.descripcion,tp.nombre as tipoProd, m.nombre as material, tm.nombre as tipoMaterial, 
-		p.precio , COUNT(v.idProd) as cantidad
+		p.precio , p.fotoprod1, p.fotoprod2, p.fotoprod3, p.cantDisponible, p.en_oferta, p.en_promosion, COUNT(v.idProd) as cantidad
 		from venta v INNER JOIN producto p on v.idProd = p.idProd
 		LEFT JOIN tipprodmaterial tp on p.tipoProd = tp.idPk 
 		LEFT JOIN tipprodmaterial m on p.material = m.idPk 
@@ -257,5 +257,34 @@ module.exports = {
 		};
 		return sz.query(sql,options);
 	},
+	todosProductos(){
+		const sz = new sequelize({
+            host: _config.Database.zunpc.host,
+            port: _config.Database.zunpc.port,
+            database: _config.Database.zunpc.database,
+            username: _config.Database.zunpc.user,
+            password: _config.Database.zunpc.pass,
+            dialect: 'mysql',
+            logging: (_config.Mode === 'dev') ? console.log : false,
+            define: {
+                timestamps: false
+            }
+        });
+		let sql = `
+		select  p.idProd, p.descripcion,tp.nombre as tipoProd, 
+		m.nombre as material, tm.nombre as tipoMaterial, p.precio, p.fotoprod1, 
+		p.fotoprod2, p.fotoprod3, p.cantDisponible, p.en_oferta, p.en_promosion 
+			from  producto p 
+			LEFT JOIN tipprodmaterial tp on p.tipoProd = tp.idPk 
+			LEFT JOIN tipprodmaterial m on p.material = m.idPk 
+			LEFT JOIN tipprodmaterial tm on p.tipoMaterial = tm.idPk
+		where p.activo = 1 
+		ORDER BY tipoProd 
+		`;
+		let options = {
+			type: QueryTypes.SELECT 
+		};
+		return sz.query(sql,options);
+	}
 	
 };

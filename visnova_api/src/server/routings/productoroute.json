@@ -39,7 +39,8 @@
 		"url": "/api/getProductMasVendidosByName",
 		"method": "post",
 		"path": "productocontroller:productocontroller.GetProductoByNombreTpMaterial",
-		"permission": [1,2]
+		"permission": []
 	}
+	
 	
 ]
