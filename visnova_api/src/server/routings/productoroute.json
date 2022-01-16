@@ -3,7 +3,7 @@
 		"url": "/api/GetProductos",
 		"method": "post",
 		"path": "productocontroller:productocontroller.GetProductos",
-		"permission": [1]
+		"permission": []
 	},
 	{
 		"url": "/api/obtenerProducto",
@@ -41,6 +41,4 @@
 		"path": "productocontroller:productocontroller.GetProductoByNombreTpMaterial",
 		"permission": []
 	}
-	
-	
 ]

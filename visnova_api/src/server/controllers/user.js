@@ -198,30 +198,104 @@ exports.User = {
 	},
 
 	async edit (req, res) {
+		let user = req.user;
 		let { body } = req;
-		let { id, name, user, roleId, entitySelect } = body;
-		if ( !id || !name || !user || !roleId ) return res.sendStatus(400);
+		let { updateUser } = body;
+		if ( !updateUser || updateUser.length == 0 ){
+			_useful.log('userController/edit').error('No se pudo editar el usuario',user,'');
+			return res.sendStatus(400);
+		} 
 
 		try{
-			let dbUser = await _database.zunpc.repository.user.getByUser(user);
-			_useful.log('user.js').info('Listó un usuario',req.user.nick,JSON.stringify(dbUser));
-
-			if ( dbUser && dbUser.user === user && dbUser.id !== id ) return res.sendStatus(400);
-
-			let newUser = await _database.zunpc.repository.user.update(body);
-			_useful.log('user.js').info('Editó un usuario',req.user.nick,JSON.stringify(newUser));
-
-			await _database.zunpc.repository.user_entity.deleteByUser(id);
-			_useful.log('role.js').info('se eliminó las entidades del usuario', req.user.nick, JSON.stringify(newUser));
-
-			await _database.zunpc.repository.user_entity.createByUser(id, entitySelect);
-			_useful.log('role.js').info('Se asignó las entidades al usuario', req.user.nick, JSON.stringify(newUser));
-
-			return res.send("OK");
+			if(user.id == undefined || user.id == 0) {
+				return res.send({
+					code:500,
+					message:'No se pudo editar el usuario: Existen campos undefinidos. ',
+					data: listuser,
+					servererror: 'Identificador de usuario no esta definido',
+				});
+			}
+			let usuario = await  _database.zunpc.repository.user.getById(user.id);
+			let userget = {
+				id: 0, name: '', user: '', pass: '', correo: '', pconfirmado: false, 
+				telefono: '', roleId: '', show: '', activate: ''				
+			};
+			userget.id = usuario.id;
+			if(updateUser.name != undefined ){
+				if(updateUser.name == '' ){
+					return res.send({
+						code:500,
+						message:'No se pudo editar el usuario: Nombre no puede estar vacio. ',
+						data: null,
+						servererror: '',
+					});
+				}
+				userget.name = updateUser.name ;
+			} else{
+				userget.name = usuario.name ;
+			}
+			if(updateUser.user != undefined ){
+				if(updateUser.user == '' ){
+					return res.send({
+						code:500,
+						message:'No se pudo editar el usuario: Nombre usuario no puede estar vacio.',
+						data: null,
+						servererror: '',
+					});
+				}
+				userget.user = updateUser.user;
+			} else{
+				userget.user = usuario.user;
+			}
+			userget.pass = usuario.pass;
+			userget.pconfirmado = usuario.pconfirmado;
+			if(updateUser.correo != undefined ){
+				if(updateUser.correo == '' ){
+					return res.send({
+						code:500,
+						message:'No se pudo editar el usuario: El correo no puede estar vacio.',
+						data: null,
+						servererror: '',
+					});
+				}
+				userget.correo = updateUser.correo;
+			} else{
+				userget.correo = usuario.correo ;
+			}
+			if(updateUser.telefono != undefined ){
+				if(updateUser.telefono == '' ){
+					return res.send({
+						code:500,
+						message:'No se pudo editar el usuario: El telefono no puede estar vacio.',
+						data: null,
+						servererror: '',
+					});
+				}
+				userget.telefono = updateUser.telefono;
+			}
+			else{
+				userget.telefono = usuario.telefono ;
+			}
+			userget.roleId = usuario.roleId;
+			userget.show = usuario.show;
+			userget.activate = usuario.activate;
+			let salvado  = await _database.zunpc.repository.user.salvarUsuario(userget);
+			_useful.log('user.js').info('Se ha editado el usuario: ' + updateUser.name ,user,JSON.stringify(salvado));
+			return res.send({
+				code:200,
+				message:'Se ha editado el usuario correctamente',
+				data: null,
+				servererror: '',
+			});
 		}
 		catch (error) {
-			_useful.log('user.js').error('No se pudo editar el usuario',req.user.nick,error);
-			return res.sendStatus(500);
+			_useful.log('user.js').error('No se pudo editar el usuario',user,error);
+			return res.send({
+				code:500,
+				message:'No se ha editado el usuario correctamente',
+				data: null,
+				servererror: '',
+			});
 		}
 	},
 

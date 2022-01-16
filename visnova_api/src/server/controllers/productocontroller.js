@@ -29,7 +29,6 @@ exports.productocontroller = {
 			_useful.log('productocontroller.js').error('No se pudo listar los productos',ident,error);
 			return res.json(new httpresponse(500,"No se ha podido listar los productos",null,""));
 		} 
-		
 	},
 	obtenerProducto(req,res){
 		const id = req.body.idProd;
@@ -176,7 +175,7 @@ exports.productocontroller = {
 		try {
 			var listproducto = await  _database.zunpc.repository.productorepository.productosMasVendidios(nombre);
 			if(listproducto.length == 0){
-				listproducto = await  _database.zunpc.repository.productorepository.todosProductos();
+				listproducto = await  _database.zunpc.repository.productorepository.todosProductos(nombre);
 			}
 			return res.json(new httpresponse(200,"Se ha listado los productos correctamente",listproducto,""));
 		} catch (error) {

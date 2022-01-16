@@ -137,15 +137,20 @@ module.exports = {
 			}
 		});
 	},
-	salvarUsuario(user){
+	salvarUsuario(userget){
 		return _database.zunpc.model.user.update({
-			name: user.name,
-			user: user.user,
-			roleId: user.roleId,
-			activate: user.activate
+			name: userget.name,
+			user: userget.user,
+			pass: userget.pass,
+			correo: userget.correo,
+			pconfirmado: userget.pconfirmado,
+			telefono: userget.telefono,
+			roleId: userget.roleId,
+			show: userget.show,
+			activate: userget.activate
 		},{
 			where: {
-				id: user.id
+				id: userget.id
 			}
 		});
 	},

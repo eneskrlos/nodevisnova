@@ -42,10 +42,10 @@
 		"permission": [1]
 	},
 	{
-		"url": "/api/user",
-		"method": "put",
+		"url": "/api/editUser",
+		"method": "post",
 		"path": "user:User.edit",
-		"permission": [1]
+		"permission": [1,2]
 	},
 	{
 		"url": "/api/user/:id",

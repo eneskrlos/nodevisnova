@@ -257,7 +257,7 @@ module.exports = {
 		};
 		return sz.query(sql,options);
 	},
-	todosProductos(){
+	todosProductos(nombre){
 		const sz = new sequelize({
             host: _config.Database.zunpc.host,
             port: _config.Database.zunpc.port,
@@ -278,7 +278,7 @@ module.exports = {
 			LEFT JOIN tipprodmaterial tp on p.tipoProd = tp.idPk 
 			LEFT JOIN tipprodmaterial m on p.material = m.idPk 
 			LEFT JOIN tipprodmaterial tm on p.tipoMaterial = tm.idPk
-		where p.activo = 1 
+		where p.activo = 1 and tp.nombre like '%${nombre}%' or m.nombre like '%${nombre}%' or tm.nombre like '%${nombre}%'
 		ORDER BY tipoProd 
 		`;
 		let options = {
