@@ -237,6 +237,48 @@ module.exports = {
 				]
 			}
 		});
-	}
+	},
 
+	obtenerTodosFavoritos(id){
+		const sz = new sequelize({
+            host: _config.Database.zunpc.host,
+            port: _config.Database.zunpc.port,
+            database: _config.Database.zunpc.database,
+            username: _config.Database.zunpc.user,
+            password: _config.Database.zunpc.pass,
+            dialect: 'mysql',
+            logging: (_config.Mode === 'dev') ? console.log : false,
+            define: {
+                timestamps: false
+            }
+        });
+		let sql = `
+		SELECT prod.idProd, prod.descripcion, tp.nombre as tipoProd, m.nombre as material, tm.nombre as tipoMaterial,
+		prod.precio, prod.activo, prod.fotoprod1, prod.fotoprod2, prod.fotoprod3, prod.cantDisponible, prod.en_promosion,
+		prod.tiempoelavoracion, prod.en_oferta
+		FROM producto prod 
+		LEFT JOIN tipprodmaterial tp on prod.tipoProd = tp.idPk 
+		LEFT JOIN tipprodmaterial m on prod.material = m.idPk 
+		LEFT JOIN tipprodmaterial tm on prod.tipoMaterial = tm.idPk 
+		INNER JOIN favorito f on prod.idProd = f.prodId 
+		INNER JOIN user u on f.userId = u.id
+		where u.id = ${id}  	 
+		`;
+		let options = {
+			type: QueryTypes.SELECT 
+		};
+		return sz.query(sql,options);
+	},
+
+	adicionarFavoritos(favorito){
+		return _database.zunpc.model.favorito.create(favorito);
+	},
+
+	eliminarFavorito(idFavor){
+		return _database.zunpc.model.favorito.destroy({
+			where: {
+				idFavor
+			}
+		});
+	}
 };

@@ -82,5 +82,23 @@
 		"method": "post",
 		"path": "user:User.getSimilares",
 		"permission": [1,2]
+	},
+	{
+		"url": "/api/getAllFavorites",
+		"method": "get",
+		"path": "user:User.getAllFavorites",
+		"permission": [1,2]
+	},
+	{
+		"url": "/api/addFavorite",
+		"method": "post",
+		"path": "user:User.addFavorite",
+		"permission": [1,2]
+	},
+	{
+		"url": "/api/deleteFavorite/:idFavor",
+		"method": "delete",
+		"path": "user:User.deleteFavorite",
+		"permission": [1,2]
 	}
 ]

@@ -14,9 +14,6 @@ module.exports = {
 				foreignKey: "permissionId"
 			});
 
-			
-			
-
 			// /**Relation between user and role*/
 			_database.zunpc.model.role.hasMany(_database.zunpc.model.user);
 			_database.zunpc.model.user.belongsTo(_database.zunpc.model.role);
@@ -25,7 +22,17 @@ module.exports = {
 			_database.zunpc.model.user.hasMany(_database.zunpc.model.libretadireccion);
 			_database.zunpc.model.libretadireccion.belongsTo(_database.zunpc.model.user);
 
-			
+			/**Relation between user,favorito and productos*/
+			_database.zunpc.model.user.belongsToMany(_database.zunpc.model.producto,{
+				as: "productos",
+				through: _database.zunpc.model.favorito,
+				foreignKey: "userId"
+			});
+			_database.zunpc.model.producto.belongsToMany(_database.zunpc.model.user,{
+				as: "users",
+				through: _database.zunpc.model.favorito,
+				foreignKey: "prodId"
+			});
 		}
 		catch (error) {
 			console.log('\x1b[31m[ERROR]\x1b[0m - %s', 'Don\'t start initConfigurations from DataBase properly. - ' + error.stack);
@@ -39,21 +46,9 @@ module.exports = {
 		let user = require('../../../dev/user');
 		let libretadireccion = require('../../../dev/libretadireccion');
 		let estado = require('../../../dev/estado');
-		/* let file = require('../../../dev/file');
-		let category = require('../../../dev/category');
-		let event = require('../../../dev/event');
-		let news = require('../../../dev/news');
-		let service = require('../../../dev/service');
-		let menu = require('../../../dev/menu');
-		let feedback = require('../../../dev/feedback');
-		let parameter = require('../../../dev/parameter');
-		let portal = require('../../../dev/portal');
-		let translation = require('../../../dev/translation');
-		let notification = require('../../../dev/notification');
-		let money = require('../../../dev/money');
-		let restorant = require('../../../dev/restorant');
-		let range = require('../../../dev/range');
-		let entity = require('../../../dev/entity'); */
+		let tipprodmaterial = require('../../../dev/tipprodmaterial');
+		let producto = require('../../../dev/producto');
+		let venta = require('../../../dev/venta');
 
 		/**Permissions*/
 		await permission.create();
@@ -76,44 +71,16 @@ module.exports = {
 		/**Estado*/
 		await estado.create();
 
-		// /**Categories*/
-		// await category.create();
+		/**tipprodmaterial*/
+		await tipprodmaterial.create();
 
-		// /**Event*/
-		// await event.create();
+		/**producto*/
+		await producto.create();
 
-		// /**News*/
-		// await news.create();
+		/**venta*/
+		await venta.create();
 
-		// /**Service*/
-		// await  service.create();
-
-		// /**Menu*/
-		// //await menu.create();
-
-		// /**FeedBack*/
-		// await feedback.create();
-
-		// /**Parameter*/
-		// await parameter.create();
-
-		// /**Portal*/
-		// await portal.create();
-
-		// /**Translations*/
-		// await translation.create();
-
-		// /**Notifications*/
-		// await notification.create();
-
-		// /**Money*/
-		// await money.create();
-
-		// /**Restorant*/
-		// await restorant.create();
-
-		// /**Range*/
-		// await range.create();
+		
 
 	}
 };

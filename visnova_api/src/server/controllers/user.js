@@ -198,16 +198,21 @@ exports.User = {
 	},
 
 	async edit (req, res) {
-		let user = req.user;
+		let datauser = req.user;
 		let { body } = req;
 		let { updateUser } = body;
 		if ( !updateUser || updateUser.length == 0 ){
-			_useful.log('userController/edit').error('No se pudo editar el usuario',user,'');
-			return res.sendStatus(400);
+			_useful.log('userController/edit').error('No se pudo editar el usuario',user,'El objeto pasado por parametro esta vacio');
+			return res.send({
+				code:500,
+				message:'No se pudo editar el usuario. Objeto indefinido o vacio.',
+				data: null,
+				servererror: 'Objeto indefinido o vacio.',
+			});;
 		} 
-
 		try{
-			if(user.id == undefined || user.id == 0) {
+			if(datauser.id == undefined || datauser.id == 0) {
+				_useful.log('user.js').error('No se pudo editar el usuario',datauser.user,'Identificador de usuario no esta definido');
 				return res.send({
 					code:500,
 					message:'No se pudo editar el usuario: Existen campos undefinidos. ',
@@ -215,7 +220,7 @@ exports.User = {
 					servererror: 'Identificador de usuario no esta definido',
 				});
 			}
-			let usuario = await  _database.zunpc.repository.user.getById(user.id);
+			let usuario = await  _database.zunpc.repository.user.getById(datauser.id);
 			let userget = {
 				id: 0, name: '', user: '', pass: '', correo: '', pconfirmado: false, 
 				telefono: '', roleId: '', show: '', activate: ''				
@@ -280,16 +285,17 @@ exports.User = {
 			userget.show = usuario.show;
 			userget.activate = usuario.activate;
 			let salvado  = await _database.zunpc.repository.user.salvarUsuario(userget);
-			_useful.log('user.js').info('Se ha editado el usuario: ' + updateUser.name ,user,JSON.stringify(salvado));
+			_useful.log('user.js').info('Se ha editado el usuario: ' + updateUser.name ,datauser.user,JSON.stringify(userget));
+			let usuarioeditado = await  _database.zunpc.repository.user.getById(userget.id);
 			return res.send({
 				code:200,
 				message:'Se ha editado el usuario correctamente',
-				data: null,
+				data: usuarioeditado,
 				servererror: '',
 			});
 		}
 		catch (error) {
-			_useful.log('user.js').error('No se pudo editar el usuario',user,error);
+			_useful.log('user.js').error('No se pudo editar el usuario',datauser.user,error);
 			return res.send({
 				code:500,
 				message:'No se ha editado el usuario correctamente',
@@ -402,7 +408,7 @@ exports.User = {
 					servererror: '',
 				});
 			}
-			_useful.log('user.js').info('Se ha adicionado correctamente la dirección.', req.user.nick, JSON.stringify(adddir));
+			_useful.log('user.js').info('Se ha adicionado correctamente la dirección.', req.user.user, JSON.stringify(adddir));
 			let listdirecciones = await _database.zunpc.repository.user.listdirecciones(adddir.dataValues.userId);
 			return res.send({
 				code:200,
@@ -545,6 +551,114 @@ exports.User = {
 			return res.send({
 				code:500,
 				message:'Error al obtener los productos',
+				data: null,
+				servererror: '',
+			});
+		}
+	},
+
+	async getAllFavorites(req, res){
+		let datauser = req.user;
+		let { body } = req;
+		try {
+			let listfavor = await _database.zunpc.repository.user.obtenerTodosFavoritos(datauser.id);
+			return res.send({
+				code:200,
+				message:`Se ha listado los favoritos del usuario:${datauser.user}`,
+				data: listfavor,
+				servererror: '',
+			});
+		} catch (error) {
+			_useful.log('user.js').error(`Error al listar los favoritos del usuario ${datauser.user}.`,datauser.user,error);
+			return res.send({
+				code:500,
+				message:`Error al listar los favoritos del usuario ${datauser.user}.`,
+				data: null,
+				servererror: '',
+			});
+		}
+	},
+
+	async addFavorite(req, res){
+		let datauser = req.user;
+		let { body } = req;
+		let { prodId } = body;
+		if( prodId == undefined || prodId == 0){
+			_useful.log('user.js').error(`Error al adicionar elemento favorito para el usuario ${datauser.user}.`,datauser.user,'Existen campos indefinidos');
+			return res.send({
+				code:500,
+				message:`Error al listar los favoritos del usuario ${datauser.user}.Existen campos indefinidos`,
+				data: null,
+				servererror: '',
+			});
+		}
+		try {
+			let favorito = { userId: datauser.id, prodId: prodId}
+			let favor = await _database.zunpc.repository.user.adicionarFavoritos(favorito);
+			if(!favor){
+				_useful.log('user.js').error(`Error al adicionar elemento favorito para el usuario ${datauser.user}.`,datauser.user,'Ha ocurrido una error inesperado');
+				return res.send({
+					code:500,
+					message:`Error al adicionar elemento favorito para el usuario ${datauser.user}.`,
+					data: null,
+					servererror: '',
+				});
+			}
+			_useful.log('user.js').info(`Se ha adicionado correctamente el elemento favorito para el usuario ${datauser.user}.`, datauser.user, JSON.stringify(favor));
+			let listfavor = await _database.zunpc.repository.user.obtenerTodosFavoritos(datauser.id);
+			return res.send({
+				code:200,
+				message:`Se ha adicionado correctamente el elemento favorito para el usuario ${datauser.user}.`,
+				data: listfavor,
+				servererror: '',
+			});
+		} catch (error) {
+			_useful.log('user.js').error(`Error al adicionar elemento favorito para el usuario ${datauser.user}.`,datauser.user,error);
+			return res.send({
+				code:500,
+				message:`Error al adicionar elemento favorito para el usuario ${datauser.user}.`,
+				data: null,
+				servererror: '',
+			});
+		}
+	},
+
+	async deleteFavorite(req,res){
+		let datauser = req.user;
+		let { idFavor } = req.params;
+		if(idFavor == undefined || idFavor == 0) {
+			_useful.log('user.js').error(`Error al eliminar elemento favorito para el usuario ${datauser.user}.`,datauser.user,'El id del elemento favorito esta indefinidos');
+			return res.send({
+				code:500,
+				message:`Error al eliminar elemento favorito para el usuario ${datauser.user}. Existen elementos indefinidos`,
+				data: null,
+				servererror: '',
+			});
+		}
+		try {
+			let favor = await _database.zunpc.repository.user.eliminarFavorito(idFavor);
+			if(!favor){
+				_useful.log('user.js').error(`Error al eliminar elemento favorito para el usuario ${datauser.user}.`,datauser.user,'Ha ocurrido una error inesperado');
+				return res.send({
+					code:500,
+					message:`Error al eliminar elemento favorito para el usuario ${datauser.user}.`,
+					data: null,
+					servererror: '',
+				});
+			}
+			_useful.log('user.js').info(`Se ha eliminado correctamente el elemento favorito para el usuario ${datauser.user}.`, datauser.user, JSON.stringify(favor));
+			let listfavor = await _database.zunpc.repository.user.obtenerTodosFavoritos(datauser.id);
+			return res.send({
+				code:200,
+				message:`Se ha eliminado correctamente el elemento favorito para el usuario ${datauser.user}.`,
+				data: listfavor,
+				servererror: '',
+			});
+		} catch (error) {
+			_useful.log('user.js').error(`Error al eliminar elemento favorito para el usuario ${datauser.user}.`,datauser.user,error);
+			return res.send({
+				code:500,
+				message:`Error al eliminar elemento favorito para el usuario ${datauser.user}.`,
 				data: null,
 				servererror: '',
 			});
