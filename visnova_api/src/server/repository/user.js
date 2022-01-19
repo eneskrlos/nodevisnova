@@ -255,14 +255,12 @@ module.exports = {
 		let sql = `
 		SELECT prod.idProd, prod.descripcion, tp.nombre as tipoProd, m.nombre as material, tm.nombre as tipoMaterial,
 		prod.precio, prod.activo, prod.fotoprod1, prod.fotoprod2, prod.fotoprod3, prod.cantDisponible, prod.en_promosion,
-		prod.tiempoelavoracion, prod.en_oferta
+		prod.tiempoelavoracion, prod.en_oferta,
+		(CASE WHEN (prod.idProd in (select f.prodId FROM favorito f WHERE f.userId = ${id} )) THEN 1 ELSE 0 END) as es_favorito
 		FROM producto prod 
 		LEFT JOIN tipprodmaterial tp on prod.tipoProd = tp.idPk 
 		LEFT JOIN tipprodmaterial m on prod.material = m.idPk 
 		LEFT JOIN tipprodmaterial tm on prod.tipoMaterial = tm.idPk 
-		INNER JOIN favorito f on prod.idProd = f.prodId 
-		INNER JOIN user u on f.userId = u.id
-		where u.id = ${id}  	 
 		`;
 		let options = {
 			type: QueryTypes.SELECT 
@@ -274,10 +272,11 @@ module.exports = {
 		return _database.zunpc.model.favorito.create(favorito);
 	},
 
-	eliminarFavorito(idFavor){
+	eliminarFavorito(idProd,id){
 		return _database.zunpc.model.favorito.destroy({
 			where: {
-				idFavor
+				prodId: idProd,
+				userId: id
 			}
 		});
 	}

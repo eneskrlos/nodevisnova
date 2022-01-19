@@ -625,8 +625,8 @@ exports.User = {
 
 	async deleteFavorite(req,res){
 		let datauser = req.user;
-		let { idFavor } = req.params;
-		if(idFavor == undefined || idFavor == 0) {
+		let { idProd } = req.params;
+		if(idProd == undefined || idProd == 0) {
 			_useful.log('user.js').error(`Error al eliminar elemento favorito para el usuario ${datauser.user}.`,datauser.user,'El id del elemento favorito esta indefinidos');
 			return res.send({
 				code:500,
@@ -636,7 +636,7 @@ exports.User = {
 			});
 		}
 		try {
-			let favor = await _database.zunpc.repository.user.eliminarFavorito(idFavor);
+			let favor = await _database.zunpc.repository.user.eliminarFavorito(idProd,datauser.id);
 			if(!favor){
 				_useful.log('user.js').error(`Error al eliminar elemento favorito para el usuario ${datauser.user}.`,datauser.user,'Ha ocurrido una error inesperado');
 				return res.send({
