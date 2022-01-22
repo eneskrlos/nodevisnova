@@ -22,7 +22,13 @@ exports.productocontroller = {
 		let { body } = req;
 		let { buscar } = body;
 		try {
-			const prod = await _database.zunpc.repository.productorepository.prodquery(buscar);
+			let prod = {};
+			 if(req.user.id == undefined){
+				prod = await _database.zunpc.repository.productorepository.prodquery(buscar);
+			}else{
+				prod = await _database.zunpc.repository.productorepository.prodqueryFavor(buscar,req.user.id);
+			} 
+			
 			_useful.log('productocontroller.js').info('Se ha listado los productos',ident);
 			return res.json(new httpresponse(200,"ok",prod,""));
 		} catch (error) {

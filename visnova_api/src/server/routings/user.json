@@ -96,9 +96,21 @@
 		"permission": [1,2]
 	},
 	{
-		"url": "/api/deleteFavorite/:idFavor",
+		"url": "/api/deleteFavorite/:idProd",
 		"method": "delete",
 		"path": "user:User.deleteFavorite",
+		"permission": [1,2]
+	},
+	{
+		"url": "/api/getRegistBuyforUsers",
+		"method": "post",
+		"path": "user:User.obtenerRegistroComprasUsuario",
+		"permission": [1]
+	},
+	{
+		"url": "/api/getRegistBuybyUser",
+		"method": "post",
+		"path": "user:User.obtenerRegistroComprasPorUsuario",
 		"permission": [1,2]
 	}
 ]

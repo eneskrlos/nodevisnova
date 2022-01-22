@@ -255,12 +255,13 @@ module.exports = {
 		let sql = `
 		SELECT prod.idProd, prod.descripcion, tp.nombre as tipoProd, m.nombre as material, tm.nombre as tipoMaterial,
 		prod.precio, prod.activo, prod.fotoprod1, prod.fotoprod2, prod.fotoprod3, prod.cantDisponible, prod.en_promosion,
-		prod.tiempoelavoracion, prod.en_oferta,
-		(CASE WHEN (prod.idProd in (select f.prodId FROM favorito f WHERE f.userId = ${id} )) THEN 1 ELSE 0 END) as es_favorito
+		prod.tiempoelavoracion, prod.en_oferta
 		FROM producto prod 
 		LEFT JOIN tipprodmaterial tp on prod.tipoProd = tp.idPk 
 		LEFT JOIN tipprodmaterial m on prod.material = m.idPk 
 		LEFT JOIN tipprodmaterial tm on prod.tipoMaterial = tm.idPk 
+		INNER JOIN favorito f on prod.idProd = f.prodId
+		where f.userId = ${id}
 		`;
 		let options = {
 			type: QueryTypes.SELECT 
@@ -279,5 +280,70 @@ module.exports = {
 				userId: id
 			}
 		});
+	},
+
+	obtenerRegisterUser(buscar){
+		const sz = new sequelize({
+            host: _config.Database.zunpc.host,
+            port: _config.Database.zunpc.port,
+            database: _config.Database.zunpc.database,
+            username: _config.Database.zunpc.user,
+            password: _config.Database.zunpc.pass,
+            dialect: 'mysql',
+            logging: (_config.Mode === 'dev') ? console.log : false,
+            define: {
+                timestamps: false
+            }
+        });
+		let sql = `
+		SELECT v.idventa, v.fecha, prod.idProd, prod.descripcion, tp.nombre as tipoProd, m.nombre as material, tm.nombre as tipoMaterial,
+		prod.precio, prod.activo, prod.fotoprod1, prod.fotoprod2, prod.fotoprod3, e.nombre as Estado
+		FROM producto prod 
+		LEFT JOIN tipprodmaterial tp on prod.tipoProd = tp.idPk 
+		LEFT JOIN tipprodmaterial m on prod.material = m.idPk 
+		LEFT JOIN tipprodmaterial tm on prod.tipoMaterial = tm.idPk 
+		INNER JOIN venta v on prod.idProd = v.idProd
+		INNER JOIN estado e on v.idestado = e.idestado
+		Where prod.descripcion LIKE '%${buscar}%' or prod.precio LIKE '%${buscar}%' or tp.nombre LIKE '%${buscar}%' 
+		or m.nombre LIKE '%${buscar}%' or tm.nombre LIKE '%${buscar}%'
+		GROUP BY v.fecha
+		ORDER BY v.fecha
+		`;
+		let options = {
+			type: QueryTypes.SELECT 
+		};
+		return sz.query(sql,options);
+	},
+	obtenerRegisterbyUser(buscar,id){
+		const sz = new sequelize({
+            host: _config.Database.zunpc.host,
+            port: _config.Database.zunpc.port,
+            database: _config.Database.zunpc.database,
+            username: _config.Database.zunpc.user,
+            password: _config.Database.zunpc.pass,
+            dialect: 'mysql',
+            logging: (_config.Mode === 'dev') ? console.log : false,
+            define: {
+                timestamps: false
+            }
+        });
+		let sql = `
+		SELECT v.idventa, v.fecha, prod.idProd, prod.descripcion, tp.nombre as tipoProd, m.nombre as material, tm.nombre as tipoMaterial,
+		prod.precio, prod.activo, prod.fotoprod1, prod.fotoprod2, prod.fotoprod3, e.nombre as Estado
+		FROM producto prod 
+		LEFT JOIN tipprodmaterial tp on prod.tipoProd = tp.idPk 
+		LEFT JOIN tipprodmaterial m on prod.material = m.idPk 
+		LEFT JOIN tipprodmaterial tm on prod.tipoMaterial = tm.idPk 
+		INNER JOIN venta v on prod.idProd = v.idProd
+		INNER JOIN estado e on v.idestado = e.idestado
+		Where v.iduser = ${id} and ( prod.descripcion LIKE '%${buscar}%' or prod.precio LIKE '%${buscar}%' or tp.nombre LIKE '%${buscar}%' 
+		or m.nombre LIKE '%${buscar}%' or tm.nombre LIKE '%${buscar}%' )
+		GROUP BY v.fecha
+		ORDER BY v.fecha
+		`;
+		let options = {
+			type: QueryTypes.SELECT 
+		};
+		return sz.query(sql,options);
 	}
 };

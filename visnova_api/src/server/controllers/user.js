@@ -663,6 +663,67 @@ exports.User = {
 				servererror: '',
 			});
 		}
+	},
+
+	async obtenerRegistroComprasUsuario(req,res){
+		let datauser = req.user;
+		let { body } = req;
+		let { buscar } = body;
+		try {
+			let listregistrio = await _database.zunpc.repository.user.obtenerRegisterUser(buscar); 
+			if(listregistrio.length == 0){
+				return res.send({
+					code:200,
+					message:`No existen compra realizadas.`,
+					data: listregistrio,
+					servererror: '',
+				});
+			}
+			return res.send({
+				code:200,
+				message:`Se ha listado correctamente el registro de compras .`,
+				data: listregistrio,
+				servererror: '',
+			});
+		} catch (error) {
+			_useful.log('user.js').error(`Error al obtener el registro de venta .`,datauser.user,error);
+			return res.send({
+				code:500,
+				message:`Error al obtener el registro de venta .`,
+				data: null,
+				servererror: '',
+			});
+		}
+	},
+	async obtenerRegistroComprasPorUsuario(req,res){
+		let datauser = req.user;
+		let { body } = req;
+		let { buscar } = body;
+		try {
+			let listregistrio = await _database.zunpc.repository.user.obtenerRegisterUser(buscar,req.user.id); 
+			if(listregistrio.length == 0){
+				return res.send({
+					code:200,
+					message:`El usuario ${datauser.user} no ha realizado ninguna compra.`,
+					data: listregistrio,
+					servererror: '',
+				});
+			}
+			return res.send({
+				code:200,
+				message:`Se ha listado correctamente el registro de compras del usuario ${datauser.user}.`,
+				data: listregistrio,
+				servererror: '',
+			});
+		} catch (error) {
+			_useful.log('user.js').error(`Error al obtener el registro de venta del usuario ${datauser.user}.`,datauser.user,error);
+			return res.send({
+				code:500,
+				message:`Error al obtener el registro de venta del usuario ${datauser.user}.`,
+				data: null,
+				servererror: '',
+			});
+		}
 	}
 
 
