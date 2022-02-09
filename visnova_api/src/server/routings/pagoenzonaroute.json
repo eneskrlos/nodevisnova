@@ -1,0 +1,74 @@
+[	
+	{
+		"url": "/api/pruebaCrearToken",
+		"method": "get",
+		"path": "pagoenzonacontroller:pagoenzonacontroller.pruebaCreateToken",
+		"permission": [1,2]
+	},
+	{
+		"url": "/api/obtenerPagoTransaction",
+		"method": "post",
+		"path": "pagoenzonacontroller:pagoenzonacontroller.pago_Transaction_uuid",
+		"permission": [1,2]
+	},
+	{
+		"url": "/api/crearPago",
+		"method": "post",
+		"path": "pagoenzonacontroller:pagoenzonacontroller.crearPago",
+		"permission": [1,2]
+	},
+	{
+		"url": "/api/obtenerListaTodoslosPago",
+		"method": "post",
+		"path": "pagoenzonacontroller:pagoenzonacontroller.obtenerListaTodoslosPago",
+		"permission": [1]
+	},
+	{
+		"url": "/api/completarPago",
+		"method": "post",
+		"path": "pagoenzonacontroller:pagoenzonacontroller.completarPago",
+		"permission": [1,2]
+	},
+	{
+		"url": "/api/cancelarPago",
+		"method": "post",
+		"path": "pagoenzonacontroller:pagoenzonacontroller.cancelarPago",
+		"permission": [1,2]
+	},
+	{
+		"url": "/api/obtenerPago",
+		"method": "post",
+		"path": "pagoenzonacontroller:pagoenzonacontroller.obtenerPago",
+		"permission": [1,2]
+	},
+	{
+		"url": "/api/devolucionPago",
+		"method": "post",
+		"path": "pagoenzonacontroller:pagoenzonacontroller.devolucionPago",
+		"permission": [1,2]
+	},
+	{
+		"url": "/api/obtenerDetallesDevolucion",
+		"method": "post",
+		"path": "pagoenzonacontroller:pagoenzonacontroller.obtenerDetallesDevolucion",
+		"permission": [1,2]
+	},
+	{
+		"url": "/api/obtenerListaDevolucion",
+		"method": "post",
+		"path": "pagoenzonacontroller:pagoenzonacontroller.obtenerListaDevolucion",
+		"permission": [1,2]
+	},
+	{
+		"url": "/api/listaDevolucionesPago",
+		"method": "post",
+		"path": "pagoenzonacontroller:pagoenzonacontroller.listaDevolucionesPago",
+		"permission": [1,2]
+	},
+	{
+		"url": "/api/pagarProducto",
+		"method": "post",
+		"path": "pagoenzonacontroller:pagoenzonacontroller.pagarProducto",
+		"permission": [1,2]
+	}
+]

@@ -1,5 +1,5 @@
 const { editDireccionofUser } = require("../repository/user");
-
+const axios = require("../../../node_modules/axios")
 exports.User = {
 
 	listAll (req, res) {
@@ -530,15 +530,14 @@ exports.User = {
 		let { body } = req;
 		let { id } = body;
 		try {
-			let tresultimos = await _database.zunpc.repository.user.obtenerTresUltimosProd(id);
+			let prod = await _database.zunpc.repository.user.obtenerProductoByid(id);
 			let listasimilares = [];
-			if(!tresultimos || tresultimos.length <= 0){
+			if(!prod || prod.length <= 0){
 				listasimilares = await _database.zunpc.repository.user.obtenerProductos();
 			}else{
-				let tp1 = tresultimos[0].tipoProd;
-				let tp2 = tresultimos[1].tipoProd;
-				let tp3 = tresultimos[2].tipoProd;
-				listasimilares = await _database.zunpc.repository.user.obtenerProductosSimilares(tp1,tp2,tp3);
+				
+				let tp = prod[0]. idPk;
+				listasimilares = await _database.zunpc.repository.user.obtenerProductosSimilares(tp,id);
 			}
 			return res.send({
 				code:200,
@@ -625,8 +624,8 @@ exports.User = {
 
 	async deleteFavorite(req,res){
 		let datauser = req.user;
-		let { idProd } = req.params;
-		if(idProd == undefined || idProd == 0) {
+		let { idFavor } = req.params;
+		if(idFavor == undefined || idFavor == 0) {
 			_useful.log('user.js').error(`Error al eliminar elemento favorito para el usuario ${datauser.user}.`,datauser.user,'El id del elemento favorito esta indefinidos');
 			return res.send({
 				code:500,
@@ -636,7 +635,7 @@ exports.User = {
 			});
 		}
 		try {
-			let favor = await _database.zunpc.repository.user.eliminarFavorito(idProd,datauser.id);
+			let favor = await _database.zunpc.repository.user.eliminarFavorito(idFavor);
 			if(!favor){
 				_useful.log('user.js').error(`Error al eliminar elemento favorito para el usuario ${datauser.user}.`,datauser.user,'Ha ocurrido una error inesperado');
 				return res.send({
@@ -724,7 +723,33 @@ exports.User = {
 				servererror: '',
 			});
 		}
-	}
-
-
+	},
+	async payments_Transaction_uuid(req,res){
+		let datauser = req.user;
+		let { body } = req;
+		let { transaction_uuid } = body;
+		const consumerKey = "El17TuOJOisRNbCXiqAUuESDMgEa";
+		const consumerSecret = "81FL6KQ6AdRuzF_tFib3odjCz4Ea";		
+		let token = Buffer.from(`${consumerKey}:${consumerSecret}`, 'binary').toString('base64');
+		console.log(token);
+		try {
+			console.log('esta aqui');
+			const respuesta = await axios.get(`https://apisandbox.enzona.net/payment/v1.0.0/payments/${transaction_uuid}`,{
+				headers: {
+					'Authorization': 'Bearer bf50be11-e6a6-33c9-98b0-885622e1240f' , //`Basic ${token}`,
+					'Accept': 'application/json'
+				}
+			});
+			const resp = respuesta.json();
+        return res.send({code: 200, data: resp});
+		} catch (error) {
+			_useful.log('user.js').error(`Error al obtener los pagos del usuario ${datauser.user}.`,datauser.user,error);
+			return res.send({
+				code:500,
+				message:`Error al obtener los pagos del usuario ${datauser.user}.`,
+				data: null,
+				servererror: error.message,
+			});
+		}
+	},
 };

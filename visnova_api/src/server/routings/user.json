@@ -81,7 +81,7 @@
 		"url": "/api/getSimilares",
 		"method": "post",
 		"path": "user:User.getSimilares",
-		"permission": [1,2]
+		"permission": []
 	},
 	{
 		"url": "/api/getAllFavorites",
@@ -96,7 +96,7 @@
 		"permission": [1,2]
 	},
 	{
-		"url": "/api/deleteFavorite/:idProd",
+		"url": "/api/deleteFavorite/:idFavor",
 		"method": "delete",
 		"path": "user:User.deleteFavorite",
 		"permission": [1,2]
@@ -111,6 +111,12 @@
 		"url": "/api/getRegistBuybyUser",
 		"method": "post",
 		"path": "user:User.obtenerRegistroComprasPorUsuario",
+		"permission": [1,2]
+	},
+	{
+		"url": "/api/obtenerPago",
+		"method": "post",
+		"path": "user:User.payments_Transaction_uuid",
 		"permission": [1,2]
 	}
 ]

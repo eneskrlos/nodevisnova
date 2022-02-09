@@ -218,25 +218,60 @@ module.exports = {
 		};
 		return sz.query(sql,options);
 	},
+	obtenerProductoByid(idProd){
+		const sz = new sequelize({
+            host: _config.Database.zunpc.host,
+            port: _config.Database.zunpc.port,
+            database: _config.Database.zunpc.database,
+            username: _config.Database.zunpc.user,
+            password: _config.Database.zunpc.pass,
+            dialect: 'mysql',
+            logging: (_config.Mode === 'dev') ? console.log : false,
+            define: {
+                timestamps: false
+            }
+        });
+		let sql = `
+		SELECT tp.idPk
+		FROM producto prod LEFT JOIN tipprodmaterial tp on prod.tipoProd = tp.idPk 
+		LEFT JOIN tipprodmaterial m on prod.material = m.idPk 
+		LEFT JOIN tipprodmaterial tm on prod.tipoMaterial = tm.idPk 
+		where prod.idProd  = ${idProd}
+		`;
+		let options = {
+			type: QueryTypes.SELECT 
+		};
+		return sz.query(sql,options);
+	},
 	obtenerProductos(){
 		return _database.zunpc.model.producto.findAll();
 	},
-	obtenerProductosSimilares(Prod1,Prod2,Prod3){
-		return _database.zunpc.model.producto.findAll({
-			where: {
-				[Op.or]: [
-					{
-						tipoProd: Prod1
-					},
-					{
-						tipoProd: Prod2
-					},
-					{
-						tipoProd: Prod3
-					}
-				]
-			}
-		});
+	obtenerProductosSimilares(Prod1,idProd){
+		const sz = new sequelize({
+            host: _config.Database.zunpc.host,
+            port: _config.Database.zunpc.port,
+            database: _config.Database.zunpc.database,
+            username: _config.Database.zunpc.user,
+            password: _config.Database.zunpc.pass,
+            dialect: 'mysql',
+            logging: (_config.Mode === 'dev') ? console.log : false,
+            define: {
+                timestamps: false
+            }
+        });
+		let sql = `
+		SELECT prod.idProd, prod.descripcion, tp.nombre as tipoProd, m.nombre as material, tm.nombre as tipoMaterial,
+		prod.precio, prod.activo, prod.fotoprod1, prod.fotoprod2, prod.fotoprod3, prod.cantDisponible, prod.en_promosion,
+		prod.tiempoelavoracion, prod.en_oferta
+		FROM producto prod LEFT JOIN tipprodmaterial tp on prod.tipoProd = tp.idPk 
+		LEFT JOIN tipprodmaterial m on prod.material = m.idPk 
+		LEFT JOIN tipprodmaterial tm on prod.tipoMaterial = tm.idPk 
+		where tp.idPk = ${Prod1} and prod.idProd <> ${idProd}
+		`;
+		let options = {
+			type: QueryTypes.SELECT 
+		};
+		return sz.query(sql,options);
 	},
 
 	obtenerTodosFavoritos(id){
@@ -273,11 +308,10 @@ module.exports = {
 		return _database.zunpc.model.favorito.create(favorito);
 	},
 
-	eliminarFavorito(idProd,id){
+	eliminarFavorito(idFavor){
 		return _database.zunpc.model.favorito.destroy({
 			where: {
-				prodId: idProd,
-				userId: id
+				idFavor
 			}
 		});
 	},
