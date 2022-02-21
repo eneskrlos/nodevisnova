@@ -118,5 +118,17 @@
 		"method": "post",
 		"path": "user:User.payments_Transaction_uuid",
 		"permission": [1,2]
+	},
+	{
+		"url": "/api/getProvincias",
+		"method": "get",
+		"path": "user:User.getProvincias",
+		"permission": [1,2]
+	},
+	{
+		"url": "/api/getMunicipiobyIdprov",
+		"method": "post",
+		"path": "user:User.getMunicipiobyIdprov",
+		"permission": [1,2]
 	}
 ]

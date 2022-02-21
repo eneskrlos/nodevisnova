@@ -379,5 +379,26 @@ module.exports = {
 			type: QueryTypes.SELECT 
 		};
 		return sz.query(sql,options);
+	},
+	getListProvincias(){
+		return _database.zunpc.model.provincia.findAll({
+			attributes: [['nombre','label'], ['idprov','value']],
+		});
+	},
+	getProvinciaById(idprov){
+		return _database.zunpc.model.provincia.findAll({
+			attributes: ['nombre'],
+			where: {
+				idprov
+			}
+		});
+	},
+	getMunicipioByidprov(idprov){
+		return _database.zunpc.model.municipio.findAll({
+			attributes: [['nombre','label'], ['idmuni','value'], ['precioEnvio', 'envio']],
+			where: {
+				provId: idprov
+			}
+		});
 	}
 };

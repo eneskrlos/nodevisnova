@@ -21,21 +21,10 @@ module.exports = class Config{
         return this.config.database;
     }
 
-    get Map(){
-        return this.config.map;
-    }
-
-    get FTP(){
+    /* get FTP(){
         return this.config.FTPMININT;
     }
-
-    get MK(){
-        return this.config.MK;
-    }
-
-    get Nauta(){
-        return this.config.zunNauta;
-    }
+     */
 
     get mailerconfig(){
         return this.config.mailerconfig;

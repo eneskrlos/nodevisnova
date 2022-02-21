@@ -1,3 +1,4 @@
+
 module.exports = {
 	initConfigurations () {
 		try {
@@ -33,6 +34,8 @@ module.exports = {
 				through: _database.zunpc.model.favorito,
 				foreignKey: "prodId"
 			});
+
+			
 		}
 		catch (error) {
 			console.log('\x1b[31m[ERROR]\x1b[0m - %s', 'Don\'t start initConfigurations from DataBase properly. - ' + error.stack);
@@ -49,6 +52,8 @@ module.exports = {
 		let tipprodmaterial = require('../../../dev/tipprodmaterial');
 		let producto = require('../../../dev/producto');
 		let venta = require('../../../dev/venta');
+		let provincia = require('../../../dev/provincia');
+		let municipio = require('../../../dev/municipio');
 
 		/**Permissions*/
 		await permission.create();
@@ -80,6 +85,11 @@ module.exports = {
 		/**venta*/
 		await venta.create();
 
+		/**provincia */
+		await provincia.create();
+
+		/**municipio */
+		await municipio.create();
 		
 
 	}

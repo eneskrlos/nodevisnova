@@ -752,4 +752,73 @@ exports.User = {
 			});
 		}
 	},
+
+	async getProvincias(req,res){
+		let datauser = req.user;
+		try {
+			let listprov = await _database.zunpc.repository.user.getListProvincias();
+			if(listprov.length == 0){
+				return res.send({
+					code:200,
+					message:`No existen datos que mostrar.`,
+					data: listprov,
+					servererror: '',
+				});
+			}
+			return res.send({
+				code:200,
+				message:`Se ha listado correctamente las provincias.`,
+				data: listprov,
+				servererror: '',
+			});
+
+		} catch (error) {
+			_useful.log('user.js').error(`Error al obtener las provincias.`,datauser.user,error);
+			res.send({
+				code:500,
+				message:`Error al obtener las provincias.`,
+				data: null,
+				servererror: '',
+			});
+		}
+	},
+	async getMunicipiobyIdprov(req,res){
+		let datauser = req.user;
+		let { body } = req;
+		let { idprov } = body;
+		try {
+			let provincia = await _database.zunpc.repository.user.getProvinciaById(idprov);
+			if (!provincia) {
+				return res.send({
+					code:500,
+					message:`Error al obtener los municipios: No se existe la provincia.`,
+					data: null,
+					servererror: '',
+				});
+			}
+			let lmunicipio = await _database.zunpc.repository.user.getMunicipioByidprov(idprov);
+			if(!lmunicipio || lmunicipio.length == 0){
+				return res.send({
+					code:500,
+					message:`Error al obtener los municipios: No se encontraron municipios para la provincia ${provincia}.`,
+					data: null,
+					servererror: '',
+				});
+			}
+			return res.send({
+				code:200,
+				message:`Se ha listado correctamente los municipios.`,
+				data: lmunicipio,
+				servererror: '',
+			});
+		} catch (error) {
+			_useful.log('user.js').error(`Error al obtener los municipios .`,datauser.user,error);
+			res.send({
+				code:500,
+				message:`Error al obtener los municipios.`,
+				data: null,
+				servererror: '',
+			});
+		}
+	}
 };

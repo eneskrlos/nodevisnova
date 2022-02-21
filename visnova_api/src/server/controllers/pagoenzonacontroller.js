@@ -10,7 +10,6 @@ exports.pagoenzonacontroller =  {
 			console.log('esta aqui');
 			let zona = new apienzona(); 
 			let token = await zona.generarAccessToken();
-			console.log("dataToken",token);
 			if(token.code != 200){
 				//_useful.log('pagoenzonacontroller.js').error('Error al generar token.',datauser.user);
 				let resphttp = new httpresponse(500,token.message,null,token.serverError);
