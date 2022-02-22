@@ -383,7 +383,7 @@ exports.User = {
 		let { body } = req;
 		let { direccion, municipio, provincia } = body;
 		try {
-			if( direccion == undefined || municipio == undefined || provincia == undefined ){
+			if( direccion == undefined || municipio == undefined || municipio == 0 || provincia == undefined || provincia == 0 ){
 				_useful.log('user.js').error('Error al adicionar direccion del usuario: Existen valores indefinidos.',user.user,'Verifique que los datos que esta enviando no esten undefined.');
 				return res.send({
 					code:500,
@@ -431,7 +431,7 @@ exports.User = {
 		let { body } = req;
 		let {idLD, direccion, municipio, provincia } = body;
 		try {
-			if(idLD == undefined || direccion == undefined || municipio == undefined || provincia == undefined ){
+			if(idLD == undefined || direccion == undefined || municipio == undefined || municipio == 0  || provincia == undefined || provincia == 0 ){
 				_useful.log('user.js').error('Error al editar direccion del usuario: Existen valores indefinidos.',user.user,'Verifique que los datos que esta enviando no esten undefined.');
 				return res.send({
 					code:500,

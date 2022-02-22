@@ -3,6 +3,8 @@ const httpresponse = require('../utils/httpresponse');
 const https = require('https');
 const axios = require('../../node_modules/axios');
 const { json } = require('express');
+const { from } = require('form-data');
+const { OAuth2 } = require('fetch-mw-oauth2');
 
 
 class apienzona {
@@ -14,6 +16,7 @@ class apienzona {
   base64 = "";
   httpsAgent ;
   axiosssl ;
+  oauth2 ;
 
   constructor() {
     
@@ -27,12 +30,19 @@ class apienzona {
     this.axiosssl = axios.create({
       httpsAgent: this.httpsAgent
     });
+    this.oauth2 = new OAuth2({
+      grantType:'client_credentials',
+      clientId:this.consumerKey,
+      clientSecret:this.consumerSecret,
+      tokenEndpoint:this.apirUrltoken,
+      scope: this.scope
+    });
   }
 //genera token de acceso
   async generarAccessToken(){
     console.log(this.base64);
     try {
-      const resp = await axios({
+      /* const resp = await axios({
         method: 'post',
         url: this.apirUrltoken,
         data: {
@@ -43,6 +53,10 @@ class apienzona {
           'Authorization': `Basic ${this.base64}`
         },
         httpsAgente: this.httpsAgent
+      }); */
+
+      const resp = await oauth2.fetch('',{
+        method:'POST'
       });
     
 

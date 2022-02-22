@@ -11,12 +11,12 @@ module.exports = (sequelize, DataTypes) => {
 			allowNull: false,
 		},
 		municipio: {
-			type: DataTypes.STRING(255),
+			type: DataTypes.INTEGER,
 			allowNull: false
 		},
 		provincia: {
-            type: DataTypes.STRING(255),
-			allowNull: true
+            type: DataTypes.INTEGER,
+			allowNull: false
         },
 		userId:{
 			type: DataTypes.INTEGER,

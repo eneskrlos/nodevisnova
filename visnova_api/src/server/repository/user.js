@@ -162,11 +162,27 @@ module.exports = {
 		});
 	},
 	listdirecciones(id){
-		return _database.zunpc.model.libretadireccion.findAll({
-			where: {
-				userId:id
-			}
-		});
+		const sz = new sequelize({
+            host: _config.Database.zunpc.host,
+            port: _config.Database.zunpc.port,
+            database: _config.Database.zunpc.database,
+            username: _config.Database.zunpc.user,
+            password: _config.Database.zunpc.pass,
+            dialect: 'mysql',
+            logging: (_config.Mode === 'dev') ? console.log : false,
+            define: {
+                timestamps: false
+            }
+        });
+		let sql = `
+		SELECT * FROM libretadireccion ld INNER JOIN provincia p on ld.provincia = p.idprov
+		INNER JOIN municipio m on ld.municipio = m.idmuni
+		WHERE ld.userId = ${id}
+		`;
+		let options = {
+			type: QueryTypes.SELECT 
+		};
+		return sz.query(sql,options);
 	},
 	addDireccionofUser(dir){
 		return _database.zunpc.model.libretadireccion.create(dir);
