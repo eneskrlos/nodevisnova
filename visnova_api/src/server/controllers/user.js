@@ -1,38 +1,43 @@
 const { editDireccionofUser } = require("../repository/user");
-const axios = require("../../../node_modules/axios")
+const axios = require("../../../node_modules/axios");
+const pag = require('../../utils/paginate');
 exports.User = {
-
-	listAll (req, res) {
+	async listAll (req, res) {
 		const ident = req.user.user;
 		let { body } = req;
 		let { buscar } = body;
-		if (req.user.user === 'admin') {
-			_database.zunpc.repository.user.list(buscar).then(response => {
-				_useful.log('user.js').info('Listó los usuarios',req.user.user, JSON.stringify(response));
+		const page = parseInt(req.query.page);
+        const limit = parseInt(req.query.limit);
+		try {
+			if (req.user.user === 'admin') {
+				const luser = await _database.zunpc.repository.user.list(buscar);
+				_useful.log('user.js').info('Listó los usuarios',req.user.user, JSON.stringify(luser));
+				const userpaginado =  await pag(luser,luser.length,page,limit);
 				return res.send({
 					code:200,
 					message:'Se ha listado los usuarios',
-					data: response,
+					data: userpaginado,
 					servererror: '',
 				});
-			}).catch(error => {
-				_useful.log('user.js').error('No se pudo listar los usuarios','req.user.user',error);
+			}else{
+				_useful.log('user.js').error('No se pudo listar los usuarios',req.user.user,'Usted no tiene acceso');
 				return res.send({
 					code:500,
-					message:'No se pudo lisar los usuarios:.' + error,
+					message:'No se pudo lisar los usuarios: Usted no tiene acceso.',
 					data: null,
 					servererror: '',
 				});
-			})
-		}else{
-			_useful.log('user.js').error('No se pudo listar los usuarios','req.user.user','Usted no tiene acceso');
+			} 
+		} catch (error) {
+			_useful.log('user.js').error('No se pudo listar los usuarios',error);
 			return res.send({
 				code:500,
-				message:'No se pudo lisar los usuarios: Usted no tiene acceso.',
+				message:'No se pudo lisar los usuarios.',
 				data: null,
 				servererror: '',
 			});
-		} 
+		}
+		
 	},
 
 	list (req, res) {

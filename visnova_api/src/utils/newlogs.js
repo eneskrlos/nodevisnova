@@ -10,7 +10,7 @@ module.exports = class Logs {
         const logger = createLogger({
             transports: [
                 new transports.File({
-                    filename: `logsnew/zunpc-${date}.log`,
+                    filename: `logsnew/visnova-${date}.log`,
                     format: format.json()
                 }),
                 new transports.Console({

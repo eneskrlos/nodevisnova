@@ -12,10 +12,30 @@ const axiosRetry = require('axios-retry');
 const httpresponse = require('../../utils/httpresponse');
 const { response } = require('express');
 const { tmpdir } = require('os');
+const pag = require('../../utils/paginate');
 
 exports.TipProdMaterialcontroller = {
 
-	GetTipProdMaterial(req,res){
+	async GetTipProdMaterial(req,res){
+		
+		const ident = req.user.user;
+		let { body } = req;
+		let { buscar } = body;
+		const page = parseInt(req.query.page);
+        const limit = parseInt(req.query.limit);
+		try {
+			
+			const tpmlist = await _database.zunpc.repository.TipProdMaterialrepository.listTipProdMaterial(buscar);
+			const tpmpaginado = await pag(tpmlist, tpmlist.length, page, limit);
+			_useful.log('TipProdMaterialcontroller.js').info('Listó los tipo de productos material ',req.user.user, JSON.stringify(tpmlist));
+			return res.json(new httpresponse(200,"ok",tpmpaginado,""));
+		} catch (error) {
+			_useful.log('TipProdMaterialcontroller.js').error('No se pudo listar los tipo de productos material',ident,error);
+			return res.json(new httpresponse(500,"No se ha podido listar los tipo de productos material",null,""));
+		}
+		
+	},
+	GetTipProdMaterialActual(req,res){
 		
 		const ident = req.user.user;
 		let { body } = req;

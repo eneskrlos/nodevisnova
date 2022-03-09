@@ -5,6 +5,7 @@ const axios = require('../../node_modules/axios');
 const { json } = require('express');
 const { from } = require('form-data');
 const { OAuth2 } = require('fetch-mw-oauth2');
+const { http } = require('winston');
 
 
 class apienzona {
@@ -42,36 +43,19 @@ class apienzona {
   async generarAccessToken(){
     console.log(this.base64);
     try {
-      /* const resp = await axios({
-        method: 'post',
-        url: this.apirUrltoken,
-        data: {
-          grant_type: "client_credentials",
-          scope:this.scope
-        },
+      
+       let data = JSON.stringify({"grant_type": "client_credentials"});
+       const resp = await  this.axiosssl.post(this.apirUrltoken,data,{
         headers: {
           'Authorization': `Basic ${this.base64}`
         },
-        httpsAgente: this.httpsAgent
-      }); */
-
-      const resp = await oauth2.fetch('',{
-        method:'POST'
-      });
-    
-
-      /* let data = JSON.stringify({"grant_type": "password","scope":this.scope});
-       const resp = await this.axiosssl.post(this.apirUrltoken,data,{
-        headers: {
-          'Authorization': `Basic ${this.base64}`,
-          'Content-Type': 'application/json'
-        },
-      });  */
+      });  
+      console.log(resp.json());
       const respuesta = resp.json();
-      /* if(respuesta.getStatusCode < 200 || respuesta.getStatusCode >= 300){
+      /*  if(respuesta.getStatusCode < 200 || respuesta.getStatusCode >= 300){
         _useful.log('apienzona.js').error(respuesta.getBody );
         return new httpresponse(respuesta.getStatusCode,respuesta.getBody)
-      } */
+      }  */
       return new httpresponse(200,"ok",respuesta,"");
     } catch (error) {
       _useful.log('apienzona.js').error(error.toString(),"","");

@@ -3,7 +3,7 @@
 		"url": "/api/optenerServicios",
 		"method": "post",
 		"path": "serviciocontroller:serviciocontroller.optenerServicios",
-		"permission": [1]
+		"permission": []
 	},
 	{
 		"url": "/api/optenerServicios",

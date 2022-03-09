@@ -6,6 +6,12 @@
 		"permission": []
 	},
 	{
+		"url": "/api/GetProductosConPaginado",
+		"method": "post",
+		"path": "productocontroller:productocontroller.GetProductosPaginado",
+		"permission": []
+	},
+	{
 		"url": "/api/obtenerProducto",
 		"method": "post",
 		"path": "productocontroller:productocontroller.obtenerProducto",

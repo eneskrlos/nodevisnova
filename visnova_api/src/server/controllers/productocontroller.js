@@ -12,15 +12,40 @@ const axiosRetry = require('axios-retry');
 const httpresponse = require('../../utils/httpresponse');
 const { response } = require('express');
 const { resolve } = require('path');
+const pag = require('../../utils/paginate');
 
 exports.productocontroller = {
     
-	
+	async GetProductosPaginado(req,res){
+		console.log("ta aqui");
+		const ident = req.user.user;
+		let { body } = req;
+		let { buscar } = body;
+		const page = parseInt(req.query.page);
+        const limit = parseInt(req.query.limit);
+		try {
+			
+			let prod = {};
+			 if(req.user.id == undefined){
+				prod = await _database.zunpc.repository.productorepository.listProdPaginado(buscar);
+			}else{
+				prod = await _database.zunpc.repository.productorepository.listProdPaginado(buscar);
+			} 
+			const prodpaginado = await pag(prod,prod.length,page,limit);
+			_useful.log('productocontroller.js').info('Se ha listado los productos',ident);
+			return res.json(new httpresponse(200,"ok",prodpaginado,""));
+		} catch (error) {
+			_useful.log('productocontroller.js').error('No se pudo listar los productos',ident,error);
+			return res.json(new httpresponse(500,"No se ha podido listar los productos",null,""));
+		} 
+	},
 	async GetProductos(req,res){
 		
 		const ident = req.user.user;
 		let { body } = req;
 		let { buscar } = body;
+		const page = parseInt(req.query.page);
+        const limit = parseInt(req.query.limit);
 		try {
 			let prod = {};
 			 if(req.user.id == undefined){
@@ -28,9 +53,9 @@ exports.productocontroller = {
 			}else{
 				prod = await _database.zunpc.repository.productorepository.prodqueryFavor(buscar,req.user.id);
 			} 
-			
+			const prodpaginado = await pag(prod,prod.length,page,limit);
 			_useful.log('productocontroller.js').info('Se ha listado los productos',ident);
-			return res.json(new httpresponse(200,"ok",prod,""));
+			return res.json(new httpresponse(200,"ok",prodpaginado,""));
 		} catch (error) {
 			_useful.log('productocontroller.js').error('No se pudo listar los productos',ident,error);
 			return res.json(new httpresponse(500,"No se ha podido listar los productos",null,""));

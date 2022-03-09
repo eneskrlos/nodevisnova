@@ -11,16 +11,29 @@ const Logs = require('../../utils/newlogs');
 const axiosRetry = require('axios-retry');
 const httpresponse = require('../../utils/httpresponse');
 const { response } = require('express');
-
-
-
-
-
+const pag = require('../../utils/paginate');
 
 
 exports.compracontroller = {
-
-	GetCompras(req,res){
+	
+	async GetCompras(req,res){
+		const ident = req.user.user;
+		let { body } = req;
+		let { buscar } = body;
+		const page = parseInt(req.query.page);
+        const limit = parseInt(req.query.limit);
+		try {
+			const lcompras = await _database.zunpc.repository.comprarepository.listCompra(buscar);
+			const compraspaginado = await pag(lcompras,lcompras.length, page,limit);
+			_useful.log('compracontroller.js').info('Listó las compras',ident, JSON.stringify(lcompras));
+			return res.json(new httpresponse(200,"ok",compraspaginado,""));
+		} catch (error) {
+			_useful.log('compracontroller.js').error('No se pudo listar las compras',ident,error);
+			return res.json(new httpresponse(500,"No se ha podido listas las compras",null,""));
+		}
+		
+	},
+	GetComprasActual(req,res){
 		//var autorizado = verPermiso(req,112,res);
 		const ident = req.user.user;
 		let { body } = req;

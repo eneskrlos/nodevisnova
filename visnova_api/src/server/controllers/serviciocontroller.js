@@ -11,29 +11,22 @@ const Logs = require('../../utils/newlogs');
 const axiosRetry = require('axios-retry');
 const httpresponse = require('../../utils/httpresponse');
 const { response } = require('express');
-
-
-
-
-
-
+const pag = require('../../utils/paginate');
 
 exports.serviciocontroller = {
 
-	optenerServicios(req,res){
+	async optenerServicios(req,res){
 		const ident = req.user.user;
 		let { body } = req;
 		let { buscar } = body;
+		const page = parseInt(req.query.page);
+        const limit = parseInt(req.query.limit);
 		try {
 			
-			_database.zunpc.repository.serviciorepository.listServ(buscar).then(response => {
-				_useful.log('serviciocontroller.js').info('Listó los servicios',req.user.user, JSON.stringify(response));
-	
-				return res.json(new httpresponse(200,"ok",response,""));
-			}).catch(error => {
-				_useful.log('serviciocontroller.js').error('No se pudo listar los servicios',ident,error);
-				return res.json(new httpresponse(500,"No se pudo listar los servicios",null,""));
-			});
+			const lservi = await _database.zunpc.repository.serviciorepository.listServ(buscar);
+			const servipaginado = await pag(lservi, lservi.length, page, limit);
+			_useful.log('serviciocontroller.js').info('Listó los servicios',req.user.user, JSON.stringify(lservi));
+			return res.json(new httpresponse(200,"ok",servipaginado,""));
 		} catch (error) {
 			_useful.log('serviciocontroller.js').error('No se pudo listar los servicios',ident,error);
 			return res.json(new httpresponse(500,"No se ha podido listar los servicio",null,""));

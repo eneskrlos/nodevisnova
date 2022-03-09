@@ -1,8 +1,26 @@
 const sequelize = require("../../../node_modules/sequelize/lib/sequelize");
 const { Op } = require("sequelize");
 const {QueryTypes} = require("sequelize");
-module.exports = {
 
+module.exports = {
+	listProdPaginado (buscar) {
+		return _database.zunpc.model.producto.findAll({
+			where: {
+				[Op.or]: [
+					{
+						descripcion: {
+							[Op.like]: '%'+buscar+'%'
+						}
+					},
+					{
+						precio: {
+							[Op.like]: '%'+buscar+'%'
+						}
+					}
+				]
+			}
+		});
+	},
 	listProd (buscar) {
 		return _database.zunpc.model.producto.findAll({
 			where: {
