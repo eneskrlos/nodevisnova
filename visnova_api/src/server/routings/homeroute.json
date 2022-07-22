@@ -1,0 +1,8 @@
+[
+	{
+		"url": "/",
+		"method": "get",
+		"path": "homecontroller:homecontroller.indexhome",
+		"permission": []
+	}
+]

@@ -7,7 +7,6 @@ exports.pagoenzonacontroller =  {
 	async pruebaCreateToken(req,res){
 		let datauser = req.user;
 		try {
-			console.log('esta aqui');
 			let zona = new apienzona(); 
 			let token = await zona.generarAccessToken();
 			if(token.code != 200){
@@ -15,7 +14,13 @@ exports.pagoenzonacontroller =  {
 				let resphttp = new httpresponse(500,token.message,null,token.serverError);
 				return res.send(resphttp);
 			}
-			console.log("token",token);
+			let datatoken = {};
+			datatoken.access_token = token.data.access_token;
+			datatoken.scope = token.data.scope;
+			datatoken.token_type = token.data.token_type;
+			datatoken.expires_in = token.data.expires_in;
+			datatoken.fecha = Date.now;
+			let newtoken = await _database.zunpc.repository.pagoenzonarepository.createToken(datatoken);
 			_useful.log('pagoenzonacontroller.js').info('Se genero el token correctamente',datauser.user.user);
 			let resphttp = new httpresponse(200,"Se genero el token correctamente",token.data,"");
 			return res.send(resphttp);
@@ -24,7 +29,37 @@ exports.pagoenzonacontroller =  {
 			let resphttp = new httpresponse(500,`Error al generar token:${error}`,null,"");
 			return res.send(resphttp);
 		}
-	},  
+	}, 
+	
+	async pruebaRefreshToken(req,res){
+		let datauser = req.user;
+		let tokenexpire = req.token;
+		try {
+			let zona = new apienzona(); 
+			let token = await zona.refreshAccessToken(tokenexpire);
+			if(token.code != 200){
+				//_useful.log('pagoenzonacontroller.js').error('Error al generar token.',datauser.user);
+				let resphttp = new httpresponse(500,token.message,null,token.serverError);
+				return res.send(resphttp);
+			}
+			let tokenbd = await _database.zunpc.repository.pagoenzonarepository.getToken();
+			let datatoken = {};
+			datatoken.identoken = tokenbd.identoken;
+			datatoken.access_token = token.data.access_token;
+			datatoken.scope = token.data.scope;
+			datatoken.token_type = token.data.token_type;
+			datatoken.expires_in = token.data.expires_in;
+			datatoken.fecha = Date.now;
+			let newtoken = await _database.zunpc.repository.pagoenzonarepository.update(datatoken);
+			_useful.log('pagoenzonacontroller.js').info('Se genero el token correctamente',datauser.user.user);
+			let resphttp = new httpresponse(200,"Se genero el token correctamente",token.data,"");
+			return res.send(resphttp);
+		} catch (error) {
+			//_useful.log('pagoenzonacontroller.js').error('Error al generar token.',datauser.user,error);
+			let resphttp = new httpresponse(500,`Error al generar token:${error}`,null,"");
+			return res.send(resphttp);
+		}
+	}, 
 
 	async pago_Transaction_uuid(req,res){
 		let datauser = req.user;
@@ -48,13 +83,95 @@ exports.pagoenzonacontroller =  {
 	},
 
 	async crearPago(req, res){
+		console.log("crear pago entro aqui")
 		let datauser = req.user;
 		let { body } = req;
 		let {description, currency, amount, items, merchant_op_id, invoice_number, 
 			return_url, cancel_url, terminal_id, buyer_identity_code} = body;
+			let newtoken = {};
 		try {
 			let zona = new apienzona(); 
-			let resp = await zona.payaments(body);
+			let datatoken = await _database.zunpc.repository.pagoenzonarepository.getToken();
+			let token = (datatoken.length != 0)? datatoken[0].access_token: '';
+			let scope = (datatoken.length != 0)? datatoken[0].scope: '';
+			if(token == ''){
+				let token = await zona.generarAccessToken();
+				if(token.code != 200){
+					let resphttp = new httpresponse(token.code,token.message,null,token.serverError);
+					return res.send(resphttp);
+				}
+				let objtoken = {};
+				objtoken.access_token = token.data.access_token;
+				objtoken.scope = token.data.scope;
+				objtoken.token_type = token.data.token_type;
+				objtoken.expires_in = token.data.expires_in;
+				objtoken.fecha = Date.now;
+				newtoken = await _database.zunpc.repository.pagoenzonarepository.createToken(objtoken);
+				let datatoken = await _database.zunpc.repository.pagoenzonarepository.getToken();
+				token = (datatoken.length != 0)? datatoken[0].access_token: '';
+				_useful.log('pagoenzonacontroller.js/crearPago').info('Se genero el token correctamente',datauser.user.user);
+			}
+			console.log("crear pago seguimos aqui")
+			let resp = await zona.payaments(body,token);
+			if(resp.code != 200){
+				if(resp.code == 401){
+					//var respactualizar = await zona.refreshAccessToken(token,scope);
+					var respactualizar = await zona.generarAccessToken();
+
+					if(respactualizar.code != 200){
+						let resphttp = new httpresponse(respactualizar.code,respactualizar.message,null,respactualizar.serverError);
+						return res.send(resphttp);
+					}
+					let tokennevo = {};
+					tokennevo.access_token = respactualizar.data.access_token;
+					tokennevo.scope = respactualizar.data.scope;
+					tokennevo.token_type = respactualizar.data.token_type;
+					tokennevo.expires_in = respactualizar.data.expires_in;
+					tokennevo.fecha = Date.now;
+					let newtoken = await _database.zunpc.repository.pagoenzonarepository.createToken(tokennevo);
+					/* else {
+						token = respactualizar.data.access_token;
+						let datatoken = await _database.zunpc.repository.pagoenzonarepository.getToken();
+						let objt = {};
+						objt.identoken = datatoken.identoken;
+						objt.access_token = respactualizar.data.access_token;
+						objt.scope = respactualizar.data.scope;
+						objt.expires_in = respactualizar.data.expires_in;
+						objt.fecha = Date.now.toString();
+						newtoken = await _database.zunpc.repository.pagoenzonarepository.update(objt);
+					} */
+					token = respactualizar.data.access_token;
+					resp = await zona.payaments(body,token);
+					if(resp.code != 200){
+						_useful.log('pagoenzonacontroller.js').error(`Error al crear el pago.${resp.message}`,datauser.user,"");
+						let resphttp = new httpresponse(respactualizar.code,respactualizar.message,null,respactualizar.serverError);
+						return res.send(resphttp);
+					}
+				}else{
+					_useful.log('pagoenzonacontroller.js').error(`Error al crear el pago.${resp.message}`,datauser.user,error);
+					return res.send({code: resp.code,message: resp.message, data: null});
+				}
+			}
+
+			//let newpayament = await this.guardarPago(resp.data);
+			let nuevopago = {
+				transaction_uuid: resp.data.transaction_uuid,
+				currency: resp.data.currency,
+				created_at: resp.data.created_at,
+				update_at: resp.data.update_at,
+				status_code: resp.data.status_code,
+				status_denom: resp.data.status_denom,
+				description: resp.data.description,
+				invoice_number: resp.data.invoice_number,
+				merchant_op_id: resp.data.merchant_op_id,
+				terminal_id: resp.data.terminal_id,
+				amount: JSON.stringify(resp.data.amount),
+				items: JSON.stringify(resp.data.items),
+				links: JSON.stringify(resp.data.links),
+				commission: resp.data.commission
+			};
+			let okpago = await _database.zunpc.repository.pagoenzonarepository.createpayament(nuevopago);
+			_useful.log('pagoenzonacontroller.js').info('Se creo el pago correctamente',datauser.user);
 			return res.send({code: resp.code,message: resp.message, data: resp.data});
 		} catch (error) {
 			_useful.log('pagoenzonacontroller.js').error(`Error al crear el pago.`,datauser.user,error);
@@ -66,6 +183,29 @@ exports.pagoenzonacontroller =  {
 			});
 		}
 	},
+
+	async guardarPago(pago){
+		
+		let nuevopago = {
+			transaction_uuid: pago.transaction_uuid,
+			currency: pago.currency,
+			created_at: pago.created_at,
+			update_at: pago.update_at,
+			status_code: pago.status_code,
+			status_denom: pago.status_denom,
+			description: pago.description,
+			invoice_number: pago.invoice_number,
+			merchant_op_id: pago.merchant_op_id,
+			terminal_id: pago.terminal_id,
+			amount: pago.amount,
+			items: JSON.stringify(pago.items),
+			links: JSON.stringify(pago.links),
+			commission: pago.commission
+		};
+		let okpago = await _database.zunpc.repository.pagoenzonarepository.createpayament(nuevopago);
+		return okpago;
+	},
+
 
 	async obtenerListaTodoslosPago(req, res){
 		let datauser = req.user;
@@ -238,7 +378,7 @@ exports.pagoenzonacontroller =  {
 			});
 		}
 	},
-
+	
 
 
 };
