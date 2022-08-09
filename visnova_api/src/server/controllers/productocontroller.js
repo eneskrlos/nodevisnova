@@ -17,7 +17,7 @@ const pag = require('../../utils/paginate');
 exports.productocontroller = {
     
 	async GetProductosPaginado(req,res){
-		console.log("ta aqui");
+		
 		const ident = req.user.user;
 		let { body } = req;
 		let { buscar } = body;
@@ -201,6 +201,8 @@ exports.productocontroller = {
 		let nick = req.user.user;
 		let { body } = req;
 		let { nombre } = body;
+		const page = parseInt(req.query.page);
+        const limit = parseInt(req.query.limit);
 		if ( nombre == undefined ) return res.json(new httpresponse(500,"Ha ocurrido un error al obtener los productos: parametro de entrada no definido",null,""));
 		
 		try {
@@ -208,9 +210,10 @@ exports.productocontroller = {
 			if(listproducto.length == 0){
 				listproducto = await  _database.zunpc.repository.productorepository.todosProductos(nombre);
 			}
-			return res.json(new httpresponse(200,"Se ha listado los productos correctamente",listproducto,""));
+			const prodpaginado = await pag(listproducto,listproducto.length,page,limit);
+			return res.json(new httpresponse(200,"Se ha listado los productos correctamente",prodpaginado,""));
 		} catch (error) {
-			_useful.log('productocontroller.js').error('Ha ocurrido un error al obtener los productos',nick,error);
+			_useful.log('productocontroller.js => GetProductoByNombreTpMaterial').error('Ha ocurrido un error al obtener los productos',nick,error);
 			return res.json(new httpresponse(500,"Ha ocurrido un error al obtener los productos.",null,""));
 		}
 	},

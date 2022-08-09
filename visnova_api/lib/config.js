@@ -53,4 +53,8 @@ module.exports = class Config{
     get Vinculos(){
         return this.config.vinculos;
     }
+
+    get Node_tls_reject_unanthorized () {
+        return this.config.node_tls_reject_unanthorized;
+    }
 };

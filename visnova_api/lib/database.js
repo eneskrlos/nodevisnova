@@ -5,7 +5,7 @@ module.exports = class DataBase{
 
     constructor(rootpath,config){
         if(_config.Mode === 'dev'){
-            console.log('\x1b[36m%s\x1b[0m','Sequelize ZUNpc INFO:', new Date().toISOString() + '\n\tAdding connection to ' + config.zunpc.host + ':' + config.zunpc.port + '\n');
+            console.log('\x1b[36m%s\x1b[0m','Sequelize VISNOVA INFO:', new Date().toISOString() + '\n\tAdding connection to ' + config.zunpc.host + ':' + config.zunpc.port + '\n');
         }
 
         let dbs = {

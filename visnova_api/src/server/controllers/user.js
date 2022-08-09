@@ -564,12 +564,15 @@ exports.User = {
 	async getAllFavorites(req, res){
 		let datauser = req.user;
 		let { body } = req;
+		const page = parseInt(req.query.page);
+        const limit = parseInt(req.query.limit);
 		try {
 			let listfavor = await _database.zunpc.repository.user.obtenerTodosFavoritos(datauser.id);
+			const favoritepaginado = await pag(listfavor,listfavor.length,page,limit);
 			return res.send({
 				code:200,
 				message:`Se ha listado los favoritos del usuario:${datauser.user}`,
-				data: listfavor,
+				data: favoritepaginado,
 				servererror: '',
 			});
 		} catch (error) {
