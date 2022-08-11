@@ -366,10 +366,22 @@ exports.User = {
 					servererror: '',
 				});
 			}
+
+			var obj = {}
+			var listresponse = [];
+			for (const key in listdirecciones) {
+				obj.idLD = listdirecciones[key].idLD;
+				obj.direccion = listdirecciones[key].direccion;
+				obj.municipio = {value: listdirecciones[key].idmuni, label: listdirecciones[key].mun};
+				obj.provincia = {value: listdirecciones[key].idprov, label: listdirecciones[key].provincia};
+				obj.precioEnvio = listdirecciones[key].precioEnvio;
+				listresponse.push(obj);
+			}
+			
 			return res.send({
 				code:200,
 				message:'Se ha listado las direcciones',
-				data: listdirecciones,
+				data: listresponse,
 				servererror: '',
 			});
 		} catch (error) {

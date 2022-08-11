@@ -175,7 +175,8 @@ module.exports = {
             }
         });
 		let sql = `
-		SELECT * FROM libretadireccion ld INNER JOIN provincia p on ld.provincia = p.idprov
+		SELECT ld.idLD, ld.direccion, m.idmuni, m.nombre as mun, p.idprov, p.nombre as provincia, m.precioEnvio 
+		FROM libretadireccion ld INNER JOIN provincia p on ld.provincia = p.idprov
 		INNER JOIN municipio m on ld.municipio = m.idmuni
 		WHERE ld.userId = ${id}
 		`;
