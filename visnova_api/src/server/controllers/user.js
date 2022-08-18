@@ -376,6 +376,7 @@ exports.User = {
 				obj.provincia = {value: listdirecciones[key].idprov, label: listdirecciones[key].provincia};
 				obj.precioEnvio = listdirecciones[key].precioEnvio;
 				listresponse.push(obj);
+				obj = {};
 			}
 			
 			return res.send({
@@ -446,6 +447,7 @@ exports.User = {
 				obj.provincia = {value: listdirecciones[key].idprov, label: listdirecciones[key].provincia};
 				obj.precioEnvio = listdirecciones[key].precioEnvio;
 				listresponse.push(obj);
+				obj = {};
 			}
 			return res.send({
 				code:200,
@@ -514,6 +516,7 @@ exports.User = {
 				obj.provincia = {value: listdirecciones[key].idprov, label: listdirecciones[key].provincia};
 				obj.precioEnvio = listdirecciones[key].precioEnvio;
 				listresponse.push(obj);
+				obj = {};
 			}
 			return res.send({
 				code:200,
@@ -566,10 +569,21 @@ exports.User = {
 			}
 			_useful.log('user.js').info('Se ha eliminado correctamente la dirección.', user.user, JSON.stringify(deletedir));
 			let listdirecciones = await _database.zunpc.repository.user.listdirecciones(dir.userId);
+			var obj = {}
+			var listresponse = [];
+			for (const key in listdirecciones) {
+				obj.idLD = listdirecciones[key].idLD;
+				obj.direccion = listdirecciones[key].direccion;
+				obj.municipio = {value: listdirecciones[key].idmuni, label: listdirecciones[key].mun};
+				obj.provincia = {value: listdirecciones[key].idprov, label: listdirecciones[key].provincia};
+				obj.precioEnvio = listdirecciones[key].precioEnvio;
+				listresponse.push(obj);
+				obj = {};
+			}
 			return res.send({
 				code:200,
 				message:'Se ha eliminado correctamente la dirección.',
-				data: listdirecciones,
+				data: listresponse,
 				servererror: '',
 			});
 		} catch (error) {
